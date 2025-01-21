@@ -1,7 +1,7 @@
 export class locators {
 
     get startNow() {
-        return $('~start_now_button');
+        return $('//android.widget.Button[@content-desc="start_now_button"]/android.widget.Button/android.view.View');
     }
 
     get languageDropdown() {
@@ -16,7 +16,7 @@ export class locators {
         return $('~dropdown_itemFR');
     }
 
-    get discoverButton(){
+    get discoverButton() {
         return $('~discover_button')
     }
 
@@ -33,11 +33,11 @@ export class locators {
     }
 
     get loginButton() {
-        return $('~login_button')
+        return $('~log_in_text')
     }
 
-    get forgotPassword(){
-        return $('~forgot_password_button')
+    get forgotPassword() {
+        return $('~forgot_password_?_text')
     }
 
     get getNotifiedDialogBox() {
@@ -45,7 +45,7 @@ export class locators {
     }
 
     get allowButton() {
-        return $('~ok_button')
+        return $('~allow_text')
     }
 
     get denyButton() {
@@ -53,11 +53,11 @@ export class locators {
     }
 
     get allowNotification() {
-        return $('android=new UiSelector().resourceId("com.android.permissioncontroller:id/permission_message")"]')
+        return $('//android.widget.TextView[@text="Allow Dev-Carepath Digital Health to send you notifications?"]')
     }
 
     get allowNotificationButton() {
-        return $('android=new UiSelector().resourceId("com.android.permissioncontroller:id/permission_allow_button")')
+        return $('//android.widget.Button[@text="Allow"]')
     }
 
     get createAccountButton() {
@@ -140,64 +140,111 @@ export class locators {
         return $('~signup_button')
     }
 
-    get verifyYourAccount(){
+    get verifyYourAccount() {
         return $('~verify_your_account_text')
     }
 
-    get getMail(){
+    get getMail() {
         return $('~by_email_card')
     }
 
-    get verifyButton(){
+    get verifyButton() {
         return $('~verify_button')
     }
 
-    get chromeDismissButton(){
+    get chromeDismissButton() {
         return $('android=new UiSelector().resourceId("com.android.chrome:id/signin_fre_dismiss_button")')
     }
 
-    get chromeGotIt(){
+    get chromeGotIt() {
         return $('android=new UiSelector().resourceId("com.android.chrome:id/ack_button")')
     }
 
-    get chromeSearchBox(){
+    get chromeSearchBox() {
         return $('android=new UiSelector().resourceId("com.android.chrome:id/search_box_text")')
     }
 
-    get chromeHomeButton(){
+    get chromeHomeButton() {
         return $('android=new UiSelector().resourceId("com.android.chrome:id/home_button")')
     }
 
-    get chromeUrl(){
+    get chromeUrl() {
         return $('android=new UiSelector().resourceId("com.android.chrome:id/url_bar")')
     }
 
-    get mailinatorInbox(){
+    get mailinatorInbox() {
         return $('android=new UiSelector().resourceId("inbox_field")')
     }
 
-    get justNow(){
+    get justNow() {
         return $('//android.widget.TextView[@text="just now"]')
     }
 
-    get goButton(){
+    get goButton() {
         return $('//android.widget.Button[@text="GO"]')
     }
 
-    get verificationCodeText(){
+    get verificationCodeText() {
         return $('//android.widget.TextView[@text="DoNot-Reply"]')
     }
 
-    get verifyAccount(){
+    get verifyAccount() {
         return $('android=new UiSelector().text("Verify your account")')
     }
 
-    otpPage(index){
-        return $(`~pinDigit${index}`)
+    get otpInput() {
+        return $$('//android.widget.EditText')
     }
 
-    get homePage(){
-        return $('android=new UiSelector().description("Welcome to Carepath Digital Health")')
+    otpPage(index) {
+        return $(`//android.view.View[@content-desc="pinDigit${index}"]/android.widget.EditText`)
     }
 
+    get homePage() {
+        return $('~welcome_to_carepath_digital_health_text')
+    }
+
+    get doNotReply() {
+        return $('~DoNot-Reply')
+    }
+
+    get otpText() {
+        return $('(//android.view.View[@text="Verify icon Verify your account Here is your verification code for Carepath Digital Health "]//..//..//android.view.View)[3]//android.view.View')
+    }
+
+    get moreOptions() {
+        return $('~appbar_more_options_menu')
+    }
+
+    get logout() {
+        return $('~more_options_menu_item_logout')
+    }
+
+    get chrome3dots() {
+        return $('~Customize and control Google Chrome')
+    }
+
+    get deleteBrowsingData() {
+        return $('android=new UiSelector().text("Delete browsing data")')
+    }
+
+    get deleteData() {
+        return $('//android.widget.Button[@resource-id="com.android.chrome:id/positive_button"]')
+    }
+
+    get mentalHealthCard() {
+        return $('~action_Program.mentalHealth')
+    }
+
+    get sendRequestButton() {
+        return $('//android.view.View[@content-desc="send_request_text"]')
+    }
+
+    get success() {
+        return $('~success_text')
+    }
+
+    get closeButton() {
+        return $('~close_text')
+    }
 }

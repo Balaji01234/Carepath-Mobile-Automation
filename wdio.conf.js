@@ -71,7 +71,7 @@ export const config = {
         "appium:automationName": "uiAutomator2",
         "appium:appPackage": "com.carepath.app.dev",
         "appium:appActivity": "com.carepath.MainActivity",
-        "appium:app": path.join(process.cwd(), './app/android/Dev-Carepath Digital Health.apk'),
+        // "appium:app": path.join(process.cwd(), './app/android/Dev-Carepath Digital Health.apk'),
         "appium:androidInstallTimeout": "120000",
         "appium:detachSession": true,
         "appium:fullReset": false,
@@ -154,7 +154,7 @@ export const config = {
     // See the full list at http://mochajs.org/
     mochaOpts: {
         ui: 'bdd',
-        timeout: 180000
+        timeout: 15 * 60 * 1000
     },
 
     //
@@ -209,9 +209,9 @@ export const config = {
      * @param {Array.<String>} specs        List of spec file paths that are to be run
      * @param {object}         browser      instance of created browser/device session
      */
-     before: function (capabilities, specs) {
+    before: function (capabilities, specs) {
         console.log(capabilities);
-     },
+    },
     /**
      * Runs before a WebdriverIO command gets executed.
      * @param {string} commandName hook command name
