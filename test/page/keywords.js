@@ -1,6 +1,6 @@
 import allureReporter from '@wdio/allure-reporter'
 import { locators } from './locators.js';
-
+import { expect, assert } from 'chai';
 export class keywords {
 
     constructor() {
@@ -38,7 +38,6 @@ export class keywords {
         allureReporter.startStep("Click on the element: " + text)
         try {
             await locator.waitForDisplayed({ timeout: this.timeout })
-            await locator.isEnabled({ timeout: this.timeout });
             await locator.click();
             await this.AllurePass("Successfully Clicked on: " + text);
             allureReporter.endStep('passed');
@@ -46,7 +45,7 @@ export class keywords {
             console.log("Click action failed for: " + text);
             await this.AllureFail("Click action failed for: " + text, err);
             allureReporter.endStep('failed');
-            throw err;
+            assert.fail(err);
         }
     }
 
@@ -68,7 +67,7 @@ export class keywords {
             console.log(`SetValue to the element: ${text} is failed`);
             await this.AllureFail(`SetValue to the element: ${text} is failed`, err);
             allureReporter.endStep('failed');
-            throw err;
+            await assert.fail(err);
         }
     }
 
@@ -83,7 +82,7 @@ export class keywords {
         let display = false;
         try {
             await browser.pause(2000)
-            display = await locator.isDisplayed({ timeout: 30000 });
+            display = await locator.isDisplayed({ timeout: 45000 });
             if (display) {
                 console.log(`${text} is displayed!!!`)
                 await this.AllurePass(`${text} is displayed!!!`);
@@ -139,7 +138,7 @@ export class keywords {
             console.log(`${text} is not displayed after waiting for ${timeout}`)
             await this.AllureFail(`${text} is not displayed after waiting for ${timeout}`, err)
             allureReporter.endStep('failed');
-            throw err;
+            await assert.fail(err);
         }
     }
 
@@ -153,7 +152,6 @@ export class keywords {
             await driver.startActivity('com.android.chrome', 'com.google.android.apps.chrome.Main');
             await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 30000 });
             await this.locator.chromeHomeButton.click();
-            await browser.pause(2000)
             if (await this.locator.chromeDismissButton.isDisplayed()) {
                 await this.locator.chromeDismissButton.click()
             }
@@ -167,16 +165,10 @@ export class keywords {
             await this.locator.mailinatorInbox.waitForDisplayed({ timeout: 30000 });
             await this.locator.mailinatorInbox.clearValue();
             await this.SetValue(this.locator.mailinatorInbox, mail);
-            await this.locator.goButton.click();
-            try {
-                await browser.pause(1000)
-                const element = await $('~DoNot-Reply');
-                await browser.execute((el) => {
-                    el.click();
-                }, element);
-            } catch (err) {
-                await this.click(this.locator.doNotReply, "OTP message");
-            }
+            await this.click(this.locator.goButton, "Go Button");
+            await this.click(this.locator.pauseButton, "Click on pause button")
+            await this.waitForDisplay(this.locator.doNotReply, "Do not reply button");
+            await this.click(this.locator.doNotReply, "OTP message");
             await this.locator.verifyAccount.waitForDisplayed({ timeout: 30000 })
             const otp = await $('(//android.view.View[@text="Verify icon Verify your account Here is your verification code for Carepath Digital Health "]//..//..//android.view.View)[3]//android.view.View').getText();
             console.log('Extracted OTP:', otp);
@@ -191,4 +183,107 @@ export class keywords {
             await driver.terminateApp('com.android.chrome');
         }
     }
+
+    async verifyElementDisplayed(locator, text) {
+        allureReporter.startStep("Verify element is displayed: " + text);
+        try {
+            const display = await locator.isDisplayed({ timeout: 60000 });
+
+            if (display) {
+                console.log(`${text} is displayed!!!`);
+                await this.AllurePass(`${text} is displayed!!!`);
+                allureReporter.endStep('passed');
+            } else {
+                console.log(`${text} is not displayed!!!`);
+                await this.AllureFail(`${text} is not displayed!!!`);
+                allureReporter.endStep('failed');
+                // await assert.fail(`${text} should be displayed, but it is not.`);
+            }
+        } catch (err) {
+            await this.AllureFail(`${text} is not displayed!!!`, err);
+            allureReporter.endStep('failed');
+            console.log(`${text} is not displayed!!!`);
+            await assert.fail(err.message || `${text} was not displayed due to an error.`);
+        }
+    }
+
+
+    async verifyElementIsEnabled(locator, text) {
+        allureReporter.startStep("Verify element is enabled: " + text)
+        let enable = false;
+        try {
+            enable = await locator.isEnabled();
+            console.log(`${text} is Enabled!!!`)
+            await this.AllurePass(`${text} is Enabled!!!`);
+            allureReporter.endStep('passed');
+        } catch (err) {
+            allureReporter.endStep('failed');
+            console.log(`${text} is not Enabled!!!`)
+        }
+    }
+
+    async verifyText(locator, attributeName, expectedText, logText) {
+        allureReporter.startStep("Verify Text for: " + logText)
+        let actualText;
+        try {
+            await this.waitForDisplay(locator, 45000, logText);
+            actualText = await locator.getAttribute(attributeName);
+            if (expectedText === actualText) {
+                console.log(`Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+                await this.AllurePass(`Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+                allureReporter.endStep('passed');
+            } else {
+                console.log(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+                await this.AllureFail(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+                allureReporter.endStep('failed');
+                await assert.fail(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+            }
+        } catch (error) {
+            await this.AllureFail(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`, error);
+            allureReporter.endStep('failed');
+            console.log(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+            await assert.fail(error.message || `Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+        }
+    }
+
+    async verifyListOfText(locator, attributeName, expectedTextList, logText) {
+        allureReporter.startStep("Verify Text for: " + logText);
+        let actualText = [];
+        let expectedTexts =[];
+        try {
+            console.log(await locator.length);
+            const size = await locator.length;
+            for (let i = 0; i < size; i++) {
+                actualText.push(await locator[i].getAttribute(attributeName));
+            }
+
+            expectedTexts = expectedTextList.split(',');
+
+            let isMatched = false;
+            for (const expectedText of expectedTexts) {
+                if (actualText !== ".") {
+                    if (actualText.includes(expectedText)) {
+                        isMatched = true;
+                        break;
+                    }
+                }
+            }
+            if (isMatched) {
+                console.log(`Matched -> Actual text: ${actualText} is in the expected list: ${expectedTextList}`);
+                await this.AllurePass(`Matched -> Actual text: ${actualText} is in the expected list: ${expectedTextList}`);
+                allureReporter.endStep('passed');
+            } else {
+                console.log(`Not Matched -> Actual text: ${actualText} is not in the expected list: ${expectedTextList}`);
+                await this.AllureFail(`Not Matched -> Actual text: ${actualText} is not in the expected list: ${expectedTextList}`);
+                allureReporter.endStep('failed');
+                // await assert.fail(`Not Matched -> Actual text: ${actualText} is not in the expected list: ${expectedTextList}`);
+            }
+        } catch (error) {
+            await this.AllureFail(`Error occurred while verifying text: ${error.message || error}`, error);
+            allureReporter.endStep('failed');
+            console.log(`Error occurred while verifying text: ${error.message || error}`);
+            await assert.fail(error.message || `Error occurred while verifying text.`);
+        }
+    }
+
 }

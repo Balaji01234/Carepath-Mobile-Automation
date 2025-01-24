@@ -21,7 +21,7 @@ export class locators {
     }
 
     get loginScreen() {
-        return $('~login_or_signin_text');
+        return $('~Log in or Sign In');
     }
 
     get userName() {
@@ -33,7 +33,7 @@ export class locators {
     }
 
     get loginButton() {
-        return $('~log_in_text')
+        return $('~login_button')
     }
 
     get forgotPassword() {
@@ -45,7 +45,7 @@ export class locators {
     }
 
     get allowButton() {
-        return $('~allow_text')
+        return $('android=new UiSelector().resourceId("allow_text")')
     }
 
     get denyButton() {
@@ -73,7 +73,7 @@ export class locators {
     }
 
     get signUpPage() {
-        return $('~sign_up_text')
+        return $('android=new UiSelector().resourceId("sign_up_text")')
     }
 
     get employeeButton() {
@@ -121,7 +121,7 @@ export class locators {
     }
 
     get referral() {
-        return $('android=new UiSelector().description("referral_source_text")')
+        return $('~Referral Source')
     }
 
     referrals(referral) {
@@ -137,11 +137,11 @@ export class locators {
     }
 
     get signUpButton() {
-        return $('~signup_button')
+        return $('~SIGN UP')
     }
 
     get verifyYourAccount() {
-        return $('~verify_your_account_text')
+        return $('android=new UiSelector().resourceId("verify_your_account_text")')
     }
 
     get getMail() {
@@ -149,7 +149,7 @@ export class locators {
     }
 
     get verifyButton() {
-        return $('~verify_button')
+        return $('android=new UiSelector().resourceId("verify_text")')
     }
 
     get chromeDismissButton() {
@@ -184,6 +184,10 @@ export class locators {
         return $('//android.widget.Button[@text="GO"]')
     }
 
+    get pauseButton() {
+        return $('//android.view.View[@resource-id="pause_button"]')
+    }
+
     get verificationCodeText() {
         return $('//android.widget.TextView[@text="DoNot-Reply"]')
     }
@@ -201,7 +205,7 @@ export class locators {
     }
 
     get homePage() {
-        return $('~welcome_to_carepath_digital_health_text')
+        return $('android=new UiSelector().resourceId("welcome_to_carepath_digital_health_text")')
     }
 
     get doNotReply() {
@@ -233,18 +237,18 @@ export class locators {
     }
 
     get mentalHealthCard() {
-        return $('~action_Program.mentalHealth')
+        return $(`~Mental\nHealth`)
     }
 
     get sendRequestButton() {
-        return $('//android.view.View[@content-desc="send_request_text"]')
+        return $('android=new UiSelector().resourceId("send_request_text")')
     }
 
     get success() {
-        return $('~success_text')
+        return $('android=new UiSelector().resourceId("success_text")')
     }
 
     get closeButton() {
-        return $('~close_text')
+        return $('android=new UiSelector().resourceId("close_text")')
     }
 }
