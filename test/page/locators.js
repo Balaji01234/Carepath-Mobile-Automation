@@ -1,7 +1,7 @@
 export class locators {
 
     get startNow() {
-        return $('//android.widget.Button[@content-desc="start_now_button"]/android.widget.Button/android.view.View');
+        return $('~start_now_button');
     }
 
     get languageDropdown() {
@@ -250,5 +250,9 @@ export class locators {
 
     get closeButton() {
         return $('android=new UiSelector().resourceId("close_text")')
+    }
+
+    get backArrow(){
+        return ('~back_action')
     }
 }

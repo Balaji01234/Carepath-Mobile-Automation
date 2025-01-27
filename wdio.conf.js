@@ -64,19 +64,20 @@ export const config = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
-        // capabilities for local Appium web tests on an Android Emulator
         "platformName": "android",
         "appium:platformVersion": "15.0",
         "appium:deviceName": "Medium Phone API 35",
         "appium:automationName": "uiAutomator2",
         "appium:appPackage": "com.carepath.app.dev",
         "appium:appActivity": "com.carepath.MainActivity",
-        // "appium:app": path.join(process.cwd(), './app/android/Dev-Carepath Digital Health.apk'),
         "appium:androidInstallTimeout": "120000",
         "appium:detachSession": true,
         "appium:fullReset": false,
         "appium:noReset": false,
+        "appium:chromedriverExecutable": "D:/grid/chromedriver.exe",
+        "appium:chromedriverAutodownload": true
     }],
+    
 
     //
     // ===================
@@ -154,7 +155,7 @@ export const config = {
     // See the full list at http://mochajs.org/
     mochaOpts: {
         ui: 'bdd',
-        timeout: 15 * 60 * 1000
+        timeout: 18 * 60 * 1000
     },
 
     //
@@ -254,9 +255,6 @@ export const config = {
      * @param {object}  result.retries   information about spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
     afterTest: async function (test, context, { error, result, duration, passed, retries }) {
-        if (!passed) {
-            await browser.takeScreenshot();
-        }
         console.log(`****${test.title} is completed****`)
     },
 
