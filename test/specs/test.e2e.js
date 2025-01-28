@@ -176,8 +176,9 @@ describe('Carepath Automation', () => {
             const thankYouText = await readData("TC_02", "Field", "ThankYouText", `Testdata${1}`)
             const SkipAndGoHome = await readData("TC_02", "Field", "SkipAndGoHome", `Testdata${1}`)
             allureReporter.addDescription(`Onboard Flow for New User !!! `);
+            await driver.implicitWait(15000);
             await Keywords.verifyElementIsEnabled(locator.startNow, "Start Now Button")
-            await Keywords.click(locator.startNow, "Start Now Button")
+            await Keywords.click(locator.startNow, "Start Now Button");
             await Keywords.verifyElementDisplayed(locator.loginScreen, "Login Screen");
             console.log({ userName, password })
             await Keywords.SetValue(locator.userName, userName);
@@ -320,19 +321,13 @@ describe('Carepath Automation', () => {
                 await Keywords.click(onboardLocator.initialHere, "Initial Here");
                 await Keywords.verifyElementIsEnabled(onboardLocator.applyButtonInInitials, "Apply Button")
                 await Keywords.click(onboardLocator.applyButtonInInitials, "Apply Button");
-                await browser.pause(2000);
+                await driver.pause(2000);
                 await Keywords.verifyElementDisplayed(onboardLocator.remainingFields(number - 1), `${number - 1} required fields remaining`)
                 await Keywords.click(onboardLocator.nextArrowButton(number - 1), "Next Arrow Button");
                 if (!await onboardLocator.initialHere.isDisplayed()) {
                     break;
                 }
                 number = number - 1;
-            }
-            if (await onboardLocator.privacyNote.isDisplayed()) {
-                await Keywords.verifyElementIsEnabled(onboardLocator.privacyNote, "Privacy Note")
-                await Keywords.click(onboardLocator.privacyNote, "Privacy Note");
-                await Keywords.verifyElementIsEnabled(onboardLocator.backButton, "Back button")
-                await Keywords.click(onboardLocator.backButton, "Back button");
             }
             await Keywords.verifyElementDisplayed(onboardLocator.signHere, "Sign Here");
             await Keywords.click(onboardLocator.signHere, "Sign Here");
@@ -455,10 +450,8 @@ describe('Carepath Automation', () => {
 
             await browser.implicitWait(10000);
             const startnow = await readData("Mindzone", "Field", "Start now", "Testdata1");
-            if (await locator.startNow.isDisplayed({ timeout: 120000 })) {
-                await Keywords.verifyElementIsEnabled(locator.startNow, "Start Now Button")
-                await Keywords.click(locator.startNow, "Start Now Button")
-            }
+            await Keywords.verifyElementIsEnabled(locator.startNow, "Start Now Button")
+            await Keywords.click(locator.startNow, "Start Now Button")
             await Keywords.verifyElementDisplayed(lessonLocator.loginScreenpage, "Login screen");
             await Keywords.SetValue(lessonLocator.userName, process.env.USER_NAME);
             await Keywords.SetValue(lessonLocator.password, process.env.PASSWORD);
@@ -791,12 +784,58 @@ describe('Carepath Automation', () => {
         }
     })
 
+    it("Scroll check", async () => {
+        const startnow = await readData("Mindzone", "Field", "Start now", "Testdata1");
+        await Keywords.verifyElementIsEnabled(locator.startNow, "Start Now Button")
+        await Keywords.click(locator.startNow, "Start Now Button")
+        await Keywords.verifyElementDisplayed(lessonLocator.loginScreenpage, "Login screen");
+        await Keywords.SetValue(lessonLocator.userName, process.env.USER_NAME);
+        await Keywords.SetValue(lessonLocator.password, process.env.PASSWORD);
+        if (! await lessonLocator.loginScreenpage.isDisplayed()) {
+            await browser.hideKeyboard();
+        }
+        await Keywords.verifyElementIsEnabled(locator.loginButton, "Login button");
+        await Keywords.click(locator.loginButton, "Login Button")
+        await Keywords.verifyElementDisplayed(lessonLocator.notifiedPopupscreen, "Get notified dialog box");
+        await Keywords.click(lessonLocator.allowButton, "Allow button");
+        await browser.pause(2000);
+        await Keywords.verifyElementDisplayed(lessonLocator.allowOption, "Allow notification");
+        await Keywords.click(lessonLocator.allowOption, "Allow notification button");
+        console.log('Login process completed successfully.');
+        if (await lessonLocator.welcometocarepath.isDisplayed({ timeout: 20000 })) {
+            await Keywords.click(lessonLocator.mentalhealth, "Mental health");
+        }
+        await Keywords.verifyElementIsEnabled(lessonLocator.continuebutton, "Continue Button");
+        await Keywords.click(lessonLocator.continuebutton, "Continue Button")
+        await browser.pause(7000);
+        if (await lessonLocator.goalCheck.isDisplayed({ timeout: 45000 })) {
+            await Keywords.click(lessonLocator.remindMeLater, "Remind me later")
+        }
+        await Keywords.verifyElementIsEnabled(lessonLocator.mindzone, "Mind zone Button");
+        await browser.pause(7000);
+        const mindzone = await readData("Mindzone", "Field", "Mind zone", "Testdata1");
+        await browser.pause(20000);
+        await Keywords.verifyText(lessonLocator.mindzoneval, "content-desc", "Mind Zone", "verify the mindzone option")
+        await Keywords.click(lessonLocator.mindzone, "Mind zone");
+        await browser.pause(2000)
+        const lessonone = await readData("Mindzone", "Field", "LessonOne", "Testdata1");
+        await Keywords.verifyElementDisplayed(lessonLocator.lessonOne, "Allow notification");
+        await browser.implicitWait(2000)
+        // await Keywords.verifyText(lessonLocator.lessonOne, "content-desc", "Lesson 1: Anxiety, Depression & Emotions", "verify the mindzone option")
+        await driver.execute('mobile: scroll', {
+            strategy: 'accessibility id', // Using accessibility id strategy
+            selector: 'Lesson 4: Managing Worry and Problem Solving', // Your element id
+            direction: 'down' // Scroll downwards to find the element
+        });
+    })
+
 
     afterEach(async () => {
         try {
             if (await locator.homePage.isDisplayed()) {
                 await Keywords.click(locator.moreOptions, "More options");
                 await Keywords.click(locator.logout, "Logout button")
+                await Keywords.verifyElementDisplayed(locator.startNow, "Start Now button")
             } else if (await onboardLocator.hamburgerMenu.isDisplayed()) {
                 await Keywords.click(onboardLocator.hamburgerMenu, "Hamburger Menu")
                 await Keywords.click(onboardLocator.logOut, "Log out button")
@@ -809,7 +848,7 @@ describe('Carepath Automation', () => {
                 await Keywords.click(onboardLocator.hamburgerMenu, "Hamburger Menu")
                 await Keywords.click(onboardLocator.logOut, "Log out button")
                 await Keywords.verifyElementDisplayed(locator.startNow, "Start Now button")
-            } else if ( await locator.backArrow.isDisplayed()) {
+            } else if (await locator.backArrow.isDisplayed()) {
                 while (! await locator.loginScreen.isDisplayed()) {
                     await Keywords.click(locator.backArrow, "Back Arrow")
                 }

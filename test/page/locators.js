@@ -253,6 +253,6 @@ export class locators {
     }
 
     get backArrow(){
-        return ('~back_action')
+        return $('~back_action')
     }
 }

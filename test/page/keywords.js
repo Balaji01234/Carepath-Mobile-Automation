@@ -182,9 +182,9 @@ export class keywords {
         } catch (error) {
             console.log(error)
         } finally {
-            // await this.click(this.locator.chrome3dots, "Chrome option");
-            // await this.click(this.locator.deleteBrowsingData, "Delete browsing data");
-            // await this.click(this.locator.deleteData, "Delete data");
+            await this.click(this.locator.chrome3dots, "Chrome option");
+            await this.click(this.locator.deleteBrowsingData, "Delete browsing data");
+            await this.click(this.locator.deleteData, "Delete data");
             await browser.pause(3000)
             await driver.terminateApp('com.android.chrome');
         }
