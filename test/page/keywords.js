@@ -17,6 +17,13 @@ export class keywords {
         allureReporter.addAttachment('Screenshot on Pass', screenshot, 'image/png');
     }
 
+    async AllurePass1(message) {
+        allureReporter.addStep(`✅ PASS: ${message}`, {}, 'passed');
+        // const screenshot = await browser.takeScreenshot();
+        // allureReporter.addAttachment('Screenshot on Pass', screenshot, 'image/png');
+    }
+
+
     async AllureInfo(message) {
         allureReporter.addStep(`ℹ️ INFO: ${message}`, {}, 'passed');
     }
@@ -156,14 +163,17 @@ export class keywords {
     async getOTPFromMailinator(mail) {
         try {
             await driver.startActivity('com.android.chrome', 'com.google.android.apps.chrome.Main');
-            await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 30000 });
-            await this.locator.chromeHomeButton.click();
             if (await this.locator.chromeDismissButton.isDisplayed()) {
                 await this.locator.chromeDismissButton.click()
             }
             if (await this.locator.chromeGotIt.isDisplayed()) {
                 await this.locator.chromeGotIt.click()
             }
+            if (await this.locator.chromeEasierPopup.isDisplayed()) {
+                await this.click(this.locator.noThanks, 'No Thanks')
+            }
+            await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 30000 });
+            await this.locator.chromeHomeButton.click();
             await this.locator.chromeSearchBox.click();
             await this.SetValue(this.locator.chromeUrl, process.env.MAILINATOR);
             await browser.pause(2000)
@@ -198,6 +208,29 @@ export class keywords {
             if (display) {
                 console.log(`${text} is displayed!!!`);
                 await this.AllurePass(`${text} is displayed!!!`);
+                allureReporter.endStep('passed');
+            } else {
+                console.log(`${text} is not displayed!!!`);
+                await this.AllureFail(`${text} is not displayed!!!`);
+                allureReporter.endStep('failed');
+                // await assert.fail(`${text} should be displayed, but it is not.`);
+            }
+        } catch (err) {
+            await this.AllureFail(`${text} is not displayed!!!`, err);
+            allureReporter.endStep('failed');
+            console.log(`${text} is not displayed!!!`);
+            await assert.fail(err.message || `${text} was not displayed due to an error.`);
+        }
+    }
+
+    async verifyElementDisplayed1(locator, text) {
+        allureReporter.startStep(`🔍 **VERIFY**: "${text}" is displayed or not`);
+        try {
+            // await browser.pause(2000);
+            const display = await locator.isDisplayed({ timeout: 90000 });
+            if (display) {
+                console.log(`${text} is displayed!!!`);
+                await this.AllurePass1(`${text} is displayed!!!`);
                 allureReporter.endStep('passed');
             } else {
                 console.log(`${text} is not displayed!!!`);
