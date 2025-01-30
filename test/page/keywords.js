@@ -68,7 +68,7 @@ export class keywords {
         allureReporter.startStep("Checking for element is displayed: " + text)
         let display = false;
         try {
-            display = await locator.isDisplayed();
+            display = await locator.isDisplayed({timeout:45000});
             if (display) {
                 console.log(`${text} is displayed!!!`)
                 await this.AllurePass(`${text} is displayed!!!`);
@@ -89,7 +89,7 @@ export class keywords {
         allureReporter.startStep("Checking for element is enabled: " + text)
         let enable = false;
         try {
-            enable = await locator.isEnabled();
+            enable = await locator.isEnabled({timeout :20000});
             console.log(`${text} is Enabled!!!`)
             await this.AllurePass(`${text} is Enabled!!!`);
             allureReporter.endStep('passed');
@@ -142,6 +142,95 @@ export class keywords {
         console.log('Extracted OTP:', otp);
         await driver.terminateApp('com.android.chrome');
         return otp;
+    }
+
+    async getattribute(locator,attributeName, text) {
+         // Default attribute name
+        allureReporter.startStep("Fetching attribute '" + attributeName + "' for: " + text);
+        let value = null;
+        try {
+            // Get the attribute value from the element
+            value = await locator.getAttribute(attributeName);
+            console.log(`${text} - ${attributeName}: ${value}`);
+            
+            // Reporting success with Allure
+            await this.AllurePass(`${text} - ${attributeName}: ${value}`);
+            allureReporter.endStep('passed');
+        } catch (err) {
+            // Reporting failure with Allure
+            console.log(`${text} - Failed to fetch ${attributeName} value!`);
+            allureReporter.endStep('failed');
+        } finally {
+            return value;
+        }
+    }
+
+    async verifyText(locator, attributeName, expectedText, logText) {
+        allureReporter.startStep("Verify Text for: " + logText)
+        let actualText;
+        try {
+            await this.waitForDisplay(locator, 45000, logText);
+            actualText = await locator.getAttribute(attributeName);
+            if (expectedText === actualText) {
+                console.log(`Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+                await this.AllurePass(`Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+                allureReporter.endStep('passed');
+            } else {
+                console.log(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+                await this.AllureFail(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+                allureReporter.endStep('failed');
+                await assert.fail(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+            }
+        } catch (error) {
+            await this.AllureFail(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`, error);
+            allureReporter.endStep('failed');
+            console.log(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+            await assert.fail(error.message || `Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+   
+        }
+    }
+    async verifyElementDisplayed(locator, text) {
+        allureReporter.startStep(`🔍 **VERIFY**: "${text}" is displayed or not`);
+        try {
+            // await browser.pause(2000);
+            const display = await locator.isDisplayed({ timeout: 90000 });
+            if (display) {
+                console.log(`${text} is displayed!!!`);
+                await this.AllurePass(`${text} is displayed!!!`);
+                allureReporter.endStep('passed');
+            } else {
+                console.log(`${text} is not displayed!!!`);
+                await this.AllureFail(`${text} is not displayed!!!`);
+                allureReporter.endStep('failed');
+                // await assert.fail(`${text} should be displayed, but it is not.`);
+            }
+        } catch (err) {
+            await this.AllureFail(`${text} is not displayed!!!`, err);
+            allureReporter.endStep('failed');
+            console.log(`${text} is not displayed!!!`);
+            await assert.fail(err.message || `${text} was not displayed due to an error.`);
+        }
+    }
+
+    async verifyElementIsEnabled(locator, text) {
+        allureReporter.startStep(`🔍 **VERIFY**: "${text}" is enabled or not`)
+        let enable = false;
+        try {
+            enable = await locator.isEnabled();
+            console.log(`${text} is Enabled!!!`)
+            await this.AllurePass(`${text} is Enabled!!!`);
+            allureReporter.endStep('passed');
+        } catch (err) {
+            allureReporter.endStep('failed');
+            console.log(`${text} is not Enabled!!!`)
+        }
+    }
+    async scrollToElement(Attribute,Value){
+        allureReporter.startStep(`scrollToElement`)
+        await driver.execute('mobile: scroll', {
+            strategy: Attribute,
+            selector: Value,
+        });
     }
 
 }

@@ -105,12 +105,12 @@ describe('Carepath Automation', () => {
 
     afterEach(async () => {
 
-        const appPackage = 'com.carepath.app.dev';
-        const appActivity = 'com.carepath.MainActivity';
-        await browser.terminateApp(appPackage);
-        console.log('App terminated successfully.');
-        await browser.startActivity(appPackage, appActivity);
-        console.log('App relaunched successfully.');
+        // const appPackage = 'com.carepath.app.dev';
+        // const appActivity = 'com.carepath.MainActivity';
+        // await browser.terminateApp(appPackage);
+        // console.log('App terminated successfully.');
+        // await browser.startActivity(appPackage, appActivity);
+        // console.log('App relaunched successfully.');
     });
 
 });
