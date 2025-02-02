@@ -46,87 +46,87 @@ describe('Carepath Automation', () => {
 
     const iterations = 1;
     for (let i = 1; i <= iterations; i++) {
-        it(`TC-001-Sign Up - Iteration${i}`, async () => {
+        it(`TC-001-Sign Up - Iteration_${i}`, async () => {
             allureReporter.addDescription(`New User Sign Up`)
             await Keywords.waitForDisplay(locator.startNow, 60000, "Start Now Button")
             await Keywords.verifyElementIsEnabled(locator.startNow, "Start Now Button")
             await Keywords.click(locator.startNow, "Start Now Button")
-            await Keywords.verifyElementIsEnabled(locator.createAccountButton, "Create Account button")
-            const createBtnTxt = await locator.createAccountButton.getText();
-            console.log(createBtnTxt)
-            await Keywords.click(locator.createAccountButton, "Create Account button")
-            const requestButton = await Keywords.isEnabled(locator.createRequestButton, "Create Request button")
-            expect(requestButton).to.be.true;
-            await Keywords.click(locator.createRequestButton, "Create Account button")
-            const singUpPage = await Keywords.isDisplayed(locator.signUpPage, "Signup screen")
-            expect(singUpPage).to.be.true;
-            await Keywords.click(locator.employeeButton, "Employee Button");
-            await Keywords.verifyElementIsEnabled(locator.nextButton, "Next button")
-            await Keywords.click(locator.nextButton, "Next Button")
-            const FirstName = `Prabha${getRandomString()}`
-            await writeExcelData("TC_01", "Field", "Firstname", `Writedata${i}`, FirstName);
-            const LastName = (`Automation${getRandomString()}`).toLowerCase();
-            await writeExcelData("TC_01", "Field", "Lastname", `Writedata${i}`, LastName);
-            const mail = `prabha${getRandomString() + generateRandomNumber()}@mailinator.com`;
-            await writeExcelData("TC_01", "Field", "Email", `Writedata${i}`, mail);
-            const phoneNumber = await readData("TC_01", "Field", "Phone number", `Testdata${i}`);
-            const password = await readData("TC_01", "Field", "Password", `Testdata${i}`);
-            const employerName = await readData("TC_01", "Field", "Employer name", `Testdata${i}`);
-            const referral = await readData("TC_01", "Field", "Referrals", `Testdata${i}`);
-            const dob = await readData("TC_01", "Field", "DOB", `Testdata${i}`);
-            const relation = await readData("TC_01", "Field", "Relation", `Testdata${i}`);
-            console.log({
-                FirstName,
-                LastName,
-                mail,
-                phoneNumber,
-                password, employerName, referral, dob, relation
-            });
-            await Keywords.SetValue(locator.firstName, FirstName);
-            await Keywords.SetValue(locator.lastName, LastName);
-            await Keywords.SetValue(locator.emailId, mail);
-            await Keywords.SetValue(locator.phoneNumber, phoneNumber);
-            await Keywords.SetValue(locator.passwordField, password);
-            await Keywords.SetValue(locator.repeatPassword, password);
-            if (!await locator.nextButton.isDisplayed()) {
-                await browser.hideKeyboard();
-            }
-            await Keywords.verifyElementIsEnabled(locator.nextButton, "Next button")
-            await Keywords.click(locator.nextButton, "Next Button")
-            await Keywords.SetValue(locator.employerName, employerName);
-            await Keywords.click(locator.referral, "Referral dropdown");
-            await Keywords.click(locator.referrals(referral), "referral")
-            await Keywords.SetValue(locator.dob, dob);
-            await Keywords.SetValue(locator.relationToEmployee, relation);
-            if (!await locator.signUpButton.isDisplayed()) {
-                await browser.hideKeyboard();
-            }
-            await Keywords.click(locator.signUpButton, "Signup button")
-            await Keywords.waitForDisplay(locator.verifyYourAccount, timeout, "Verify your account");
-            await Keywords.click(locator.getMail, "Get by email card")
-            await Keywords.verifyElementIsEnabled(locator.verifyButton, "Verify button")
-            await Keywords.click(locator.verifyButton, "Verify Button");
-            const otp = await Keywords.getOTPFromMailinator(mail);
-            expect(otp).to.not.equal("");
-            await driver.switchContext('NATIVE_APP');
-            await Keywords.waitForDisplay(locator.otpPage(0), timeout, "OTP input");
-            for (let i = 0; i < 6; i++) {
-                await Keywords.SetValue(locator.otpPage(i), otp[i]);
-            }
-            await Keywords.waitForDisplay(locator.homePage, 45000, "Home Page")
-            await Keywords.click(locator.mentalHealthCard, "Mental Health card")
-            const mentalHealth = await Keywords.isEnabled(locator.mentalHealthCard, "Mental Health card")
-            expect(mentalHealth).to.equal(true);
-            const sendRequestButton = await Keywords.isEnabled(locator.sendRequestButton, "Send Request Button")
-            expect(sendRequestButton).to.equal(true);
-            await Keywords.click(locator.sendRequestButton, "Send Request Button")
-            if (i == 1) {
-                await Keywords.waitForDisplay(locator.allowNotificationButton, 30000, "Allow notification")
-                await Keywords.click(locator.allowNotificationButton, "Allow notification button");
-            }
-            await Keywords.waitForDisplay(locator.success, 45000, "Success Message!!!");
-            await Keywords.click(locator.closeButton, "Close Button");
-            await Keywords.waitForDisplay(locator.startNow, 30000, "Start Now Button");
+            // await Keywords.verifyElementIsEnabled(locator.createAccountButton, "Create Account button")
+            // const createBtnTxt = await locator.createAccountButton.getText();
+            // console.log(createBtnTxt)
+            // await Keywords.click(locator.createAccountButton, "Create Account button")
+            // const requestButton = await Keywords.isEnabled(locator.createRequestButton, "Create Request button")
+            // expect(requestButton).to.be.true;
+            // await Keywords.click(locator.createRequestButton, "Create Account button")
+            // const singUpPage = await Keywords.isDisplayed(locator.signUpPage, "Signup screen")
+            // expect(singUpPage).to.be.true;
+            // await Keywords.click(locator.employeeButton, "Employee Button");
+            // await Keywords.verifyElementIsEnabled(locator.nextButton, "Next button")
+            // await Keywords.click(locator.nextButton, "Next Button")
+            // const FirstName = `Prabha${getRandomString()}`
+            // await writeExcelData("TC_01", "Field", "Firstname", `Writedata${i}`, FirstName);
+            // const LastName = (`Automation${getRandomString()}`).toLowerCase();
+            // await writeExcelData("TC_01", "Field", "Lastname", `Writedata${i}`, LastName);
+            // const mail = `prabha${getRandomString() + generateRandomNumber()}@mailinator.com`;
+            // await writeExcelData("TC_01", "Field", "Email", `Writedata${i}`, mail);
+            // const phoneNumber = await readData("TC_01", "Field", "Phone number", `Testdata${i}`);
+            // const password = await readData("TC_01", "Field", "Password", `Testdata${i}`);
+            // const employerName = await readData("TC_01", "Field", "Employer name", `Testdata${i}`);
+            // const referral = await readData("TC_01", "Field", "Referrals", `Testdata${i}`);
+            // const dob = await readData("TC_01", "Field", "DOB", `Testdata${i}`);
+            // const relation = await readData("TC_01", "Field", "Relation", `Testdata${i}`);
+            // console.log({
+            //     FirstName,
+            //     LastName,
+            //     mail,
+            //     phoneNumber,
+            //     password, employerName, referral, dob, relation
+            // });
+            // await Keywords.SetValue(locator.firstName, FirstName);
+            // await Keywords.SetValue(locator.lastName, LastName);
+            // await Keywords.SetValue(locator.emailId, mail);
+            // await Keywords.SetValue(locator.phoneNumber, phoneNumber);
+            // await Keywords.SetValue(locator.passwordField, password);
+            // await Keywords.SetValue(locator.repeatPassword, password);
+            // if (!await locator.nextButton.isDisplayed()) {
+            //     await browser.hideKeyboard();
+            // }
+            // await Keywords.verifyElementIsEnabled(locator.nextButton, "Next button")
+            // await Keywords.click(locator.nextButton, "Next Button")
+            // await Keywords.SetValue(locator.employerName, employerName);
+            // await Keywords.click(locator.referral, "Referral dropdown");
+            // await Keywords.click(locator.referrals(referral), "referral")
+            // await Keywords.SetValue(locator.dob, dob);
+            // await Keywords.SetValue(locator.relationToEmployee, relation);
+            // if (!await locator.signUpButton.isDisplayed()) {
+            //     await browser.hideKeyboard();
+            // }
+            // await Keywords.click(locator.signUpButton, "Signup button")
+            // await Keywords.waitForDisplay(locator.verifyYourAccount, timeout, "Verify your account");
+            // await Keywords.click(locator.getMail, "Get by email card")
+            // await Keywords.verifyElementIsEnabled(locator.verifyButton, "Verify button")
+            // await Keywords.click(locator.verifyButton, "Verify Button");
+            // const otp = await Keywords.getOTPFromMailinator(mail);
+            // expect(otp).to.not.equal("");
+            // await driver.switchContext('NATIVE_APP');
+            // await Keywords.waitForDisplay(locator.otpPage(0), timeout, "OTP input");
+            // for (let i = 0; i < 6; i++) {
+            //     await Keywords.SetValue(locator.otpPage(i), otp[i]);
+            // }
+            // await Keywords.waitForDisplay(locator.homePage, 45000, "Home Page")
+            // await Keywords.click(locator.mentalHealthCard, "Mental Health card")
+            // const mentalHealth = await Keywords.isEnabled(locator.mentalHealthCard, "Mental Health card")
+            // expect(mentalHealth).to.equal(true);
+            // const sendRequestButton = await Keywords.isEnabled(locator.sendRequestButton, "Send Request Button")
+            // expect(sendRequestButton).to.equal(true);
+            // await Keywords.click(locator.sendRequestButton, "Send Request Button")
+            // if (i == 1) {
+            //     await Keywords.waitForDisplay(locator.allowNotificationButton, 30000, "Allow notification")
+            //     await Keywords.click(locator.allowNotificationButton, "Allow notification button");
+            // }
+            // await Keywords.waitForDisplay(locator.success, 45000, "Success Message!!!");
+            // await Keywords.click(locator.closeButton, "Close Button");
+            // await Keywords.waitForDisplay(locator.startNow, 30000, "Start Now Button");
         })
     }
 

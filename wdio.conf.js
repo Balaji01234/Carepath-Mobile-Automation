@@ -1,6 +1,9 @@
 import path from 'path';
 import dotenv from 'dotenv';
 import fs from 'fs';
+
+import { ReportGenerator, HtmlReporter } from 'wdio-html-nice-reporter';
+
 dotenv.config();
 
 const timestamp = new Date();
@@ -10,6 +13,11 @@ const formattedTimestamp = `${shortDate}_${shortTime}`;
 
 const allureResultsDir = path.join('reports', 'allure-results', `Test_Report-${formattedTimestamp}`);
 fs.mkdirSync(allureResultsDir, { recursive: true });
+
+const HTMLResultsDir = path.join('reports', 'HTML-results', `Test_HTML_Report-${formattedTimestamp}`);
+fs.mkdirSync(HTMLResultsDir, { recursive: true });
+
+let reportAggregator;
 
 export const config = {
     //
@@ -74,7 +82,7 @@ export const config = {
         "appium:detachSession": true,
         "appium:fullReset": false,
         "appium:noReset": false,
-        "appium:chromedriverExecutable": "D:/grid/chromedriver.exe",
+        // "appium:chromedriverExecutable": "D:/grid/chromedriver.exe",
         "appium:chromedriverAutodownload": true
     }],
     
@@ -149,7 +157,30 @@ export const config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: [['allure', { outputDir: allureResultsDir, disableWebdriverStepsReporting: true, disableWebdriverScreenshotsReporting: false }]],
+    // reporters: [['allure', { outputDir: allureResultsDir, disableWebdriverStepsReporting: true, disableWebdriverScreenshotsReporting: false }]],
+
+    reporters: [
+        [
+            'html-nice',
+            {
+                outputDir: HTMLResultsDir,
+                filename: 'report.html',
+                reportTitle: 'Test Report',
+                linkScreenshots: false,
+                showInBrowser: true,
+                collapseTests: false,
+                useOnAfterCommandForScreenshot: true,
+            },
+        ],
+        [
+            'allure',
+            {
+                outputDir: allureResultsDir,
+                disableWebdriverStepsReporting: true,
+                disableWebdriverScreenshotsReporting: false,
+            },
+        ],
+    ],
 
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
@@ -171,6 +202,16 @@ export const config = {
      * @param {object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
+
+    // onPrepare: () => {
+    //     // Initialize the HTML Nice Report Aggregator
+    //     reportAggregator = new ReportGenerator({
+    //         outputDir: HTMLResultsDir,
+    //         filename: 'report.html',
+    //         reportTitle: 'Test Report',
+    //         browserName: 'chrome',
+    //     });
+    // },
     // onPrepare: function (config, capabilities) {
     // },
     /**

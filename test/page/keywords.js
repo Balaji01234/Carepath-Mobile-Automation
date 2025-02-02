@@ -1,4 +1,5 @@
 import allureReporter from '@wdio/allure-reporter'
+import HtmlReporter from 'wdio-html-nice-reporter';
 import { locators } from './locators.js';
 import { expect, assert } from 'chai';
 export class keywords {
@@ -7,18 +8,24 @@ export class keywords {
         this.locator = new locators(this.locator);
         this.timeout = process.env.DISPLAY_TIMEOUT
     }
+
     /**
        * Log success message and attach a screenshot.
        * @param {string} message - Success message to log.
        */
     async AllurePass(message) {
         allureReporter.addStep(`✅ PASS: ${message}`, {}, 'passed');
+        console.log(`✅ PASS: ${message}`);
+        HtmlReporter.addAttachment('Log Message', message, 'text/plain'); // Logging to HtmlReporter
         const screenshot = await browser.takeScreenshot();
         allureReporter.addAttachment('Screenshot on Pass', screenshot, 'image/png');
+        HtmlReporter.addAttachment('Screenshot on Pass', screenshot, 'image/png');
     }
 
     async AllureInfo(message) {
         allureReporter.addStep(`ℹ️ INFO: ${message}`, {}, 'passed');
+        console.log(`ℹ️ INFO: ${message}`);
+        // HtmlReporter.addAttachment('Log Message', message, 'text/plain'); // Logging to HtmlReporter
     }
 
 
@@ -29,13 +36,17 @@ export class keywords {
      */
     async AllureFail(message, error = null) {
         allureReporter.addStep(`❌ FAIL: ${message}`, {}, 'failed');
+        console.log(`❌ FAIL: ${message}`);
+        // HtmlReporter.addAttachment('Log Message', message, 'text/plain'); // Logging to HtmlReporter
 
         if (error) {
             const errorDetails = error.stack || error.message || error;
             allureReporter.addAttachment('Error Details', errorDetails, 'text/plain');
+            // HtmlReporter.addAttachment('Error Details', errorDetails, 'text/plain');
         }
         const screenshot = await browser.takeScreenshot();
         allureReporter.addAttachment('Screenshot on Fail', screenshot, 'image/png');
+        // HtmlReporter.addAttachment('Screenshot on Fail', screenshot, 'image/png');
     }
 
 
@@ -50,7 +61,7 @@ export class keywords {
             console.log("Click action failed for: " + text);
             await this.AllureFail("Click action failed for: " + text, err);
             allureReporter.endStep('failed');
-            assert.fail(err);
+            assert.fail(`Error clicking on ${text}: ${err.message || err}`);
         }
     }
 
