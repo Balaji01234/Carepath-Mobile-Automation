@@ -1,7 +1,7 @@
 export class locators {
 
     get startNow() {
-        return $('//android.widget.Button[@content-desc="start_now_button"]/android.widget.Button/android.view.View');
+        return $('~start_now_button');
     }
 
     get languageDropdown() {
@@ -21,7 +21,7 @@ export class locators {
     }
 
     get loginScreen() {
-        return $('~login_or_signin_text');
+        return $('~Log in or Sign In');
     }
 
     get userName() {
@@ -33,7 +33,7 @@ export class locators {
     }
 
     get loginButton() {
-        return $('~log_in_text')
+        return $('~login_button')
     }
 
     get forgotPassword() {
@@ -45,7 +45,7 @@ export class locators {
     }
 
     get allowButton() {
-        return $('~allow_text')
+        return $('android=new UiSelector().resourceId("allow_text")')
     }
 
     get denyButton() {
@@ -73,15 +73,23 @@ export class locators {
     }
 
     get signUpPage() {
-        return $('~sign_up_text')
+        return $('android=new UiSelector().resourceId("sign_up_text")')
     }
 
     get employeeButton() {
         return $('~iam_employee_button')
     }
 
+    get employeeText(){
+        return $('android=new UiSelector().resourceId("iam_employee_text")')
+    }
+
     get studentButton() {
         return $('~iam_student_button')
+    }
+
+    get studentText(){
+        return $('android=new UiSelector().resourceId("iam_student_text")')
     }
 
     get nextButton() {
@@ -121,15 +129,23 @@ export class locators {
     }
 
     get referral() {
-        return $('android=new UiSelector().description("referral_source_text")')
+        return $('~Referral Source')
     }
 
     referrals(referral) {
         return $(`android=new UiSelector().description("${referral}")`);
     }
 
+    get referralDropdownText(){
+        return $('android=new UiSelector().resourceId("referral_source_text")')
+    }
+
     get dob() {
         return $('android=new UiSelector().resourceId("dob_textfield")')
+    }
+
+    get dobText(){
+        return $('android=new UiSelector().resourceId("date of birth (dd-mm-yyyy) _text")')
     }
 
     get relationToEmployee() {
@@ -137,11 +153,11 @@ export class locators {
     }
 
     get signUpButton() {
-        return $('~signup_button')
+        return $('~SIGN UP')
     }
 
     get verifyYourAccount() {
-        return $('~verify_your_account_text')
+        return $('android=new UiSelector().resourceId("verify_your_account_text")')
     }
 
     get getMail() {
@@ -149,7 +165,7 @@ export class locators {
     }
 
     get verifyButton() {
-        return $('~verify_button')
+        return $('android=new UiSelector().resourceId("verify_text")')
     }
 
     get chromeDismissButton() {
@@ -158,6 +174,14 @@ export class locators {
 
     get chromeGotIt() {
         return $('android=new UiSelector().resourceId("com.android.chrome:id/ack_button")')
+    }
+
+    get chromeEasierPopup(){
+        return $('//android.widget.TextView[@text="Chrome notifications make things easier"]')
+    }
+
+    get noThanks(){
+        return $('//android.widget.Button[@resource-id="com.android.chrome:id/negative_button"]')
     }
 
     get chromeSearchBox() {
@@ -184,6 +208,10 @@ export class locators {
         return $('//android.widget.Button[@text="GO"]')
     }
 
+    get pauseButton() {
+        return $('//android.view.View[@resource-id="pause_button"]')
+    }
+
     get verificationCodeText() {
         return $('//android.widget.TextView[@text="DoNot-Reply"]')
     }
@@ -201,7 +229,7 @@ export class locators {
     }
 
     get homePage() {
-        return $('~welcome_to_carepath_digital_health_text')
+        return $('android=new UiSelector().resourceId("welcome_to_carepath_digital_health_text")')
     }
 
     get doNotReply() {
@@ -233,18 +261,44 @@ export class locators {
     }
 
     get mentalHealthCard() {
-        return $('~action_Program.mentalHealth')
+        return $(`~Mental\nHealth`)
     }
 
     get sendRequestButton() {
-        return $('//android.view.View[@content-desc="send_request_text"]')
+        return $('android=new UiSelector().resourceId("send_request_text")')
     }
 
     get success() {
-        return $('~success_text')
+        return $('android=new UiSelector().resourceId("success_text")')
     }
 
     get closeButton() {
-        return $('~close_text')
+        return $('android=new UiSelector().resourceId("close_text")')
     }
+
+    get backArrow(){
+        return $('~back_action')
+    }
+
+    get studentInformationScreen(){
+        return $('~Student Information')
+    }
+
+    get athabascaUniversity(){
+        return $('~Athabasca University')
+    }
+
+    get studentId(){
+        return $('//android.widget.EditText[@resource-id="student_id_textfield"]')
+    }
+
+    get courseEnrolled(){
+        return $('//android.widget.EditText[@resource-id="enrolled_course_textfield"]')
+    }
+
+    program(programName) {
+        const formattedProgramName = programName.includes(" ") ? programName.replace(/ /g, "\n") : programName;
+        return $(`//android.view.View[@content-desc="${formattedProgramName}"]`);
+    }
+    
 }

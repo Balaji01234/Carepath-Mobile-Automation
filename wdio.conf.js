@@ -9,7 +9,10 @@ const shortTime = `${timestamp.getHours().toString().padStart(2, '0')}-${timesta
 const formattedTimestamp = `${shortDate}_${shortTime}`;
 
 const allureResultsDir = path.join('reports', 'allure-results', `Test_Report-${formattedTimestamp}`);
-fs.mkdirSync(allureResultsDir, { recursive: true });
+// fs.mkdirSync(allureResultsDir, { recursive: true });
+
+const HTMLResultsDir = path.join('reports', 'html-results', `Test_Report-${formattedTimestamp}`);
+// fs.mkdirSync(HTMLResultsDir, { recursive: true });
 
 export const config = {
     //
@@ -64,19 +67,20 @@ export const config = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
-        // capabilities for local Appium web tests on an Android Emulator
         "platformName": "android",
         "appium:platformVersion": "15.0",
         "appium:deviceName": "Medium Phone API 35",
         "appium:automationName": "uiAutomator2",
         "appium:appPackage": "com.carepath.app.dev",
         "appium:appActivity": "com.carepath.MainActivity",
-        // "appium:app": path.join(process.cwd(), './app/android/Dev-Carepath Digital Health.apk'),
         "appium:androidInstallTimeout": "120000",
         "appium:detachSession": true,
         "appium:fullReset": false,
         "appium:noReset": false,
+        "appium:chromedriverExecutable": "D:/grid/chromedriver.exe",
+        "appium:chromedriverAutodownload": true
     }],
+    
 
     //
     // ===================
@@ -148,13 +152,24 @@ export const config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: [['allure', { outputDir: allureResultsDir, disableWebdriverStepsReporting: true, disableWebdriverScreenshotsReporting: false }]],
+    reporters: [['allure', { outputDir: allureResultsDir, disableWebdriverStepsReporting: true, disableWebdriverScreenshotsReporting: false }],  [
+        'html-nice',
+        {
+            outputDir: HTMLResultsDir,
+            filename: 'report.html',
+            reportTitle: 'Test Report',
+            linkScreenshots: false,
+            showInBrowser: true,
+            collapseTests: false,
+            useOnAfterCommandForScreenshot: true,
+        },
+    ]],
 
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
     mochaOpts: {
         ui: 'bdd',
-        timeout: 15 * 60 * 1000
+        timeout: 18 * 60 * 1000
     },
 
     //
@@ -254,9 +269,6 @@ export const config = {
      * @param {object}  result.retries   information about spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
     afterTest: async function (test, context, { error, result, duration, passed, retries }) {
-        if (!passed) {
-            await browser.takeScreenshot();
-        }
         console.log(`****${test.title} is completed****`)
     },
 

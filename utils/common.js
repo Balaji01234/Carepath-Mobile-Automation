@@ -137,3 +137,17 @@ export const writeExcelData = async (sheetName, rowHeader, rowValue, columnName,
     }
 };
 
+export function dataSets(iterations) {
+    let iterationArray;
+
+    if (iterations.includes("-")) {
+        const [start, end] = iterations.split("-").map(Number);
+        iterationArray = Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    } else {
+        iterationArray = [Number(iterations)];
+    }
+    return iterationArray;
+}
+
+
+
