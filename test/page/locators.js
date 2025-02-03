@@ -80,8 +80,16 @@ export class locators {
         return $('~iam_employee_button')
     }
 
+    get employeeText(){
+        return $('android=new UiSelector().resourceId("iam_employee_text")')
+    }
+
     get studentButton() {
         return $('~iam_student_button')
+    }
+
+    get studentText(){
+        return $('android=new UiSelector().resourceId("iam_student_text")')
     }
 
     get nextButton() {
@@ -128,8 +136,16 @@ export class locators {
         return $(`android=new UiSelector().description("${referral}")`);
     }
 
+    get referralDropdownText(){
+        return $('android=new UiSelector().resourceId("referral_source_text")')
+    }
+
     get dob() {
         return $('android=new UiSelector().resourceId("dob_textfield")')
+    }
+
+    get dobText(){
+        return $('android=new UiSelector().resourceId("date of birth (dd-mm-yyyy) _text")')
     }
 
     get relationToEmployee() {
@@ -158,6 +174,14 @@ export class locators {
 
     get chromeGotIt() {
         return $('android=new UiSelector().resourceId("com.android.chrome:id/ack_button")')
+    }
+
+    get chromeEasierPopup(){
+        return $('//android.widget.TextView[@text="Chrome notifications make things easier"]')
+    }
+
+    get noThanks(){
+        return $('//android.widget.Button[@resource-id="com.android.chrome:id/negative_button"]')
     }
 
     get chromeSearchBox() {
@@ -255,4 +279,26 @@ export class locators {
     get backArrow(){
         return $('~back_action')
     }
+
+    get studentInformationScreen(){
+        return $('~Student Information')
+    }
+
+    get athabascaUniversity(){
+        return $('~Athabasca University')
+    }
+
+    get studentId(){
+        return $('//android.widget.EditText[@resource-id="student_id_textfield"]')
+    }
+
+    get courseEnrolled(){
+        return $('//android.widget.EditText[@resource-id="enrolled_course_textfield"]')
+    }
+
+    program(programName) {
+        const formattedProgramName = programName.includes(" ") ? programName.replace(/ /g, "\n") : programName;
+        return $(`//android.view.View[@content-desc="${formattedProgramName}"]`);
+    }
+    
 }

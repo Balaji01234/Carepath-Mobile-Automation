@@ -12,12 +12,10 @@ const shortTime = `${timestamp.getHours().toString().padStart(2, '0')}-${timesta
 const formattedTimestamp = `${shortDate}_${shortTime}`;
 
 const allureResultsDir = path.join('reports', 'allure-results', `Test_Report-${formattedTimestamp}`);
-fs.mkdirSync(allureResultsDir, { recursive: true });
+// fs.mkdirSync(allureResultsDir, { recursive: true });
 
-const HTMLResultsDir = path.join('reports', 'HTML-results', `Test_HTML_Report-${formattedTimestamp}`);
-fs.mkdirSync(HTMLResultsDir, { recursive: true });
-
-let reportAggregator;
+const HTMLResultsDir = path.join('reports', 'html-results', `Test_Report-${formattedTimestamp}`);
+// fs.mkdirSync(HTMLResultsDir, { recursive: true });
 
 export const config = {
     //
@@ -157,30 +155,18 @@ export const config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    // reporters: [['allure', { outputDir: allureResultsDir, disableWebdriverStepsReporting: true, disableWebdriverScreenshotsReporting: false }]],
-
-    reporters: [
-        [
-            'html-nice',
-            {
-                outputDir: HTMLResultsDir,
-                filename: 'report.html',
-                reportTitle: 'Test Report',
-                linkScreenshots: true,
-                showInBrowser: true,
-                collapseTests: true,
-                useOnAfterCommandForScreenshot: true,
-            },
-        ],
-        [
-            'allure',
-            {
-                outputDir: allureResultsDir,
-                disableWebdriverStepsReporting: true,
-                disableWebdriverScreenshotsReporting: false,
-            },
-        ],
-    ],
+    reporters: [['allure', { outputDir: allureResultsDir, disableWebdriverStepsReporting: true, disableWebdriverScreenshotsReporting: false }],  [
+        'html-nice',
+        {
+            outputDir: HTMLResultsDir,
+            filename: 'report.html',
+            reportTitle: 'Test Report',
+            linkScreenshots: false,
+            showInBrowser: true,
+            collapseTests: false,
+            useOnAfterCommandForScreenshot: true,
+        },
+    ]],
 
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
