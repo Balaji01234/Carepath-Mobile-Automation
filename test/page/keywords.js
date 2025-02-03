@@ -16,10 +16,10 @@ export class keywords {
     async AllurePass(message) {
         allureReporter.addStep(`✅ PASS: ${message}`, {}, 'passed');
         console.log(`✅ PASS: ${message}`);
-        HtmlReporter.addAttachment('Log Message', message, 'text/plain'); // Logging to HtmlReporter
+        // HtmlReporter.addAttachment('Log Message', message, 'text/plain'); // Logging to HtmlReporter
         const screenshot = await browser.takeScreenshot();
         allureReporter.addAttachment('Screenshot on Pass', screenshot, 'image/png');
-        HtmlReporter.addAttachment('Screenshot on Pass', screenshot, 'image/png');
+        // HtmlReporter.addAttachment('Screenshot on Pass', screenshot, 'image/png');
     }
 
     async AllureInfo(message) {

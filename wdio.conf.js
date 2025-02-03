@@ -2,7 +2,7 @@ import path from 'path';
 import dotenv from 'dotenv';
 import fs from 'fs';
 
-import { ReportGenerator, HtmlReporter } from 'wdio-html-nice-reporter';
+import { HtmlReporter } from 'wdio-html-nice-reporter';
 
 dotenv.config();
 
@@ -166,9 +166,9 @@ export const config = {
                 outputDir: HTMLResultsDir,
                 filename: 'report.html',
                 reportTitle: 'Test Report',
-                linkScreenshots: false,
+                linkScreenshots: true,
                 showInBrowser: true,
-                collapseTests: false,
+                collapseTests: true,
                 useOnAfterCommandForScreenshot: true,
             },
         ],
@@ -342,6 +342,11 @@ export const config = {
      */
     // onComplete: function(exitCode, config, capabilities, results) {
     // },
+
+    onComplete: function (exitCode, config, capabilities, results) {
+        const reporter = new HtmlReporter;
+        reporter.afterTest(); // Trigger report generation
+    }
     /**
     * Gets executed when a refresh happens.
     * @param {string} oldSessionId session ID of the old session
