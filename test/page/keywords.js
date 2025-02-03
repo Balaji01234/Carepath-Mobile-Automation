@@ -12,6 +12,8 @@ export class keywords {
        * @param {string} message - Success message to log.
        */
     async AllurePass(message) {
+        console.log(`✅ PASS: ${message}`);
+        process.emit('test:log', `✅ PASS: ${message}`);
         allureReporter.addStep(`✅ PASS: ${message}`, {}, 'passed');
         const screenshot = await browser.takeScreenshot();
         allureReporter.addAttachment('Screenshot on Pass', screenshot, 'image/png');
@@ -35,6 +37,8 @@ export class keywords {
      * @param {Error|string} error - Optional error object or failure reason for detailed logs.
      */
     async AllureFail(message, error = null) {
+        console.error(`❌ FAIL: ${message}`);
+        process.emit('test:log', `❌ FAIL: ${message}`);
         allureReporter.addStep(`❌ FAIL: ${message}`, {}, 'failed');
 
         if (error) {
@@ -183,7 +187,7 @@ export class keywords {
             await this.SetValue(this.locator.mailinatorInbox, mail);
             await this.click(this.locator.goButton, "Go Button");
             await this.click(this.locator.pauseButton, "Click on pause button")
-            await this.waitForDisplay(this.locator.doNotReply, "Do not reply button");
+            await this.waitForDisplay(this.locator.doNotReply, 60000, "Do not reply button");
             await this.click(this.locator.doNotReply, "OTP message");
             await this.locator.verifyAccount.waitForDisplayed({ timeout: 30000 })
             const otp = await $('(//android.view.View[@text="Verify icon Verify your account Here is your verification code for Carepath Digital Health "]//..//..//android.view.View)[3]//android.view.View').getText();

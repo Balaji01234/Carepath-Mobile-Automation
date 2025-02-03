@@ -166,7 +166,7 @@ describe('Carepath Automation', () => {
                 await Keywords.verifyElementIsEnabled(locator.sendRequestButton, "Send Request Button")
                 await Keywords.click(locator.sendRequestButton, "Send Request Button")
                 if (i === 0) {
-                    await Keywords.waitForDisplay(locator.allowNotificationButton, "Allow Notification Button")
+                    await Keywords.waitForDisplay(locator.allowNotificationButton,60000, "Allow Notification Button")
                     await Keywords.locator.allowNotificationButton.click();
                 }
                 await Keywords.waitForDisplay(locator.success, 45000, "Success Message!!!");
