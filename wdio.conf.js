@@ -1,6 +1,7 @@
 import path from 'path';
 import dotenv from 'dotenv';
 import fs from 'fs';
+import { hostname } from 'os';
 dotenv.config();
 
 const timestamp = new Date();
@@ -15,6 +16,10 @@ const HTMLResultsDir = path.join('reports', 'html-results', `Test_Report-${forma
 // fs.mkdirSync(HTMLResultsDir, { recursive: true });
 
 export const config = {
+
+    user: process.env.BROWSERSTACK_USERNAME,
+    key: process.env.BROWSERSTACK_ACCESS_KEY,
+    hostname: 'hub.browserstack.com',
     //
     // ====================
     // Runner Configuration
@@ -67,18 +72,24 @@ export const config = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
-        "platformName": "android",
-        "appium:platformVersion": "15.0",
-        "appium:deviceName": "Medium Phone API 35",
-        "appium:automationName": "uiAutomator2",
-        "appium:appPackage": "com.carepath.app.dev",
-        "appium:appActivity": "com.carepath.MainActivity",
-        "appium:androidInstallTimeout": "120000",
-        "appium:detachSession": true,
-        "appium:fullReset": false,
-        "appium:noReset": false,
-        "appium:chromedriverExecutable": "D:/grid/chromedriver.exe",
-        "appium:chromedriverAutodownload": true
+        // "platformName": "android",
+        // "appium:platformVersion": "15.0",
+        // "appium:deviceName": "Medium Phone API 35",
+        // "appium:automationName": "uiAutomator2",
+        // "appium:appPackage": "com.carepath.app.dev",
+        // "appium:appActivity": "com.carepath.MainActivity",
+        // "appium:androidInstallTimeout": "120000",
+        // "appium:detachSession": true,
+        // "appium:fullReset": false,
+        // "appium:noReset": false,
+        // "appium:chromedriverExecutable": "D:/grid/chromedriver.exe",
+        // "appium:chromedriverAutodownload": true
+
+        'bstack:option':{
+            deviceName: 'Google Pixel 9',
+            platformVersion: '15.0',
+            platformName: 'android'
+        }
     }],
     
 
@@ -89,7 +100,7 @@ export const config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'error',
+    // logLevel: 'error',
     //
     // Set specific log levels per logger
     // loggers:
@@ -129,7 +140,19 @@ export const config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['appium'],
+    // services: ['appium'],
+    services:[
+        [
+            'browserstack',
+        {
+            app: 'bs://d107630d01e36d153042c49a63970c82bbe4816a',
+            buildIdentifier: "${BUILD_NUMBER}",
+            browserstackLocal: true
+
+        },
+        ]
+        
+    ],
 
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
