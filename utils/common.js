@@ -1,4 +1,7 @@
 import ExcelJS from 'exceljs';
+import * as XLSX from 'xlsx';
+import { readFileSync } from 'fs';
+
 /**
   *
   * To generate Random Numbers
@@ -138,15 +141,61 @@ export const writeExcelData = async (sheetName, rowHeader, rowValue, columnName,
 };
 
 export function dataSets(iterations) {
-    let iterationArray;
+    let iterationArray = [];
 
     if (iterations.includes("-")) {
         const [start, end] = iterations.split("-").map(Number);
         iterationArray = Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    } else if (iterations.includes(",")) {
+        iterationArray = iterations.split(",").map(Number);
     } else {
         iterationArray = [Number(iterations)];
     }
+    
     return iterationArray;
+}
+
+
+/**
+ * Function to get value based on a given component
+ * @param {string} filePath - Path to the Excel file.
+ * @param {string} sheetName - Name of the sheet to read.
+ * @param {string} componentName - Name of the component to search for.
+ * @returns {string|undefined} - Corresponding value or undefined if not found.
+ */
+export default function getValueByComponent(componentName) {
+    const filePath = './dataFiles/config.xlsx';
+    const sheetName = 'Sheet1';
+
+    // Read the file as a buffer
+    const fileBuffer = readFileSync(filePath);
+
+    // Parse workbook from the buffer
+    const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
+
+    const sheet = workbook.Sheets[sheetName];
+    const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+    // Find the header row containing "Components" and "Value"
+    const headerRow = data.find(row => row.includes("Components") && row.includes("Value"));
+    if (!headerRow) {
+        console.log("Headers not found in the sheet.");
+        return;
+    }
+
+    // Identify column indices for "Components" and "Value"
+    const componentIndex = headerRow.indexOf("Components");
+    const valueIndex = headerRow.indexOf("Value");
+
+    // Search for the component in the rows following the header row
+    const dataRows = data.slice(data.indexOf(headerRow) + 1); // Skip header row
+    for (const row of dataRows) {
+        if (row[componentIndex] === componentName) {
+            return row[valueIndex];
+        }
+    }
+
+    return undefined;
 }
 
 

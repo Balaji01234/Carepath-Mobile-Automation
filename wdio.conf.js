@@ -1,8 +1,13 @@
 import path from 'path';
 import dotenv from 'dotenv';
 import fs from 'fs';
+import Mail from './utils/mail.js';
+import getValueByComponent from './utils/common.js';
+
+
 dotenv.config();
 
+const mailTrigger = getValueByComponent('Trigger')
 const timestamp = new Date();
 const shortDate = `${timestamp.getFullYear()}-${(timestamp.getMonth() + 1).toString().padStart(2, '0')}-${timestamp.getDate().toString().padStart(2, '0')}`;
 const shortTime = `${timestamp.getHours().toString().padStart(2, '0')}-${timestamp.getMinutes().toString().padStart(2, '0')}`;
@@ -12,7 +17,10 @@ const allureResultsDir = path.join('reports', 'allure-results', `Test_Report-${f
 // fs.mkdirSync(allureResultsDir, { recursive: true });
 
 const HTMLResultsDir = path.join('reports', 'html-results', `Test_Report-${formattedTimestamp}`);
+const reportPath = HTMLResultsDir;
+console.log("HTMLResultsDir: " + HTMLResultsDir);
 // fs.mkdirSync(HTMLResultsDir, { recursive: true });
+let testResults = [];
 
 export const config = {
 
@@ -146,7 +154,11 @@ export const config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    // services: ['appium'],
+    // services: [['appium', {
+        args: {
+            allowInsecure: 'adb_shell',
+        },
+    }],],
     services: [
         [
             'browserstack',
@@ -182,16 +194,17 @@ export const config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
+
     reporters: [['allure', { outputDir: allureResultsDir, disableWebdriverStepsReporting: true, disableWebdriverScreenshotsReporting: false }], [
         'html-nice',
         {
-            outputDir: HTMLResultsDir,
-            filename: 'report.html',
+            outputDir: reportPath,
+            filename: 'Test-report.html',
             reportTitle: 'Test Report',
-            linkScreenshots: false,
+            linkScreenshots: true,
             showInBrowser: true,
             collapseTests: false,
-            useOnAfterCommandForScreenshot: true,
+            useOnAfterCommandForScreenshot: false,
         },
     ]],
 
@@ -299,7 +312,25 @@ export const config = {
      * @param {object}  result.retries   information about spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
     afterTest: async function (test, context, { error, result, duration, passed, retries }) {
-        console.log(`****${test.title} is completed****`)
+        console.log(`****${test.title} is completed****`);
+
+        testResults.push({
+            title: test.title,
+            status: passed ? 'passed' : 'failed',
+            error: passed ? null : error ? error.message : 'Unknown Error'
+        });
+        if (!passed) {
+            const fileName = `${test.title.replace(/ /g, '_')}.png`;
+            const screenshotPath = `./reports/html-reports/screenshots/${fileName}`;
+            await browser.saveScreenshot(screenshotPath);
+            console.log(`Screenshot saved: ${screenshotPath}`);
+        }
+        await driver.execute('mobile: shell', {
+            command: 'pm clear',
+            args: ['com.carepath.app.dev'],
+        });
+        await driver.terminateApp('com.carepath.app.dev');
+        await driver.activateApp('com.carepath.app.dev');
     },
 
 
@@ -307,7 +338,7 @@ export const config = {
      * Hook that gets executed after the suite has ended
      * @param {object} suite suite details
      */
-    // afterSuite: function (suite) {
+    // afterSuite:async function (suite) {
     // },
     /**
      * Runs after a WebdriverIO command gets executed
@@ -325,8 +356,11 @@ export const config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that ran
      */
-    // after: function (result, capabilities, specs) {
-    // },
+    after: async function (result, capabilities, specs) {
+        fs.writeFileSync('./reports/test-results.json', JSON.stringify(testResults, null, 2));
+        await browser.terminateApp('com.carepath.app.dev');
+    },
+
     /**
      * Gets executed right after terminating the webdriver session.
      * @param {object} config wdio configuration object
@@ -343,8 +377,17 @@ export const config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {<Object>} results object containing test results
      */
-    // onComplete: function(exitCode, config, capabilities, results) {
-    // },
+    onComplete: async function (exitCode, config, capabilities, results) {
+        console.log('Test execution completed, preparing to send email...');
+        if (mailTrigger === 'Yes') {
+            const mailer = new Mail();
+            console.log("Report path: " + reportPath);
+            await mailer.sendMail(reportPath);
+        }
+
+    }
+
+
     /**
     * Gets executed when a refresh happens.
     * @param {string} oldSessionId session ID of the old session

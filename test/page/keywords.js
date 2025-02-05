@@ -1,6 +1,6 @@
 import allureReporter from '@wdio/allure-reporter'
 import { locators } from './locators.js';
-import { expect, assert } from 'chai';
+import { assert } from 'chai';
 export class keywords {
 
     constructor() {
@@ -16,13 +16,11 @@ export class keywords {
         process.emit('test:log', `✅ PASS: ${message}`);
         allureReporter.addStep(`✅ PASS: ${message}`, {}, 'passed');
         const screenshot = await browser.takeScreenshot();
-        allureReporter.addAttachment('Screenshot on Pass', screenshot, 'image/png');
+        // allureReporter.addAttachment('Screenshot on Pass', screenshot, 'image/png');
     }
 
     async AllurePass1(message) {
         allureReporter.addStep(`✅ PASS: ${message}`, {}, 'passed');
-        // const screenshot = await browser.takeScreenshot();
-        // allureReporter.addAttachment('Screenshot on Pass', screenshot, 'image/png');
     }
 
 
@@ -46,7 +44,7 @@ export class keywords {
             allureReporter.addAttachment('Error Details', errorDetails, 'text/plain');
         }
         const screenshot = await browser.takeScreenshot();
-        allureReporter.addAttachment('Screenshot on Fail', screenshot, 'image/png');
+        // allureReporter.addAttachment('Screenshot on Fail', screenshot, 'image/png');
     }
 
 
