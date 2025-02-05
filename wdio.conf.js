@@ -1,7 +1,6 @@
 import path from 'path';
 import dotenv from 'dotenv';
 import fs from 'fs';
-import { hostname } from 'os';
 dotenv.config();
 
 const timestamp = new Date();
@@ -26,7 +25,7 @@ export const config = {
     // ====================
     // WebdriverIO supports running e2e tests as well as unit and component tests.
     runner: 'local',
-    port: 4723,
+    // port: 4723,
     //
     // ==================
     // Specify Test Files
@@ -85,13 +84,20 @@ export const config = {
         // "appium:chromedriverExecutable": "D:/grid/chromedriver.exe",
         // "appium:chromedriverAutodownload": true
 
-        'bstack:option':{
+        'bstack:options': {
             deviceName: 'Google Pixel 9',
             platformVersion: '15.0',
-            platformName: 'android'
+            platformName: 'android',
         }
-    }],
-    
+    }], 
+    commonCapabilities: {
+        'bstack:options': {
+            projectName: "BrowserStack Sample",
+            buildName: "bstack-demo",
+            debug: true,
+            networkLogs: true
+        }
+    },
 
     //
     // ===================
@@ -131,7 +137,7 @@ export const config = {
     //
     // Default timeout in milliseconds for request
     // if browser driver or grid doesn't send response
-    connectionRetryTimeout: 120000,
+    connectionRetryTimeout: 240000,
     //
     // Default request retries count
     connectionRetryCount: 3,
@@ -141,17 +147,18 @@ export const config = {
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
     // services: ['appium'],
-    services:[
+    services: [
         [
             'browserstack',
-        {
-            app: 'bs://d107630d01e36d153042c49a63970c82bbe4816a',
-            buildIdentifier: "${BUILD_NUMBER}",
-            browserstackLocal: true
-
-        },
+            {
+                app: process.env.BROWSERSTACK_APP_ID,
+                buildIdentifier: "${BUILD_NUMBER}",
+                browserstackLocal: true,
+                testObservability: true,
+                percy: false,
+                percyCaptureMode: 'auto'
+            },
         ]
-        
     ],
 
     // Framework you want to run your specs with.
@@ -175,7 +182,7 @@ export const config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: [['allure', { outputDir: allureResultsDir, disableWebdriverStepsReporting: true, disableWebdriverScreenshotsReporting: false }],  [
+    reporters: [['allure', { outputDir: allureResultsDir, disableWebdriverStepsReporting: true, disableWebdriverScreenshotsReporting: false }], [
         'html-nice',
         {
             outputDir: HTMLResultsDir,
