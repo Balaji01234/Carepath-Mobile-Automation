@@ -18,7 +18,12 @@ describe('Carepath Automation', () => {
     const iterationValue = dataSets(iterations);
     console.log("iterationValue" + iterationValue)
 
-    it.skip('should login with valid credentials', async () => {
+    beforeEach(async function () {
+        const testName = this.currentTest.title;
+        console.log('Starting test:', testName);
+    });
+
+    it('should login with valid credentials', async () => {
         allureReporter.addDescription(`
             1. Click on the "Start Now" button.
             2. Check if the login screen is displayed.
@@ -27,27 +32,32 @@ describe('Carepath Automation', () => {
             5. Handle any dialog boxes related to notifications.
             6. Log in successfully if all steps are completed.
         `);
-
-        await Keywords.waitForDisplay(locator.startNow, 60000, "Start Now Button")
-        await Keywords.click(locator.startNow, "Start Now Button")
-        const loginDisplay = await Keywords.isDisplayed(locator.loginScreen, "Login screen")
-        expect(loginDisplay).to.be.true;
-        await Keywords.SetValue(locator.userName, process.env.USER_NAME);
-        await Keywords.SetValue(locator.password, process.env.PASSWORD);
-        if (!await locator.loginButton.isDisplayed()) {
-            await browser.hideKeyboard();
+        try {
+            await Keywords.waitForDisplay(locator.startNow, 60000, "Start Now Button")
+            await Keywords.click(locator.startNow, "Start Now Button")
+            const loginDisplay = await Keywords.isDisplayed(locator.loginScreen, "Login screen")
+            expect(loginDisplay).to.be.true;
+            await Keywords.SetValue(locator.userName, process.env.USER_NAME);
+            await Keywords.SetValue(locator.password, process.env.PASSWORD);
+            if (!await locator.loginButton.isDisplayed()) {
+                await browser.hideKeyboard();
+            }
+            const loginBtnEnable = await Keywords.isEnabled(locator.loginButton, "Login button")
+            expect(loginBtnEnable).to.be.true;
+            await Keywords.click(locator.loginButton, "Login Button")
+            await Keywords.waitForDisplay(locator.allowButton, 20000, "Get notified dialog box")
+            await Keywords.click(locator.allowButton, "Allow button");
+            await Keywords.waitForDisplay(locator.allowNotificationButton, 20000, "Allow notification")
+            await Keywords.click(locator.allowNotificationButton, "Allow notification button");
+            console.log('Login process completed successfully.');
+            await Keywords.waitForDisplay(locator.homePage, 45000, "Home Page")
+            await Keywords.verifyElementDisplayed(locator.mentalHealthCard, "Mental Health card")
+            await Keywords.click(locator.mentalHealthCard, "Mental Health card")
+            await Keywords.waitForDisplay(onboardLocator.mentalHealthText, 60000, "Mental Health Text");
+        } catch (err) {
+            throw new Error(err);
         }
-        const loginBtnEnable = await Keywords.isEnabled(locator.loginButton, "Login button")
-        expect(loginBtnEnable).to.be.true;
-        await Keywords.click(locator.loginButton, "Login Button")
-        await Keywords.waitForDisplay(locator.allowButton, 20000, "Get notified dialog box")
-        await Keywords.click(locator.allowButton, "Allow button");
-        await Keywords.waitForDisplay(locator.allowNotificationButton, 20000, "Allow notification")
-        await Keywords.click(locator.allowNotificationButton, "Allow notification button");
-        console.log('Login process completed successfully.');
-
     });
-
 
     for (let i = 0; i < iterationValue.length; i++) {
         it(`TC-001-Sign Up - Iteration${iterationValue[i]}`, async () => {
@@ -165,10 +175,10 @@ describe('Carepath Automation', () => {
                 }
                 await Keywords.verifyElementIsEnabled(locator.sendRequestButton, "Send Request Button")
                 await Keywords.click(locator.sendRequestButton, "Send Request Button")
-                if (i === 0) {
-                    await Keywords.waitForDisplay(locator.allowNotificationButton,60000, "Allow Notification Button")
-                    await Keywords.locator.allowNotificationButton.click();
-                }
+
+                await Keywords.waitForDisplay(locator.allowNotificationButton, 60000, "Allow Notification Button")
+                await Keywords.locator.allowNotificationButton.click();
+
                 await Keywords.waitForDisplay(locator.success, 45000, "Success Message!!!");
                 await Keywords.click(locator.closeButton, "Close Button");
                 await Keywords.waitForDisplay(locator.startNow, 30000, "Start Now Button");
@@ -830,39 +840,5 @@ describe('Carepath Automation', () => {
         } catch (err) {
             throw new Error(err);
         }
-    })
-
-    afterEach(async () => {
-        try {
-            if (await locator.homePage.isDisplayed()) {
-                await Keywords.click(locator.moreOptions, "More options");
-                await Keywords.click(locator.logout, "Logout button")
-                await Keywords.verifyElementDisplayed1(locator.startNow, "Start Now button")
-                await locator.languageDropdown.waitForDisplayed({ timeout: 60000 })
-            } else if (await onboardLocator.hamburgerMenu.isDisplayed()) {
-                await Keywords.click(onboardLocator.hamburgerMenu, "Hamburger Menu")
-                await Keywords.click(onboardLocator.logOut, "Log out button")
-                await Keywords.verifyElementDisplayed(locator.startNow, "Start Now button")
-            } else if (await lessonLocator.exitLesson.isDisplayed()) {
-                await Keywords.click(lessonLocator.exitLesson, "Exit Lesson")
-                await Keywords.verifyElementDisplayed(lessonLocator.youAreAboutToLeave, "You are about to leave")
-                await Keywords.click(lessonLocator.yesButton, "Yes Button");
-                await Keywords.waitForDisplay(onboardLocator.hamburgerMenu, "Hamburger menu")
-                await Keywords.click(onboardLocator.hamburgerMenu, "Hamburger Menu")
-                await Keywords.click(onboardLocator.logOut, "Log out button")
-                await Keywords.verifyElementDisplayed(locator.startNow, "Start Now button")
-            } else if (await locator.backArrow.isDisplayed()) {
-                while (! await locator.loginScreen.isDisplayed()) {
-                    await Keywords.click(locator.backArrow, "Back Arrow")
-                }
-            }
-        } catch (err) {
-            throw new Error(err);
-        }
-    });
-
-    after(async () => {
-        await Keywords.AllureInfo("Terminate App")
-        await browser.terminateApp('com.carepath.app.dev');
     })
 });
