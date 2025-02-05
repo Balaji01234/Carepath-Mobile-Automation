@@ -155,10 +155,10 @@ export const config = {
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
     // services: [['appium', {
-        args: {
-            allowInsecure: 'adb_shell',
-        },
-    }],],
+      //  args: {
+      //      allowInsecure: 'adb_shell',
+      //  },
+   // }
     services: [
         [
             'browserstack',
