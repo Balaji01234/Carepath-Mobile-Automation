@@ -225,12 +225,39 @@ export class keywords {
             console.log(`${text} is not Enabled!!!`)
         }
     }
+    
+
+    async verifyBackgroundColor(locator, expectedColor, text) {
+        allureReporter.startStep(`🔍 **VERIFY**: "${text}" background color matches expected color`);
+    
+        try {
+            // Get the background color of the element
+            const bgColor = await locator.getCssProperty('background-color');
+            
+            // Check if the background color matches the expected color
+            if (bgColor.value === expectedColor) {
+                console.log(`${text} has the correct background color: ${expectedColor}`);
+                await this.AllurePass(`${text} background color matches ${expectedColor}`);
+                allureReporter.endStep('passed');
+            } else {
+                console.log(`${text} has an incorrect background color. Expected: ${expectedColor}, but got: ${bgColor.value}`);
+                await this.AllureFail(`${text} background color does not match. Expected: ${expectedColor}, but got: ${bgColor.value}`);
+                allureReporter.endStep('failed');
+            }
+        } catch (err) {
+            console.log(`Failed to verify the background color of ${text}`);
+            await this.AllureFail(`Failed to verify ${text} background color`);
+            allureReporter.endStep('failed');
+        }
+    }
     async scrollToElement(Attribute,Value){
         allureReporter.startStep(`scrollToElement`)
         await driver.execute('mobile: scroll', {
             strategy: Attribute,
             selector: Value,
         });
+        allureReporter.endStep('failed');  
     }
+    
 
 }

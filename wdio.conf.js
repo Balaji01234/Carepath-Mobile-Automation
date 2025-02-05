@@ -67,6 +67,7 @@ export const config = {
         // capabilities for local Appium web tests on an Android Emulator
         "platformName": "android",
         "appium:platformVersion": "15.0",
+        // "appium:deviceName": "Galaxy A13",
         "appium:deviceName": "Medium Phone API 35",
         "appium:automationName": "uiAutomator2",
         "appium:appPackage": "com.carepath.app.dev",

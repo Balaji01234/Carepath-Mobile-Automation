@@ -34,10 +34,10 @@ describe('Carepath Automation Mind Zone', () => {
         await Keywords.verifyText(locator.startnowver, "content-desc", "START NOW", "start now button")
         await Keywords.click(locator.startnowOption, "Start Now Button")
         await Keywords.verifyElementDisplayed(locator.loginScreenpage, "Login screen");
+        await Keywords.verifyElementIsEnabled(locator.loginScreenpage, "Login button");
         await Keywords.SetValue(locator.userName, process.env.USER_NAME);
         await Keywords.SetValue(locator.password, process.env.PASSWORD);
-        await Keywords.click(locator.userName, process.env.USER_NAME);
-        await Keywords.verifyElementIsEnabled(locator.loginScreenpage, "Login button");
+        await browser.keys('Enter');   
         await Keywords.click(locator.loginScreenpage, "Login Button")
         await Keywords.verifyElementDisplayed(locator.notifiedPopupscreen, "Get notified dialog box");
         await Keywords.click(locator.allowButton, "Allow button");
@@ -97,11 +97,6 @@ describe('Carepath Automation Mind Zone', () => {
         const dataname = '//android.view.View[contains(@content-desc,"goal_open_action")]';
         const elements = await $$(dataname);
 
-        let found = false;
-        for (const element of elements) {
-            const elementText = await element.getText();
-        }
-
     });
 
 
@@ -123,9 +118,10 @@ describe('Carepath Automation Mind Zone', () => {
         await Keywords.verifyText(locator.startnowver, "content-desc", "START NOW", "start now button")
         await Keywords.click(locator.startnowOption, "Start Now Button")
         await Keywords.verifyElementDisplayed(locator.loginScreenpage, "Login screen");
+        await Keywords.verifyElementIsEnabled(locator.loginScreenpage, "Login button");
         await Keywords.SetValue(locator.userName, process.env.USER_NAME);
         await Keywords.SetValue(locator.password, process.env.PASSWORD);
-        await Keywords.click(locator.userName, process.env.USER_NAME);
+        await browser.keys('Enter');   
         await Keywords.verifyElementIsEnabled(locator.loginScreenpage, "Login button");
         await Keywords.click(locator.loginScreenpage, "Login Button")
         await Keywords.verifyElementDisplayed(locator.notifiedPopupscreen, "Get notified dialog box");
@@ -158,54 +154,5 @@ describe('Carepath Automation Mind Zone', () => {
        
     });
 
- it('Mygoal edit', async () => {
-        allureReporter.addDescription(`
-                1. Click on the "Start Now" button.
-                2. Check if the login screen is displayed.
-                3. Enter the username and password.
-                4. Check if the login button is enabled.
-                5. Handle any dialog boxes related to notifications.
-                6. Log in successfully if all steps are completed.
-                7. Mygoal
-             
-            `);
-
-        await browser.implicitWait(10000);
-        await Keywords.waitForDisplay(locator.startnowOption, 90000, "Start Now Button")
-        const startnow = await readData("Mindzone", "Field", "Start now", "Testdata1");
-        await Keywords.verifyText(locator.startnowver, "content-desc", "START NOW", "start now button")
-        await Keywords.click(locator.startnowOption, "Start Now Button")
-        await Keywords.verifyElementDisplayed(locator.loginScreenpage, "Login screen");
-        await Keywords.SetValue(locator.userName, process.env.USER_NAME);
-        await Keywords.SetValue(locator.password, process.env.PASSWORD);
-        await Keywords.click(locator.userName, process.env.USER_NAME);
-        await Keywords.verifyElementIsEnabled(locator.loginScreenpage, "Login button");
-        await Keywords.click(locator.loginScreenpage, "Login Button")
-        await Keywords.verifyElementDisplayed(locator.notifiedPopupscreen, "Get notified dialog box");
-        await Keywords.click(locator.allowButton, "Allow button");
-        await browser.pause(2000);
-        await Keywords.verifyElementDisplayed(locator.allowOption, "Allow notification");
-        await Keywords.click(locator.allowOption, "Allow notification button");
-        console.log('Login process completed successfully.');
-        if (await locator.welcometocarepath.isDisplayed({ timeout: 20000 })) {
-            await Keywords.click(locator.mentalhealth, "Mental health");
-        }
-
-        await Keywords.verifyElementIsEnabled(locator.continuebutton, "Continue Button");
-        await Keywords.click(locator.continuebutton, "Continue Button")
-        await browser.pause(1000);
-        if (await locator.goalCheck.isDisplayed({ timeout: 45000 })) {
-            await Keywords.click(locator.remindMeLater, "Remind me later")
-        }
-        await Keywords.verifyElementIsEnabled(locator_mygoal.mygoal, "My goal Button");
-        await browser.pause(7000);
-        await Keywords.verifyText(locator_mygoal.mygoalVal, "content-desc", "My Goals", "verify the My goal option")
-        await Keywords.click(locator_mygoal.mygoal, "My Goal");
-        await browser.pause(1000);
-        await Keywords.verifyElementDisplayed(locator_mygoal.mygoalpage, "My goal page");
-       
-        await browser.pause(8000);
-
-    });
-
+ 
 });

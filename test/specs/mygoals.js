@@ -27,11 +27,10 @@ describe('Carepath Automation Mind Zone', () => {
             await Keywords.verifyText(locator.startnowver,"content-desc","START NOW","start now button")
             await Keywords.click(locator.startnowOption, "Start Now Button")
             await Keywords.verifyElementDisplayed(locator.loginScreenpage, "Login screen");
+            await Keywords.verifyElementIsEnabled(locator.loginScreenpage, "Login button");
             await Keywords.SetValue(locator.userName, process.env.USER_NAME);
             await Keywords.SetValue(locator.password, process.env.PASSWORD);  
-            await Keywords.click(locator.userName, process.env.USER_NAME);
-            await Keywords.verifyElementIsEnabled(locator.loginScreenpage, "Login button");
-            await Keywords.click(locator.loginScreenpage, "Login Button")
+            await browser.keys('Enter');   
             await Keywords.verifyElementDisplayed(locator.notifiedPopupscreen, "Get notified dialog box");
             await Keywords.click(locator.allowButton, "Allow button");
             await browser.pause(2000);
@@ -372,11 +371,10 @@ describe('Carepath Automation Mind Zone', () => {
         await Keywords.verifyText(locator.startnowver,"content-desc","START NOW","start now button")
         await Keywords.click(locator.startnowOption, "Start Now Button")
         await Keywords.verifyElementDisplayed(locator.loginScreenpage, "Login screen");
+        await Keywords.verifyElementIsEnabled(locator.loginScreenpage, "Login button");
         await Keywords.SetValue(locator.userName, process.env.USER_NAME);
         await Keywords.SetValue(locator.password, process.env.PASSWORD);  
-        await Keywords.click(locator.userName, process.env.USER_NAME);
-        await Keywords.verifyElementIsEnabled(locator.loginScreenpage, "Login button");
-        await Keywords.click(locator.loginScreenpage, "Login Button")
+        await browser.keys('Enter');   
         await Keywords.verifyElementDisplayed(locator.notifiedPopupscreen, "Get notified dialog box");
         await Keywords.click(locator.allowButton, "Allow button");
         await browser.pause(2000);
@@ -637,11 +635,10 @@ describe('Carepath Automation Mind Zone', () => {
            await Keywords.verifyText(locator.startnowver,"content-desc","START NOW","start now button")
            await Keywords.click(locator.startnowOption, "Start Now Button")
            await Keywords.verifyElementDisplayed(locator.loginScreenpage, "Login screen");
+           await Keywords.verifyElementIsEnabled(locator.loginScreenpage, "Login button");
            await Keywords.SetValue(locator.userName, process.env.USER_NAME);
            await Keywords.SetValue(locator.password, process.env.PASSWORD);  
-           await Keywords.click(locator.userName, process.env.USER_NAME);
-           await Keywords.verifyElementIsEnabled(locator.loginScreenpage, "Login button");
-           await Keywords.click(locator.loginScreenpage, "Login Button")
+           await browser.keys('Enter');   
            await Keywords.verifyElementDisplayed(locator.notifiedPopupscreen, "Get notified dialog box");
            await Keywords.click(locator.allowButton, "Allow button");
            await browser.pause(2000);
@@ -924,11 +921,10 @@ describe('Carepath Automation Mind Zone', () => {
            await Keywords.verifyText(locator.startnowver,"content-desc","START NOW","start now button")
            await Keywords.click(locator.startnowOption, "Start Now Button")
            await Keywords.verifyElementDisplayed(locator.loginScreenpage, "Login screen");
+           await Keywords.verifyElementIsEnabled(locator.loginScreenpage, "Login button");
            await Keywords.SetValue(locator.userName, process.env.USER_NAME);
            await Keywords.SetValue(locator.password, process.env.PASSWORD);  
-           await Keywords.click(locator.userName, process.env.USER_NAME);
-           await Keywords.verifyElementIsEnabled(locator.loginScreenpage, "Login button");
-           await Keywords.click(locator.loginScreenpage, "Login Button")
+           await browser.keys('Enter');   
            await Keywords.verifyElementDisplayed(locator.notifiedPopupscreen, "Get notified dialog box");
            await Keywords.click(locator.allowButton, "Allow button");
            await browser.pause(2000);
@@ -1290,11 +1286,10 @@ describe('Carepath Automation Mind Zone', () => {
            await Keywords.verifyText(locator.startnowver,"content-desc","START NOW","start now button")
            await Keywords.click(locator.startnowOption, "Start Now Button")
            await Keywords.verifyElementDisplayed(locator.loginScreenpage, "Login screen");
+           await Keywords.verifyElementIsEnabled(locator.loginScreenpage, "Login button");
            await Keywords.SetValue(locator.userName, process.env.USER_NAME);
            await Keywords.SetValue(locator.password, process.env.PASSWORD);  
-           await Keywords.click(locator.userName, process.env.USER_NAME);
-           await Keywords.verifyElementIsEnabled(locator.loginScreenpage, "Login button");
-           await Keywords.click(locator.loginScreenpage, "Login Button")
+           await browser.keys('Enter');   
            await Keywords.verifyElementDisplayed(locator.notifiedPopupscreen, "Get notified dialog box");
            await Keywords.click(locator.allowButton, "Allow button");
            await browser.pause(2000);
@@ -1588,11 +1583,10 @@ describe('Carepath Automation Mind Zone', () => {
            await Keywords.verifyText(locator.startnowver,"content-desc","START NOW","start now button")
            await Keywords.click(locator.startnowOption, "Start Now Button")
            await Keywords.verifyElementDisplayed(locator.loginScreenpage, "Login screen");
+           await Keywords.verifyElementIsEnabled(locator.loginScreenpage, "Login button");
            await Keywords.SetValue(locator.userName, process.env.USER_NAME);
            await Keywords.SetValue(locator.password, process.env.PASSWORD);  
-           await Keywords.click(locator.userName, process.env.USER_NAME);
-           await Keywords.verifyElementIsEnabled(locator.loginScreenpage, "Login button");
-           await Keywords.click(locator.loginScreenpage, "Login Button")
+           await browser.keys('Enter');   
            await Keywords.verifyElementDisplayed(locator.notifiedPopupscreen, "Get notified dialog box");
            await Keywords.click(locator.allowButton, "Allow button");
            await browser.pause(2000);
@@ -1724,7 +1718,7 @@ describe('Carepath Automation Mind Zone', () => {
            await Keywords.verifyElementDisplayed(locator.pagelessoneight20, "20 / 42");
            await Keywords.click(locator.next,"next");
 
-
+ 
            
         });
 

@@ -2251,9 +2251,15 @@ export class locators {
     get goalCheck() {
         return $('~Daily Goal Check-In')
     }
+    get loginbutton(){
+        return $('~LOG IN')
+    }
 
     get remindMeLater() {
         return $('~Remind me later')
+    }
+    get androidAllowNotification() {
+        return $('android=new UiSelector().resourceId("com.android.permissioncontroller:id/permission_message")')
     }
 
 }
