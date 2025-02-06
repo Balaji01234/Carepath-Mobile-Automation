@@ -321,26 +321,26 @@ export const config = {
     onPrepare: async function () {
         existingFolders = fs.existsSync(reportBaseDir) ? fs.readdirSync(reportBaseDir) : [];
         // console.log("Existing folders before test run:", existingFolders);
-        console.log("Starting APK upload to BrowserStack...");
-        try {
-            const appId = await uploadApkToBrowserStack();
-            console.log(`APK uploaded successfully. App ID: ${appId}`);
-            console.log("Updating .env file with new App ID...");
-            updateEnvFile(appId);
-            console.log(".env file updated successfully!");
+        // console.log("Starting APK upload to BrowserStack...");
+        // try {
+        //     const appId = await uploadApkToBrowserStack();
+        //     console.log(`APK uploaded successfully. App ID: ${appId}`);
+        //     console.log("Updating .env file with new App ID...");
+        //     updateEnvFile(appId);
+        //     console.log(".env file updated successfully!");
             
-            // Update the configuration directly
-            config.services.forEach(service => {
-                if (service[0] === 'browserstack') {
-                    service[1].app = appId;
-                }
-            });
+        //     // Update the configuration directly
+        //     config.services.forEach(service => {
+        //         if (service[0] === 'browserstack') {
+        //             service[1].app = appId;
+        //         }
+        //     });
             
-            console.log(`Configuration updated with new App ID: ${appId}`);
-        } catch (error) {
-            console.error("Error during onPrepare:", error.message);
-            process.exit(1);
-        }
+        //     console.log(`Configuration updated with new App ID: ${appId}`);
+        // } catch (error) {
+        //     console.error("Error during onPrepare:", error.message);
+        //     process.exit(1);
+        // }
     },
 
     /**
