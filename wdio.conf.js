@@ -180,6 +180,7 @@ export const config = {
             projectName: "BrowserStack Sample",
             buildName: "bstack-demo",
             debug: true,
+            consoleLogs: 'info',
             networkLogs: true
         }
     },
@@ -240,7 +241,6 @@ export const config = {
         [
             'browserstack',
             {
-                app: process.env.BROWSERSTACK_APP_ID,
                 buildIdentifier: "${BUILD_NUMBER}",
                 browserstackLocal: true,
                 testObservability: true,
@@ -308,13 +308,29 @@ export const config = {
     // onPrepare: function (config, capabilities) {
     // },
 
-    onPrepare: async function () {
+    onPrepare: async function (config) {
         console.log("Starting APK upload to BrowserStack...");
-        const appId = await uploadApkToBrowserStack();
-        console.log("Updating .env file with new App ID...");
-        updateEnvFile(appId);
-        console.log("Setup completed successfully!");
+        try {
+            const appId = await uploadApkToBrowserStack();
+            console.log(`APK uploaded successfully. App ID: ${appId}`);
+            console.log("Updating .env file with new App ID...");
+            updateEnvFile(appId);
+            console.log(".env file updated successfully!");
+            
+            // Update the configuration directly
+            config.services.forEach(service => {
+                if (service[0] === 'browserstack') {
+                    service[1].app = appId;
+                }
+            });
+            
+            console.log(`Configuration updated with new App ID: ${appId}`);
+        } catch (error) {
+            console.error("Error during onPrepare:", error.message);
+            process.exit(1);
+        }
     },
+    
     /**
      * Gets executed before a worker process is spawned and can be used to initialize specific service
      * for that worker as well as modify runtime environments in an async fashion.
