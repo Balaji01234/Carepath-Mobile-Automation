@@ -2,11 +2,11 @@ import { locators } from '../page/locators.js';
 import { onboardLocators } from '../page/onboard.locators.js'
 import { lessonsLocators } from '../page/lessons.locators.js'
 import { keywords } from '../page/keywords.js';
-import { getRandomString, writeExcelData, readData, generateRandomNumber, dataSets } from '../../utils/common.js';
+import { getRandomString, readTestcase, writeExcelData, saveTestDataToJson, readData, readData1, generateRandomNumber, dataSets, writeExcelData1 } from '../../utils/common.js';
 import allureReporter from '@wdio/allure-reporter'
 import { expect } from 'chai';
 
-describe('Carepath Automation', () => {
+describe('Carepath Automation', async () => {
 
     const locator = new locators();
     const onboardLocator = new onboardLocators();
@@ -15,13 +15,18 @@ describe('Carepath Automation', () => {
     const timeout = process.env.DISPLAY_TIMEOUT
     const iterations = process.env.ITERATIONS
     console.log("iterations: " + iterations)
-    const iterationValue = dataSets(iterations);
-    console.log("iterationValue" + iterationValue)
+    let iterationValue = dataSets(iterations)
+    let testName = '';
 
     beforeEach(async function () {
-        const testName = this.currentTest.title;
-        console.log('Starting test:', testName);
+        try {
+            testName = this.currentTest.title;
+            console.log(`Starting test: ${testName}`);
+        } catch (error) {
+            console.error(`Error in beforeEach for test ${this.currentTest.title}:`, error.message);
+        }
     });
+
 
     it('should login with valid credentials', async () => {
         allureReporter.addDescription(`
@@ -62,28 +67,28 @@ describe('Carepath Automation', () => {
     for (let i = 0; i < iterationValue.length; i++) {
         it(`TC-001-Sign Up - Iteration${iterationValue[i]}`, async () => {
             try {
-                const role = await readData("TC_01", "Field", "Role", `Testdata${iterationValue[i]}`);
+                const role = await readData1("Signup-Positive", "TC_01", "Role", `Testdata${iterationValue[i]}`);
                 allureReporter.addDescription(`New User Sign Up for: "${role} role" `)
                 console.log(`Role: ${role}`)
-                const employeeText = await readData("TC_01", "Field", "EmployeeText", `Testdata${iterationValue[i]}`);
-                const studentText = await readData("TC_01", "Field", "StudentText", `Testdata${iterationValue[i]}`);
+                const employeeText = await readData1("Signup-Positive", "TC_01", "EmployeeText", `Testdata${iterationValue[i]}`);
+                const studentText = await readData1("Signup-Positive", "TC_01", "StudentText", `Testdata${iterationValue[i]}`);
                 const FirstName = `Prabha${getRandomString()}`
-                await writeExcelData("TC_01", "Field", "Firstname", `Writedata${iterationValue[i]}`, FirstName);
+                await writeExcelData1("Signup-Positive", "TC_01", `Writedata${iterationValue[i]}`, "Firstname", FirstName);
                 const LastName = (`Automation${getRandomString()}`).toLowerCase();
-                await writeExcelData("TC_01", "Field", "Lastname", `Writedata${iterationValue[i]}`, LastName);
+                await writeExcelData1("Signup-Positive", "TC_01", `Writedata${iterationValue[i]}`, "Lastname", LastName);
                 const mail = `prabha${getRandomString() + generateRandomNumber()}@mailinator.com`;
-                await writeExcelData("TC_01", "Field", "Email", `Writedata${iterationValue[i]}`, mail);
-                const phoneNumber = await readData("TC_01", "Field", "Phone number", `Testdata${iterationValue[i]}`);
-                const password = await readData("TC_01", "Field", "Password", `Testdata${iterationValue[i]}`);
-                const employerName = await readData("TC_01", "Field", "Employer name", `Testdata${iterationValue[i]}`);
-                const referral = await readData("TC_01", "Field", "Referrals", `Testdata${iterationValue[i]}`);
-                const dob = await readData("TC_01", "Field", "DOB", `Testdata${iterationValue[i]}`);
-                const relation = await readData("TC_01", "Field", "Relation", `Testdata${iterationValue[i]}`);
-                const referralDropdownText = await readData("TC_01", "Field", "ReferralText", `Testdata${iterationValue[i]}`);
-                const dobText = await readData("TC_01", "Field", "dobText", `Testdata${iterationValue[i]}`);
-                const studentId = await readData("TC_01", "Field", "StudentId", `Testdata${iterationValue[i]}`);
-                const courseEnrolled = await readData("TC_01", "Field", "CourseEnrolled", `Testdata${iterationValue[i]}`);
-                const program = await readData("TC_01", "Field", "Program", `Testdata${iterationValue[i]}`);
+                await writeExcelData1("Signup-Positive", "TC_01", `Writedata${iterationValue[i]}`, "Email", mail);
+                const phoneNumber = await readData1("Signup-Positive", "TC_01", "Phone number", `Testdata${iterationValue[i]}`);
+                const password = await readData1("Signup-Positive", "TC_01", "Password", `Testdata${iterationValue[i]}`);
+                const employerName = await readData1("Signup-Positive", "TC_01", "Employer name", `Testdata${iterationValue[i]}`);
+                const referral = await readData1("Signup-Positive", "TC_01", "Referrals", `Testdata${iterationValue[i]}`);
+                const dob = await readData1("Signup-Positive", "TC_01", "DOB", `Testdata${iterationValue[i]}`);
+                const relation = await readData1("Signup-Positive", "TC_01", "Relation", `Testdata${iterationValue[i]}`);
+                const referralDropdownText = await readData1("Signup-Positive", "TC_01", "ReferralText", `Testdata${iterationValue[i]}`);
+                const dobText = await readData1("Signup-Positive", "TC_01", "dobText", `Testdata${iterationValue[i]}`);
+                const studentId = await readData1("Signup-Positive", "TC_01", "StudentId", `Testdata${iterationValue[i]}`);
+                const courseEnrolled = await readData1("Signup-Positive", "TC_01", "CourseEnrolled", `Testdata${iterationValue[i]}`);
+                const program = await readData1("Signup-Positive", "TC_01", "Program", `Testdata${iterationValue[i]}`);
                 await Keywords.waitForDisplay(locator.startNow, 60000, "Start Now Button")
                 await Keywords.verifyElementIsEnabled(locator.startNow, "Start Now Button")
                 await Keywords.click(locator.startNow, "Start Now Button")
@@ -175,13 +180,14 @@ describe('Carepath Automation', () => {
                 }
                 await Keywords.verifyElementIsEnabled(locator.sendRequestButton, "Send Request Button")
                 await Keywords.click(locator.sendRequestButton, "Send Request Button")
-
-                await Keywords.waitForDisplay(locator.allowNotificationButton, 60000, "Allow Notification Button")
-                await Keywords.locator.allowNotificationButton.click();
-
+                await driver.pause(5000);
+                if (await Keywords.isDisplayed(locator.allowNotificationButton, "Allow Notification Button")) {
+                    await Keywords.locator.allowNotificationButton.click();
+                }
                 await Keywords.waitForDisplay(locator.success, 45000, "Success Message!!!");
                 await Keywords.click(locator.closeButton, "Close Button");
                 await Keywords.waitForDisplay(locator.startNow, 30000, "Start Now Button");
+                await saveTestDataToJson(role, FirstName, LastName, mail, program)
             } catch (err) {
                 throw new Error(err);
             }

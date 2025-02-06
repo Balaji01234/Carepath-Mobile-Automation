@@ -1,6 +1,8 @@
 import ExcelJS from 'exceljs';
 import * as XLSX from 'xlsx';
 import { readFileSync } from 'fs';
+import fs from 'fs';
+import path from 'path';
 
 /**
   *
@@ -95,6 +97,106 @@ export const readData = async function getValueFromExcel(sheetName, rowHeader, r
     }
 }
 
+export const readData1 = async (file, sheetName, headerName, rowName) => {
+    try {
+        const filePath = `./dataFiles/${file}.xlsx`;
+        const workbook = new ExcelJS.Workbook();
+
+        // Read the workbook
+        await workbook.xlsx.readFile(filePath);
+
+        // Get the specified sheet
+        const sheet = workbook.getWorksheet(sheetName);
+        if (!sheet) {
+            throw new Error(`Sheet "${sheetName}" not found.`);
+        }
+
+        // Get headers from the first row
+        const headers = sheet.getRow(1).values;
+        const headerIndex = headers.indexOf(headerName);
+
+        if (headerIndex === -1) {
+            throw new Error(`Header "${headerName}" not found.`);
+        }
+
+        // Find the row where rowName matches
+        for (let i = 2; i <= sheet.rowCount; i++) {
+            const row = sheet.getRow(i);
+            const firstCell = row.getCell(1).value; // Assuming rowName is in the first column
+
+            if (firstCell === rowName) {
+                return row.getCell(headerIndex).value; // Return the value in the specified column
+            }
+        }
+
+        return undefined; // Return undefined if no match is found
+    } catch (error) {
+        console.error('Error reading Excel data:', error.message);
+        return undefined;
+    }
+};
+
+export const readTestcase = async (file, sheetName, headerName, rowName) => {
+    try {
+        const filePath = `./dataFiles/${file}.xlsx`;
+        const workbook = new ExcelJS.Workbook();
+
+        // Read the workbook
+        await workbook.xlsx.readFile(filePath);
+
+        // Get the specified sheet
+        const sheet = workbook.getWorksheet(sheetName);
+        if (!sheet) {
+            throw new Error(`Sheet "${sheetName}" not found.`);
+        }
+
+        // Get headers from the first row
+        const headers = sheet.getRow(1).values;
+        const headerIndex = headers.indexOf(headerName);
+
+        if (headerIndex === -1) {
+            throw new Error(`Header "${headerName}" not found.`);
+        }
+
+        let bestMatchRow = null;
+        let highestMatchScore = 0;
+
+        // Function to calculate similarity based on prefix match
+        const prefixMatch = (a, b) => {
+            if (!a || !b) return 0;
+            const cleanedA = a.toString().toLowerCase().split("-")[0].trim();
+            const cleanedB = b.toString().toLowerCase().split("-")[0].trim();
+            return cleanedA === cleanedB ? 1 : 0; // Exact prefix match
+        };
+
+        // Find the best approximate row
+        for (let i = 2; i <= sheet.rowCount; i++) {
+            const row = sheet.getRow(i);
+            const firstCell = row.getCell(1).value; // Assuming row name is in the first column
+
+            if (firstCell) {
+                const matchScore = prefixMatch(rowName, firstCell);
+                if (matchScore > highestMatchScore) {
+                    highestMatchScore = matchScore;
+                    bestMatchRow = row;
+                }
+            }
+        }
+
+        if (bestMatchRow && highestMatchScore === 1) { // Exact prefix match
+            return bestMatchRow.getCell(headerIndex).value;
+        }
+
+        return undefined; // Return undefined if no good match is found
+    } catch (error) {
+        console.error('Error reading Excel data:', error.message);
+        return undefined;
+    }
+};
+
+
+
+
 // Function to write data using ExcelJS
 export const writeExcelData = async (sheetName, rowHeader, rowValue, columnName, newValue) => {
     try {
@@ -140,6 +242,50 @@ export const writeExcelData = async (sheetName, rowHeader, rowValue, columnName,
     }
 };
 
+export const writeExcelData1 = async (file, sheetName, rowValue, columnValue, newValue) => {
+    const filePath = `./dataFiles/${file}.xlsx`;
+    try {
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.readFile(filePath);
+
+        let sheet = workbook.getWorksheet(sheetName);
+        if (!sheet) {
+            throw new Error(`Sheet "${sheetName}" not found.`);
+        }
+
+        let targetRowIndex = -1;
+        let targetColumnIndex = -1;
+
+        // Find row index containing rowValue
+        sheet.eachRow((row, rowIndex) => {
+            row.eachCell((cell) => {
+                if (cell.value === rowValue) {
+                    targetRowIndex = rowIndex;
+                }
+            });
+        });
+
+        // Find column index containing columnValue
+        sheet.getRow(1).eachCell((cell, colIndex) => {
+            if (cell.value === columnValue) {
+                targetColumnIndex = colIndex;
+            }
+        });
+
+        if (targetRowIndex === -1 || targetColumnIndex === -1) {
+            throw new Error(`Row value "${rowValue}" or column value "${columnValue}" not found.`);
+        }
+
+        // Update the cell with newValue
+        sheet.getRow(targetRowIndex).getCell(targetColumnIndex).value = newValue;
+        await workbook.xlsx.writeFile(filePath);
+
+        console.log(`Updated "${rowValue}" in column "${columnValue}" with value "${newValue}" successfully.`);
+    } catch (error) {
+        console.error('Error writing Excel data:', error.message);
+    }
+};
+
 export function dataSets(iterations) {
     let iterationArray = [];
 
@@ -151,7 +297,7 @@ export function dataSets(iterations) {
     } else {
         iterationArray = [Number(iterations)];
     }
-    
+
     return iterationArray;
 }
 
@@ -198,5 +344,34 @@ export default function getValueByComponent(componentName) {
     return undefined;
 }
 
+export const saveTestDataToJson = async (role, firstName, lastName, email, program) => {
+    try {
+        const timestamp = new Date().toISOString().replace(/[-:.]/g, '');
+        const folderPath = path.join(process.cwd(), 'signUpData');
+
+        // Ensure the directory exists
+        if (!fs.existsSync(folderPath)) {
+            fs.mkdirSync(folderPath, { recursive: true });
+        }
+
+        const filePath = path.join(folderPath, `testData_${timestamp}.json`);
+
+        // Create JSON data
+        const data = {
+            Role: role,
+            Program: program,
+            FirstName: firstName,
+            LastName: lastName,
+            Email: email,
+        };
+
+        // Write JSON file
+        fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+
+        console.log(`Test data saved successfully: ${filePath}`);
+    } catch (error) {
+        console.error('Error saving test data to JSON:', error.message);
+    }
+};
 
 

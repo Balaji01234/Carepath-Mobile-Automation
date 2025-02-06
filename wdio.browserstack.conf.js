@@ -1,6 +1,8 @@
 import path from 'path';
 import dotenv from 'dotenv';
 import fs from 'fs';
+import axios from 'axios';
+import FormData from 'form-data';
 import Mail from './utils/mail.js';
 import getValueByComponent from './utils/common.js';
 
@@ -20,16 +22,95 @@ const HTMLResultsDir = path.join('reports', 'html-results', `Test_Report-${forma
 const reportPath = HTMLResultsDir;
 console.log("HTMLResultsDir: " + HTMLResultsDir);
 // fs.mkdirSync(HTMLResultsDir, { recursive: true });
-let testResults = [];
+
+const BROWSERSTACK_USERNAME = process.env.BROWSERSTACK_USERNAME || 'your_username';
+const BROWSERSTACK_ACCESS_KEY = process.env.BROWSERSTACK_ACCESS_KEY || 'your_access_key';
+const APK_DIR = 'App/Android'; // Path to your APK file
+const ENV_FILE_PATH = './.env'; // Path to your .env file
+
+// Function to get the latest APK file from the directory
+function getLatestApkFile() {
+    const files = fs.readdirSync(APK_DIR)
+        .map(file => ({
+            name: file,
+            time: fs.statSync(path.join(APK_DIR, file)).mtime.getTime(),
+        }))
+        .filter(file => file.name.endsWith('.apk')) // Only APK files
+        .sort((a, b) => b.time - a.time); // Sort by modification time (latest first)
+
+    if (files.length === 0) {
+        throw new Error("No APK files found in the directory!");
+    }
+
+    console.log(`Using APK: ${files[0].name}`);
+    return path.join(APK_DIR, files[0].name); // Return the full path of the latest APK
+}
+
+const APK_PATH = getLatestApkFile();
+
+// Function to upload APK to BrowserStack
+async function uploadApkToBrowserStack() {
+    try {
+        const formData = new FormData();
+        formData.append("file", fs.createReadStream(APK_PATH));
+
+        const response = await axios.post(
+            "https://api-cloud.browserstack.com/app-automate/upload",
+            formData,
+            {
+                auth: {
+                    username: BROWSERSTACK_USERNAME,
+                    password: BROWSERSTACK_ACCESS_KEY,
+                },
+                headers: formData.getHeaders(),
+            }
+        );
+
+        if (response.data.app_url) {
+            console.log("APK uploaded successfully!");
+            console.log("App URL:", response.data.app_url);
+            return response.data.app_url; // Return the app_url (app_id)
+        } else {
+            throw new Error("Failed to retrieve app_url from BrowserStack response.");
+        }
+    } catch (error) {
+        console.error("Error uploading APK:", error.message);
+        process.exit(1);
+    }
+}
+
+// Function to update .env file
+function updateEnvFile(appId) {
+    try {
+        const envConfig = dotenv.parse(fs.readFileSync(ENV_FILE_PATH));
+        envConfig.BROWSERSTACK_APP_ID = appId;
+
+        const updatedEnv = Object.entries(envConfig)
+            .map(([key, value]) => `${key}=${value}`)
+            .join('\n');
+
+        fs.writeFileSync(ENV_FILE_PATH, updatedEnv);
+        console.log(`.env file updated with BROWSERSTACK_APP_ID=${appId}`);
+    } catch (error) {
+        console.error("Error updating .env file:", error.message);
+        process.exit(1);
+    }
+}
+
+
 
 export const config = {
+
+    user: process.env.BROWSERSTACK_USERNAME,
+    key: process.env.BROWSERSTACK_ACCESS_KEY,
+    hostname: 'hub.browserstack.com',
     //
     // ====================
     // Runner Configuration
     // ====================
     // WebdriverIO supports running e2e tests as well as unit and component tests.
     runner: 'local',
-    port: 4723,
+    // port: 4723,
     //
     // ==================
     // Specify Test Files
@@ -75,20 +156,34 @@ export const config = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
-        "platformName": "android",
-        "appium:platformVersion": "15.0",
-        "appium:deviceName": "Medium Phone API 35",
-        "appium:automationName": "uiAutomator2",
-        "appium:appPackage": "com.carepath.app.dev",
-        "appium:appActivity": "com.carepath.MainActivity",
-        "appium:androidInstallTimeout": "120000",
-        "appium:detachSession": true,
-        "appium:fullReset": false,
-        "appium:noReset": false,
-        "appium:chromedriverExecutable": "D:/grid/chromedriver.exe",
-        "appium:chromedriverAutodownload": true
-    }],
+        // "platformName": "android",
+        // "appium:platformVersion": "15.0",
+        // "appium:deviceName": "Medium Phone API 35",
+        // "appium:automationName": "uiAutomator2",
+        // "appium:appPackage": "com.carepath.app.dev",
+        // "appium:appActivity": "com.carepath.MainActivity",
+        // "appium:androidInstallTimeout": "120000",
+        // "appium:detachSession": true,
+        // "appium:fullReset": false,
+        // "appium:noReset": false,
+        // "appium:chromedriverExecutable": "D:/grid/chromedriver.exe",
+        // "appium:chromedriverAutodownload": true
 
+        'bstack:options': {
+            deviceName: 'Google Pixel 8',
+            platformVersion: '14.0',
+            platformName: 'android',
+        }
+    }],
+    commonCapabilities: {
+        'bstack:options': {
+            projectName: "BrowserStack Sample",
+            buildName: "bstack-demo",
+            debug: true,
+            consoleLogs: 'info',
+            networkLogs: true
+        }
+    },
 
     //
     // ===================
@@ -97,7 +192,7 @@ export const config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'error',
+    // logLevel: 'error',
     //
     // Set specific log levels per logger
     // loggers:
@@ -128,7 +223,7 @@ export const config = {
     //
     // Default timeout in milliseconds for request
     // if browser driver or grid doesn't send response
-    connectionRetryTimeout: 120000,
+    connectionRetryTimeout: 240000,
     //
     // Default request retries count
     connectionRetryCount: 3,
@@ -137,11 +232,24 @@ export const config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: [['appium', {
-        args: {
-            allowInsecure: 'adb_shell',
-        },
-    }],],
+    // services: [['appium', {
+    //  args: {
+    //      allowInsecure: 'adb_shell',
+    //  },
+    // }
+    services: [
+        [
+            'browserstack',
+            {
+                app: process.env.BROWSERSTACK_APP_ID,
+                buildIdentifier: "${BUILD_NUMBER}",
+                browserstackLocal: true,
+                testObservability: true,
+                percy: false,
+                percyCaptureMode: 'auto'
+            },
+        ]
+    ],
 
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -200,6 +308,32 @@ export const config = {
      */
     // onPrepare: function (config, capabilities) {
     // },
+
+    onPrepare: async function () {
+        console.log("Starting APK upload to BrowserStack...");
+        const delayDuration = 10000;
+        try {
+            const appId = await uploadApkToBrowserStack();
+            console.log(`APK uploaded successfully. App ID: ${appId}`);
+
+            console.log("Updating .env file with new App ID...");
+            updateEnvFile(appId);
+            console.log(".env file updated successfully!");
+
+            console.log(`Waiting for ${delayDuration / 1000} seconds after setup...`);
+            await new Promise(resolve => setTimeout(resolve, delayDuration));
+            console.log("Using App ID:", process.env.BROWSERSTACK_APP_ID);
+
+            console.log(`Waiting for ${delayDuration / 1000} seconds after setup...`);
+            await new Promise(resolve => setTimeout(resolve, delayDuration));
+
+            console.log("onPrepare setup completed successfully.");
+        } catch (error) {
+            console.error("Error during onPrepare:", error.message);
+            process.exit(1); // Exit to prevent running incomplete tests
+        }
+    },
+
     /**
      * Gets executed before a worker process is spawned and can be used to initialize specific service
      * for that worker as well as modify runtime environments in an async fashion.
@@ -296,15 +430,14 @@ export const config = {
                 console.log(`Screenshot saved: ${screenshotPath}`);
             }
         } catch (err) {
-            console.log(err)
-        } finally {
-            await driver.execute('mobile: shell', {
-                command: 'pm clear',
-                args: ['com.carepath.app.dev'],
-            });
-            await driver.terminateApp('com.carepath.app.dev');
-            await driver.activateApp('com.carepath.app.dev');
+            console.log(err);
         }
+        // await driver.execute('mobile: shell', {
+        //     command: 'pm clear',
+        //     args: ['com.carepath.app.dev'],
+        // });
+        // await driver.terminateApp('com.carepath.app.dev');
+        // await driver.activateApp('com.carepath.app.dev');
     },
 
 
