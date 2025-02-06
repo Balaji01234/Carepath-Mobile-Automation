@@ -2,3 +2,7 @@ node_modules
 reports
 .vscode
 .env
+signUpData
+logs
+local.log
+browserstack.err
