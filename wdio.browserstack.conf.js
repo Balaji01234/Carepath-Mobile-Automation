@@ -34,7 +34,7 @@ console.log("HTMLResultsDir: " + HTMLResultsDir);
 
 const BROWSERSTACK_USERNAME = process.env.BROWSERSTACK_USERNAME || 'your_username';
 const BROWSERSTACK_ACCESS_KEY = process.env.BROWSERSTACK_ACCESS_KEY || 'your_access_key';
-const APK_DIR = 'App/Android'; // Path to your APK file
+const APK_DIR = './App/Android'; // Path to your APK file
 const ENV_FILE_PATH = './.env'; // Path to your .env file
 
 // Function to get the latest APK file from the directory
