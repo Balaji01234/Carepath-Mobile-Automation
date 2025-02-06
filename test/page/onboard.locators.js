@@ -35,6 +35,9 @@ export class onboardLocators {
     get contactInformation() {
         return $('~contact_information_text')
     }
+    get whoisOnboarding(){
+        return $(`~Who is onboarding?`)
+    }
 
     get requiredInformation() {
         return $('android=new UiSelector().resourceId("required_information_text")')
@@ -535,4 +538,164 @@ export class onboardLocators {
     get skipAndGoHomeButton(){
         return $('android=new UiSelector().resourceId("skip_and_go_home_text")')
     }
+
+    get cancerProgramApproveText() {
+        return $('~Your request to access the Cancer program is approved.')
+    }
+    
+    get cancerinput(){
+        return $(`//android.widget.TextView[@text="I,"]//..//..//android.widget.EditText`)
+    }
+    
+    get consentformType(){
+        return $(`//android.view.View[@text="Type"]`)
+    }
+  
+    get consentformDraw(){
+        return $(`//android.view.View[@text="Draw"]`)
+    }
+
+    get esas(){
+        return $(`//android.view.View[@resource-id=esasr_text"]`)
+    }
+    get esasSentences(){
+        return $(`~The Edmonton Symptom Assessment System (ESAS-r) is a symptom screening tool to assess common symptoms.\n\nPlease rate symptoms from 0 to 10; with 0 meaning that the symptom is absent and 10 that it is the worst possible severity.`)
+    }
+    get cancerStartAssessment(){
+        return $(`//android.widget.Button[@content-desc="start_assessment_button"]/android.widget.Button/android.view.View`)
+    }
+    get pain(){
+        return $(`~Pain`)
+    }
+    get painval(){
+        return $(`//android.view.View[@resource-id="pain_text"]`)
+    }
+    get fifthNumber(){
+        return $(`~5`)
+    }
+    get cancerNext(){
+        return $(`//android.widget.Button[@content-desc="save_or_next_button"]/android.widget.Button/android.view.View`)
+    }
+
+    get Tiredness(){
+        return $(`~Tiredness`)
+    }
+    get tirednessval(){
+        return $(`//android.view.View[@resource-id="tiredness_text"]`)
+    }
+    get seven(){
+        return $(`~scale_action_7`)
+    }
+    get Drowsiness(){
+        return $(`~Drowsiness`)
+    }
+    get drowsinessval(){
+        return $(`//android.view.View[@resource-id="drowsiness_text"]`)
+    }
+
+    get nine(){
+        return $(`~9`)
+    }
+    get nausea(){
+        return $(`~Nausea`)
+    }
+    get nauseaval(){
+        return $(`//android.view.View[@resource-id="nausea_text"]`)
+    }
+    get two(){
+        return $(`~scale_action_2`)
+    }
+
+    get lackofappetite(){
+        return $(`~Lack of Appetite`)
+    }
+    get lackofappetiteVal(){
+        return $(`//android.view.View[@resource-id="lack of appetite_text"]`)
+    }
+    get three(){
+        return $(`~3`)
+    }
+
+    get shortness(){
+        return $(`//android.view.View[@resource-id="shortness of breath_text"]`)
+    }
+    get shortnessval(){
+        return $(`~Shortness of Breath`)
+    }
+    get depression(){
+        return $(`//android.view.View[@resource-id="depression_text"]`)
+    }
+    get depressionval(){
+        return $(`~Depression`)
+    }
+    get anxiety(){
+        return $(`//android.view.View[@resource-id="anxiety_text"]`)
+    }
+    get anxietyval(){
+        return $(`~Anxiety`)
+    }
+    get wellbeing(){
+        return $(`//android.view.View[@resource-id="wellbeing_text"]`)
+    }
+    get wellbeingval(){
+        return $(`~Wellbeing`)
+    }
+
+    get saveSEAEOption(){
+        return $(`//android.widget.Button[@content-desc="save_or_next_button"]/android.widget.Button/android.view.View`)
+    }
+    get review(){
+        return $(`//android.view.View[@resource-id="review_text"]`)
+    }
+    personalInformation(field){
+        return $(`//android.view.View[@content-desc="${field}"]`)
+    }
+    get painField(){
+        return $(`//android.view.View[@resource-id="5_text"]`)
+    }
+    get TirednessFieldOpt(){
+        return $(`(//android.view.View[@content-desc="7"])[1]`)
+    }
+    get DrowsinessField(){
+        return $(`(//android.view.View[@content-desc="9"])[1]`)
+    }
+    get NauseaField(){
+        return $(`(//android.view.View[@content-desc="2"])[1]`)
+    }
+    get LackofAppetite(){
+        return $(`//android.view.View[@content-desc="3"]`)
+    }
+    get Shortness(){
+        return $(`(//android.view.View[@content-desc="9"])[2]`)
+    }
+    get depressionField(){
+        return $(`(//android.view.View[@content-desc="2"])[2]`)
+    }
+    get AnxietyField(){
+        return $(`(//android.view.View[@content-desc="7"])[2]`)
+    }
+    get WellbeingField(){
+        return $(`(//android.view.View[@content-desc="9"])[3]`)
+    }
+    get submitcancleField(){
+        return $(`//android.widget.Button[@content-desc="save_or_submit_button"]/android.widget.Button/android.view.View`)
+    }
+    get clinicianToContactYou(){
+        return $(`~Please identify preferred time for a clinician to contact you`)
+    }
+    get clinician(){
+        return $(`~What would be the most convenient time for you to talk to the clinician?`)
+    }
+    get Preferred(){
+        return $(`//android.view.View[@content-desc="preferred_time_textfield"]`)
+    }
+   
+    get Eldernext(){
+        return $(`//android.widget.Button[@content-desc="next_button"]/android.widget.Button/android.view.View`)
+    }
+    get ChronicDi(){
+        return $(`//android.view.View[@content-desc="button_Program.chronicDisease"]`)
+    }
+    
+
 }

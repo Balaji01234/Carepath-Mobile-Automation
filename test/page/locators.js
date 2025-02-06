@@ -300,5 +300,13 @@ export class locators {
         const formattedProgramName = programName.includes(" ") ? programName.replace(/ /g, "\n") : programName;
         return $(`//android.view.View[@content-desc="${formattedProgramName}"]`);
     }
+    get cancer(){
+        return $(`~button_Program.cancer`)
+    }
+    get eldercare(){
+        return $(`//android.view.View[@content-desc="button_Program.elderCare"]`)
+    }
+    
+   
     
 }

@@ -384,4 +384,34 @@ export class keywords {
         }
     }
 
+    async scrollToElement(Attribute,Value){
+        allureReporter.startStep(`scrollToElement`)
+        await driver.execute('mobile: scroll', {
+            strategy: Attribute,
+            selector: Value,
+        });
+        allureReporter.endStep('failed');  
+    }
+
+    async getattribute(locator,attributeName, text) {
+        // Default attribute name
+       allureReporter.startStep("Fetching attribute '" + attributeName + "' for: " + text);
+       let value = null;
+       try {
+           // Get the attribute value from the element
+           value = await locator.getAttribute(attributeName);
+           console.log(`${text} - ${attributeName}: ${value}`);
+           
+           // Reporting success with Allure
+           await this.AllurePass(`${text} - ${attributeName}: ${value}`);
+           allureReporter.endStep('passed');
+       } catch (err) {
+           // Reporting failure with Allure
+           console.log(`${text} - Failed to fetch ${attributeName} value!`);
+           allureReporter.endStep('failed');
+       } finally {
+           return value;
+       }
+   }
+
 }
