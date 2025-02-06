@@ -5,7 +5,7 @@ on:
     branches:
       - main
   pull_request:
-  workflow_dispatch:  
+  workflow_dispatch:  # Allows manual trigger
 
 jobs:
   wdio-tests:
@@ -13,10 +13,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4  # Updated to latest
 
-    - name: Set up Node.js (Latest)
-      uses: actions/setup-node@v4
+    - name: Set up Node.js
+      uses: actions/setup-node@v4  # Updated to latest
       with:
         node-version: 'latest'
 
@@ -29,16 +29,17 @@ jobs:
         BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
       run: echo "BrowserStack credentials set"
 
-    - name: Run WDIO Tests on BrowserStack
+    - name: Run WDIO Tests
       run: npx wdio run wdio.conf.js
 
-    - name: Zip the Reports Folder
+    - name: Zip Test Reports
       run: |
         mkdir -p artifact
         zip -r artifact/reports.zip ./reports
 
     - name: Upload Test Report as Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4  # Updated to latest
       with:
         name: test-reports
         path: artifact/reports.zip
+        compression-level: 9   # Maximum compression
