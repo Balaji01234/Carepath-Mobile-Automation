@@ -1,6 +1,8 @@
 import path from 'path';
 import dotenv from 'dotenv';
 import fs from 'fs';
+import axios from 'axios';
+import FormData from 'form-data';
 dotenv.config();
 
 const timestamp = new Date();
@@ -13,6 +15,82 @@ const allureResultsDir = path.join('reports', 'allure-results', `Test_Report-${f
 
 const HTMLResultsDir = path.join('reports', 'html-results', `Test_Report-${formattedTimestamp}`);
 // fs.mkdirSync(HTMLResultsDir, { recursive: true });
+
+const BROWSERSTACK_USERNAME = process.env.BROWSERSTACK_USERNAME || 'your_username';
+const BROWSERSTACK_ACCESS_KEY = process.env.BROWSERSTACK_ACCESS_KEY || 'your_access_key';
+const APK_DIR = 'App/Android'; // Path to your APK file
+const ENV_FILE_PATH = './.env'; // Path to your .env file
+
+// Function to get the latest APK file from the directory
+function getLatestApkFile() {
+    const files = fs.readdirSync(APK_DIR)
+        .map(file => ({
+            name: file,
+            time: fs.statSync(path.join(APK_DIR, file)).mtime.getTime(),
+        }))
+        .filter(file => file.name.endsWith('.apk')) // Only APK files
+        .sort((a, b) => b.time - a.time); // Sort by modification time (latest first)
+
+    if (files.length === 0) {
+        throw new Error("No APK files found in the directory!");
+    }
+
+    console.log(`Using APK: ${files[0].name}`);
+    return path.join(APK_DIR, files[0].name); // Return the full path of the latest APK
+}
+
+const APK_PATH = getLatestApkFile();
+
+// Function to upload APK to BrowserStack
+async function uploadApkToBrowserStack() {
+    try {
+        const formData = new FormData();
+        formData.append("file", fs.createReadStream(APK_PATH));
+
+        const response = await axios.post(
+            "https://api-cloud.browserstack.com/app-automate/upload",
+            formData,
+            {
+                auth: {
+                    username: BROWSERSTACK_USERNAME,
+                    password: BROWSERSTACK_ACCESS_KEY,
+                },
+                headers: formData.getHeaders(),
+            }
+        );
+
+        if (response.data.app_url) {
+            console.log("APK uploaded successfully!");
+            console.log("App URL:", response.data.app_url);
+            return response.data.app_url; // Return the app_url (app_id)
+        } else {
+            throw new Error("Failed to retrieve app_url from BrowserStack response.");
+        }
+    } catch (error) {
+        console.error("Error uploading APK:", error.message);
+        process.exit(1);
+    }
+}
+
+// Function to update .env file
+function updateEnvFile(appId) {
+    try {
+        const envConfig = dotenv.parse(fs.readFileSync(ENV_FILE_PATH));
+        envConfig.BROWSERSTACK_APP_ID = appId;
+
+        const updatedEnv = Object.entries(envConfig)
+            .map(([key, value]) => `${key}=${value}`)
+            .join('\n');
+
+        fs.writeFileSync(ENV_FILE_PATH, updatedEnv);
+        console.log(`.env file updated with BROWSERSTACK_APP_ID=${appId}`);
+    } catch (error) {
+        console.error("Error updating .env file:", error.message);
+        process.exit(1);
+    }
+}
+
+
 
 export const config = {
 
@@ -85,8 +163,8 @@ export const config = {
         // "appium:chromedriverAutodownload": true
 
         'bstack:options': {
-            deviceName: 'Google Pixel 9',
-            platformVersion: '15.0',
+            deviceName: 'Google Pixel 8',
+            platformVersion: '14.0',
             platformName: 'android',
         }
     }], 
@@ -217,6 +295,14 @@ export const config = {
      */
     // onPrepare: function (config, capabilities) {
     // },
+
+    onPrepare: async function () {
+        console.log("Starting APK upload to BrowserStack...");
+        const appId = await uploadApkToBrowserStack();
+        console.log("Updating .env file with new App ID...");
+        updateEnvFile(appId);
+        console.log("Setup completed successfully!");
+    },
     /**
      * Gets executed before a worker process is spawned and can be used to initialize specific service
      * for that worker as well as modify runtime environments in an async fashion.
