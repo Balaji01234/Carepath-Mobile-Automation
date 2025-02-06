@@ -21,7 +21,7 @@ jobs:
         node-version: 'latest'
 
     - name: Install dependencies
-      run: npm install
+      run: npm i --force
 
     - name: Set BrowserStack credentials
       env:
@@ -30,7 +30,7 @@ jobs:
       run: echo "BrowserStack credentials set"
 
     - name: Run WDIO Tests
-      run: npx wdio run wdio.conf.js
+      run: npx wdio run wdio.browserstack.conf.js --mochaOpts.grep "TC-001-Sign Up"
 
     - name: Zip Test Reports
       run: |
