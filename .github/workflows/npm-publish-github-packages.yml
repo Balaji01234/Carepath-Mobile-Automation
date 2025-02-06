@@ -1,0 +1,44 @@
+name: Run WDIO Tests on BrowserStack
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:  
+
+jobs:
+  wdio-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js (Latest)
+      uses: actions/setup-node@v4
+      with:
+        node-version: 'latest'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Set BrowserStack credentials
+      env:
+        BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+        BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+      run: echo "BrowserStack credentials set"
+
+    - name: Run WDIO Tests on BrowserStack
+      run: npx wdio run wdio.conf.js
+
+    - name: Zip the Reports Folder
+      run: |
+        mkdir -p artifact
+        zip -r artifact/reports.zip ./reports
+
+    - name: Upload Test Report as Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-reports
+        path: artifact/reports.zip
