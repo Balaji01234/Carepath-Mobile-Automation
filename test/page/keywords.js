@@ -96,7 +96,7 @@ export class keywords {
         let display = false;
         try {
             await browser.pause(2000)
-            display = await locator.isDisplayed({ timeout: 45000 });
+            display = await locator.isDisplayed({ timeout: 60000 });
             if (display) {
                 console.log(`${text} is displayed!!!`)
                 await this.AllurePass(`${text} is displayed!!!`);
@@ -174,19 +174,30 @@ export class keywords {
             if (await this.locator.chromeEasierPopup.isDisplayed()) {
                 await this.click(this.locator.noThanks, 'No Thanks')
             }
-            await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 30000 });
+            await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 60000 });
             await this.locator.chromeHomeButton.click();
             await this.locator.chromeSearchBox.click();
             await this.SetValue(this.locator.chromeUrl, process.env.MAILINATOR);
             await browser.pause(2000)
             await driver.keys('Enter');
-            await this.locator.mailinatorInbox.waitForDisplayed({ timeout: 30000 });
-            await this.locator.mailinatorInbox.clearValue();
-            await this.SetValue(this.locator.mailinatorInbox, mail);
+            if (await this.locator.mailinatorInbox.isDisplayed({ timeout: 60000 })) {
+                await this.locator.mailinatorInbox.clearValue();
+                await this.SetValue(this.locator.mailinatorInbox, mail);
+            } else {
+                await this.locator.mailinatorInbox1.clearValue();
+                await this.SetValue(this.locator.mailinatorInbox1, mail);
+            }
             await this.click(this.locator.goButton, "Go Button");
-            await this.click(this.locator.pauseButton, "Click on pause button")
-            await this.waitForDisplay(this.locator.doNotReply, 60000, "Do not reply button");
-            await this.click(this.locator.doNotReply, "OTP message");
+            if (await this.locator.pauseButton.isDisplayed({ timeout: 60000 })) {
+                await this.click(this.locator.pauseButton, "Click on pause button")
+            } else {
+                await this.click(this.locator.pauseButton1, "Click on pause button")
+            }
+            if (await this.locator.doNotReply.isDisplayed({ timeout: 60000 })) {
+                await this.click(this.locator.doNotReply, "OTP message");
+            } else {
+                await this.click(this.locator.verificationCodeText, "OTP message");
+            }
             await this.locator.verifyAccount.waitForDisplayed({ timeout: 30000 })
             const otp = await $('(//android.view.View[@text="Verify icon Verify your account Here is your verification code for Carepath Digital Health "]//..//..//android.view.View)[3]//android.view.View').getText();
             console.log('Extracted OTP:', otp);
@@ -194,9 +205,9 @@ export class keywords {
         } catch (error) {
             console.log(error)
         } finally {
-            await this.click(this.locator.chrome3dots, "Chrome option");
-            await this.click(this.locator.deleteBrowsingData, "Delete browsing data");
-            await this.click(this.locator.deleteData, "Delete data");
+            // await this.click(this.locator.chrome3dots, "Chrome option");
+            // await this.click(this.locator.deleteBrowsingData, "Delete browsing data");
+            // await this.click(this.locator.deleteData, "Delete data");
             await browser.pause(3000)
             await driver.terminateApp('com.android.chrome');
         }

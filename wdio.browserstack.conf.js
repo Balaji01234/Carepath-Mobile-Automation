@@ -5,15 +5,24 @@ import axios from 'axios';
 import FormData from 'form-data';
 import Mail from './utils/mail.js';
 import getValueByComponent from './utils/common.js';
-
+import { fileURLToPath } from 'url';
 
 dotenv.config();
-
+let testResults = [];
 const mailTrigger = getValueByComponent('Trigger')
 const timestamp = new Date();
 const shortDate = `${timestamp.getFullYear()}-${(timestamp.getMonth() + 1).toString().padStart(2, '0')}-${timestamp.getDate().toString().padStart(2, '0')}`;
 const shortTime = `${timestamp.getHours().toString().padStart(2, '0')}-${timestamp.getMinutes().toString().padStart(2, '0')}`;
 const formattedTimestamp = `${shortDate}_${shortTime}`;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Define report directory
+const reportBaseDir = path.join(__dirname, 'reports', 'html-results');
+
+console.log(reportBaseDir); // Check the output path
+
+let existingFolders = [];
 
 const allureResultsDir = path.join('reports', 'allure-results', `Test_Report-${formattedTimestamp}`);
 // fs.mkdirSync(allureResultsDir, { recursive: true });
@@ -290,7 +299,7 @@ export const config = {
     // See the full list at http://mochajs.org/
     mochaOpts: {
         ui: 'bdd',
-        timeout: 18 * 60 * 1000
+        timeout: 25 * 60 * 1000
     },
 
     //
@@ -310,27 +319,27 @@ export const config = {
     // },
 
     onPrepare: async function () {
+        existingFolders = fs.existsSync(reportBaseDir) ? fs.readdirSync(reportBaseDir) : [];
+        // console.log("Existing folders before test run:", existingFolders);
         console.log("Starting APK upload to BrowserStack...");
-        const delayDuration = 10000;
         try {
             const appId = await uploadApkToBrowserStack();
             console.log(`APK uploaded successfully. App ID: ${appId}`);
-
             console.log("Updating .env file with new App ID...");
             updateEnvFile(appId);
             console.log(".env file updated successfully!");
-
-            console.log(`Waiting for ${delayDuration / 1000} seconds after setup...`);
-            await new Promise(resolve => setTimeout(resolve, delayDuration));
-            console.log("Using App ID:", process.env.BROWSERSTACK_APP_ID);
-
-            console.log(`Waiting for ${delayDuration / 1000} seconds after setup...`);
-            await new Promise(resolve => setTimeout(resolve, delayDuration));
-
-            console.log("onPrepare setup completed successfully.");
+            
+            // Update the configuration directly
+            config.services.forEach(service => {
+                if (service[0] === 'browserstack') {
+                    service[1].app = appId;
+                }
+            });
+            
+            console.log(`Configuration updated with new App ID: ${appId}`);
         } catch (error) {
             console.error("Error during onPrepare:", error.message);
-            process.exit(1); // Exit to prevent running incomplete tests
+            process.exit(1);
         }
     },
 
@@ -486,14 +495,50 @@ export const config = {
      */
     onComplete: async function (exitCode, config, capabilities, results) {
         console.log('Test execution completed, preparing to send email...');
-        if (mailTrigger === 'Yes') {
-            const mailer = new Mail();
-            console.log("Report path: " + reportPath);
-            await mailer.sendMail(reportPath);
+        console.log("Checking for new test report folder...");
+
+        const reportBaseDir = path.resolve('reports/html-results'); // Ensure correct path
+        const existingFolders = []; // You need to define how this is populated
+
+        try {
+            // Get all folders after test execution
+            const allFolders = await fs.promises.readdir(reportBaseDir);
+
+            // Filter out any folders that existed before and exclude "screenshots"
+            const newFolders = allFolders.filter(folder =>
+                !existingFolders.includes(folder) && !folder.includes("screenshots")
+            );
+
+            let latestReportPath = null;
+
+            if (newFolders.length > 0) {
+                // Sort by modification time to get the latest report folder
+                const sortedFolders = await Promise.all(
+                    newFolders.map(async folder => {
+                        const stats = await fs.promises.stat(path.join(reportBaseDir, folder));
+                        return { folder, mtime: stats.mtime };
+                    })
+                );
+
+                sortedFolders.sort((a, b) => b.mtime - a.mtime);
+                latestReportPath = path.join(reportBaseDir, sortedFolders[0].folder);
+                console.log(`Latest report folder: ${latestReportPath}`);
+            } else {
+                console.log("No new report folder found.");
+            }
+
+            // Ensure we send the correct report path
+            if (mailTrigger === 'Yes' && latestReportPath) {
+                const mailer = new Mail();
+                console.log("Sending report from path: " + latestReportPath);
+                await mailer.sendMail(latestReportPath);
+            } else {
+                console.log("Email not triggered, either mailTrigger is 'No' or no report folder was found.");
+            }
+        } catch (error) {
+            console.error("Error processing report directory:", error);
         }
-
     }
-
 
     /**
     * Gets executed when a refresh happens.

@@ -80,7 +80,7 @@ export class locators {
         return $('~iam_employee_button')
     }
 
-    get employeeText(){
+    get employeeText() {
         return $('android=new UiSelector().resourceId("iam_employee_text")')
     }
 
@@ -88,7 +88,7 @@ export class locators {
         return $('~iam_student_button')
     }
 
-    get studentText(){
+    get studentText() {
         return $('android=new UiSelector().resourceId("iam_student_text")')
     }
 
@@ -136,7 +136,7 @@ export class locators {
         return $(`android=new UiSelector().description("${referral}")`);
     }
 
-    get referralDropdownText(){
+    get referralDropdownText() {
         return $('android=new UiSelector().resourceId("referral_source_text")')
     }
 
@@ -144,7 +144,7 @@ export class locators {
         return $('android=new UiSelector().resourceId("dob_textfield")')
     }
 
-    get dobText(){
+    get dobText() {
         return $('android=new UiSelector().resourceId("date of birth (dd-mm-yyyy) _text")')
     }
 
@@ -176,11 +176,11 @@ export class locators {
         return $('android=new UiSelector().resourceId("com.android.chrome:id/ack_button")')
     }
 
-    get chromeEasierPopup(){
+    get chromeEasierPopup() {
         return $('//android.widget.TextView[@text="Chrome notifications make things easier"]')
     }
 
-    get noThanks(){
+    get noThanks() {
         return $('//android.widget.Button[@resource-id="com.android.chrome:id/negative_button"]')
     }
 
@@ -192,12 +192,20 @@ export class locators {
         return $('android=new UiSelector().resourceId("com.android.chrome:id/home_button")')
     }
 
+    get clearChromeData() {
+        return $('android=new UiSelector().text("Clear browsing data")')
+    }
+
     get chromeUrl() {
         return $('android=new UiSelector().resourceId("com.android.chrome:id/url_bar")')
     }
 
     get mailinatorInbox() {
         return $('android=new UiSelector().resourceId("inbox_field")')
+    }
+
+    get mailinatorInbox1() {
+        return $('android=new UiSelector().className("android.widget.EditText").instance(0)')
     }
 
     get justNow() {
@@ -212,9 +220,14 @@ export class locators {
         return $('//android.view.View[@resource-id="pause_button"]')
     }
 
-    get verificationCodeText() {
-        return $('//android.widget.TextView[@text="DoNot-Reply"]')
+    get pauseButton1() {
+        return $('android=new UiSelector().text("Pause Button")')
     }
+
+    get verificationCodeText() {
+        return $('android=new UiSelector().text("DoNot-Reply")')
+    }
+
 
     get verifyAccount() {
         return $('android=new UiSelector().text("Verify your account")')
@@ -276,23 +289,23 @@ export class locators {
         return $('android=new UiSelector().resourceId("close_text")')
     }
 
-    get backArrow(){
+    get backArrow() {
         return $('~back_action')
     }
 
-    get studentInformationScreen(){
+    get studentInformationScreen() {
         return $('~Student Information')
     }
 
-    get athabascaUniversity(){
+    get athabascaUniversity() {
         return $('~Athabasca University')
     }
 
-    get studentId(){
+    get studentId() {
         return $('//android.widget.EditText[@resource-id="student_id_textfield"]')
     }
 
-    get courseEnrolled(){
+    get courseEnrolled() {
         return $('//android.widget.EditText[@resource-id="enrolled_course_textfield"]')
     }
 
@@ -300,5 +313,5 @@ export class locators {
         const formattedProgramName = programName.includes(" ") ? programName.replace(/ /g, "\n") : programName;
         return $(`//android.view.View[@content-desc="${formattedProgramName}"]`);
     }
-    
+
 }
