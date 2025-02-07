@@ -169,7 +169,7 @@ export const config = {
         // "appium:chromedriverAutodownload": true
 
         'bstack:options': {
-            deviceName: 'Samsung Galaxy Tab S10+',
+            deviceName: 'Google Pixel 8',
             platformVersion: '14.0',
             platformName: 'android',
         }
@@ -488,7 +488,7 @@ export const config = {
             if (mailTrigger === 'Yes' && HTMLResultsDir) {
                 const mailer = new Mail();
                 console.log("Sending report from path: " + HTMLResultsDir);
-                await mailer.sendMail(HTMLResultsDir);
+                await mailer.sendMail(HTMLResultsDir, './signUpData');
             } else {
                 console.log("Email not triggered, either mailTrigger is 'No' or no report folder was found.");
             }
