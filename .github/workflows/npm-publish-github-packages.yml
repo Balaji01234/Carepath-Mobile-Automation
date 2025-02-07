@@ -3,7 +3,7 @@ name: Run WDIO Tests on BrowserStack
 on:
   push:
     branches:
-      - main
+      - GithubExecution
   pull_request:
   schedule:
     - cron: "0 7 * * *"
