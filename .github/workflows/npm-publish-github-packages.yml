@@ -5,6 +5,8 @@ on:
     branches:
       - main
   pull_request:
+  schedule:
+    - cron: "0 7 * * *"
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
@@ -37,9 +39,15 @@ jobs:
         mkdir -p artifact
         zip -r artifact/reports.zip ./reports
 
-    - name: Upload Test Report as Artifact
-      uses: actions/upload-artifact@v4  # Updated to latest
+    - name: Upload Test Reports
+      uses: actions/upload-artifact@v4
       with:
         name: test-reports
         path: artifact/reports.zip
-        compression-level: 9   # Maximum compression
+        compression-level: 9
+
+    - name: Upload SignUp Data
+      uses: actions/upload-artifact@v4
+      with:
+        name: sign-up-data
+        path: ./signUpData

@@ -4,6 +4,8 @@ import { readFileSync } from 'fs';
 import fs from 'fs';
 import path from 'path';
 
+let testDataFilePath = null;
+
 /**
   *
   * To generate Random Numbers
@@ -346,29 +348,34 @@ export default function getValueByComponent(componentName) {
 
 export const saveTestDataToJson = async (role, firstName, lastName, email, program) => {
     try {
-        const timestamp = new Date().toISOString().replace(/[-:.]/g, '');
-        const folderPath = path.join(process.cwd(), 'signUpData');
+        if (!testDataFilePath) {
+            const timestamp = new Date().toISOString().replace(/[-:.]/g, '');
+            const folderPath = path.join(process.cwd(), 'signUpData');
 
-        // Ensure the directory exists
-        if (!fs.existsSync(folderPath)) {
-            fs.mkdirSync(folderPath, { recursive: true });
+            if (!fs.existsSync(folderPath)) {
+                fs.mkdirSync(folderPath, { recursive: true });
+            }
+
+            testDataFilePath = path.join(folderPath, `testData_${timestamp}.json`);
+
+            fs.writeFileSync(testDataFilePath, JSON.stringify([], null, 2), 'utf8');
+
+            console.log(`Test data file created: ${testDataFilePath}`);
         }
 
-        const filePath = path.join(folderPath, `testData_${timestamp}.json`);
+        const existingData = JSON.parse(fs.readFileSync(testDataFilePath, 'utf8'));
 
-        // Create JSON data
-        const data = {
+        existingData.push({
             Role: role,
             Program: program,
             FirstName: firstName,
             LastName: lastName,
             Email: email,
-        };
+        });
 
-        // Write JSON file
-        fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+        fs.writeFileSync(testDataFilePath, JSON.stringify(existingData, null, 2), 'utf8');
 
-        console.log(`Test data saved successfully: ${filePath}`);
+        console.log(`Test data saved successfully: ${testDataFilePath}`);
     } catch (error) {
         console.error('Error saving test data to JSON:', error.message);
     }
