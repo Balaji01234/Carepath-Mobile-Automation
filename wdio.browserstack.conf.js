@@ -39,6 +39,9 @@ const ENV_FILE_PATH = './.env'; // Path to your .env file
 
 // Function to get the latest APK file from the directory
 function getLatestApkFile() {
+
+    console.log(`Scanning directory for APK files: ${APK_DIR}`);
+    
     const files = fs.readdirSync(APK_DIR)
         .map(file => ({
             name: file,
