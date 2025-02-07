@@ -177,8 +177,8 @@ export const config = {
     }], 
     commonCapabilities: {
         'bstack:options': {
-            projectName: "BrowserStack Sample",
-            buildName: "bstack-demo",
+            projectName: "Carepath Automation",
+            buildName: `Automation_${formattedTimestamp}`,
             debug: true,
             consoleLogs: 'info',
             networkLogs: true
@@ -241,7 +241,7 @@ export const config = {
         [
             'browserstack',
             {
-                buildIdentifier: "${BUILD_NUMBER}",
+                buildIdentifier: `Automation_${formattedTimestamp}`,
                 browserstackLocal: true,
                 testObservability: true,
                 percy: false,
@@ -458,8 +458,66 @@ export const config = {
      * @param {Array.<String>} specs List of spec file paths that ran
      */
     after: async function (result, capabilities, specs) {
-        fs.writeFileSync('./reports/test-results.json', JSON.stringify(testResults, null, 2));
-        await browser.terminateApp('com.carepath.app.dev');
+    
+        const username = process.env.BROWSERSTACK_USERNAME;
+        const accessKey = process.env.BROWSERSTACK_ACCESS_KEY;
+    
+        try {
+            // Fetch builds
+            const buildsResponse = await axios.get('https://api.browserstack.com/automate/builds.json', {
+                auth: { username, password: accessKey }
+            });
+    
+            console.log('Builds Response Data:', JSON.stringify(buildsResponse.data, null, 2));
+    
+            // Sort builds by creation time to get the latest build
+            const builds = buildsResponse.data.sort((a, b) =>
+                new Date(b.automation_build.created_at) - new Date(a.automation_build.created_at)
+            );
+            const latestBuild = builds[0]?.automation_build; // Safely access the first build
+            if (!latestBuild) {
+                throw new Error('No builds found in the response.');
+            }
+    
+            const buildId = latestBuild.hashed_id;
+            console.log(`Latest Build ID: ${buildId}`);
+    
+            // Fetch sessions for the latest build
+            const sessionsResponse = await axios.get(`https://api.browserstack.com/automate/builds/${buildId}/sessions.json`, {
+                auth: { username, password: accessKey }
+            });
+    
+            console.log('Sessions Response Data:', JSON.stringify(sessionsResponse.data, null, 2));
+    
+            // Sort sessions by creation time to get the latest session
+            const sessions = sessionsResponse.data.sort((a, b) =>
+                new Date(b.automation_session.created_at) - new Date(a.automation_session.created_at)
+            );
+            const latestSession = sessions[0]?.automation_session; // Safely access the first session
+            if (!latestSession) {
+                throw new Error('No sessions found in the response.');
+            }
+    
+            const sessionId = latestSession.hashed_id;
+            console.log(`Latest Session ID: ${sessionId}`);
+    
+            // Construct and log the public URL
+            const publicUrl = `https://app-automate.browserstack.com/dashboard/v2/builds/${buildId}/sessions/${sessionId}`;
+            console.log(`Public URL: ${publicUrl}`);
+    
+            // Save test results
+            const testResults = {
+                buildId,
+                sessionId,
+                publicUrl
+            };
+            fs.writeFileSync('./reports/test-results.json', JSON.stringify(testResults, null, 2));
+    
+            // Example: Terminate the app after test completion (if relevant for your use case)
+            await browser.terminateApp('com.carepath.app.dev');
+        } catch (error) {
+            console.error('Error fetching build or session details:', error.message);
+        }
     },
 
     /**
