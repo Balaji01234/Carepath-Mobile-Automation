@@ -3,30 +3,26 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import Mail from './utils/mail.js';
 import getValueByComponent from './utils/common.js';
-import { fileURLToPath } from 'url';
+
 
 dotenv.config();
 
 const mailTrigger = getValueByComponent('Trigger')
-const timestamp = new Date();
-const shortDate = `${timestamp.getFullYear()}-${(timestamp.getMonth() + 1).toString().padStart(2, '0')}-${timestamp.getDate().toString().padStart(2, '0')}`;
-const shortTime = `${timestamp.getHours().toString().padStart(2, '0')}-${timestamp.getMinutes().toString().padStart(2, '0')}`;
-const formattedTimestamp = `${shortDate}_${shortTime}`;
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const reportBaseDir = path.join(__dirname, 'reports', 'html-results');
 
-console.log(reportBaseDir); // Check the output path
+if (!process.env.REPORT_TIMESTAMP) {
+    const timestamp = new Date();
+    const shortDate = `${timestamp.getFullYear()}-${(timestamp.getMonth() + 1).toString().padStart(2, '0')}-${timestamp.getDate().toString().padStart(2, '0')}`;
+    const shortTime = `${timestamp.getHours().toString().padStart(2, '0')}-${timestamp.getMinutes().toString().padStart(2, '0')}`;
+    process.env.REPORT_TIMESTAMP = `${shortDate}_${shortTime}`;
+}
 
-let existingFolders = [];
-const allureResultsDir = path.join('reports', 'allure-results', `Test_Report-${formattedTimestamp}`);
-// fs.mkdirSync(allureResultsDir, { recursive: true });
 
-const HTMLResultsDir = path.join('reports', 'html-results', `Test_Report-${formattedTimestamp}`);
-const reportPath = HTMLResultsDir;
-console.log("HTMLResultsDir: " + HTMLResultsDir);
-console.log("ReportPath: " + reportPath);
-// fs.mkdirSync(HTMLResultsDir, { recursive: true });
+const HTMLResultsDir = path.join('reports', 'html-results', `Test_Report-${process.env.REPORT_TIMESTAMP}`);
+
+console.log(HTMLResultsDir);
+
+const allureResultsDir = path.join('reports', 'allure-results', `Test_Report-${process.env.REPORT_TIMESTAMP}`);
+
 let testResults = [];
 
 export const config = {
@@ -175,7 +171,7 @@ export const config = {
     reporters: [['allure', { outputDir: allureResultsDir, disableWebdriverStepsReporting: true, disableWebdriverScreenshotsReporting: false }], [
         'html-nice',
         {
-            outputDir: reportPath,
+            outputDir: HTMLResultsDir,
             filename: 'Test-report.html',
             reportTitle: 'Test Report',
             linkScreenshots: true,
@@ -206,8 +202,6 @@ export const config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      */
     onPrepare: function (config, capabilities) {
-        existingFolders = fs.existsSync(reportBaseDir) ? fs.readdirSync(reportBaseDir) : [];
-        // console.log("Existing folders before test run:", existingFolders);
     },
     /**
      * Gets executed before a worker process is spawned and can be used to initialize specific service
@@ -361,51 +355,19 @@ export const config = {
      * @param {<Object>} results object containing test results
      */
     onComplete: async function (exitCode, config, capabilities, results) {
-           console.log('Test execution completed, preparing to send email...');
-           console.log("Checking for new test report folder...");
-   
-           const reportBaseDir = path.resolve('reports/html-results'); // Ensure correct path
-           const existingFolders = []; // You need to define how this is populated
-   
-           try {
-               // Get all folders after test execution
-               const allFolders = await fs.promises.readdir(reportBaseDir);
-   
-               // Filter out any folders that existed before and exclude "screenshots"
-               const newFolders = allFolders.filter(folder =>
-                   !existingFolders.includes(folder) && !folder.includes("screenshots")
-               );
-   
-               let latestReportPath = null;
-   
-               if (newFolders.length > 0) {
-                   // Sort by modification time to get the latest report folder
-                   const sortedFolders = await Promise.all(
-                       newFolders.map(async folder => {
-                           const stats = await fs.promises.stat(path.join(reportBaseDir, folder));
-                           return { folder, mtime: stats.mtime };
-                       })
-                   );
-   
-                   sortedFolders.sort((a, b) => b.mtime - a.mtime);
-                   latestReportPath = path.join(reportBaseDir, sortedFolders[0].folder);
-                   console.log(`Latest report folder: ${latestReportPath}`);
-               } else {
-                   console.log("No new report folder found.");
-               }
-   
-               // Ensure we send the correct report path
-               if (mailTrigger === 'Yes' && latestReportPath) {
-                   const mailer = new Mail();
-                   console.log("Sending report from path: " + latestReportPath);
-                   await mailer.sendMail(latestReportPath);
-               } else {
-                   console.log("Email not triggered, either mailTrigger is 'No' or no report folder was found.");
-               }
-           } catch (error) {
-               console.error("Error processing report directory:", error);
-           }
-       }
+        console.log('Test execution completed, preparing to send email...');
+        try {
+            if (mailTrigger === 'Yes' && HTMLResultsDir) {
+                const mailer = new Mail();
+                console.log("Sending report from path: " + HTMLResultsDir);
+                await mailer.sendMail(HTMLResultsDir);
+            } else {
+                console.log("Email not triggered, either mailTrigger is 'No' or no report folder was found.");
+            }
+        } catch (error) {
+            console.error("Error processing report directory:", error);
+        }
+    }
 
 
     /**
