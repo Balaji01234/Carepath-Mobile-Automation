@@ -360,7 +360,7 @@ export const config = {
             if (mailTrigger === 'Yes' && HTMLResultsDir) {
                 const mailer = new Mail();
                 console.log("Sending report from path: " + HTMLResultsDir);
-                await mailer.sendMail(HTMLResultsDir);
+                await mailer.sendMail(HTMLResultsDir,'./signUpData');
             } else {
                 console.log("Email not triggered, either mailTrigger is 'No' or no report folder was found.");
             }

@@ -346,7 +346,7 @@ export default function getValueByComponent(componentName) {
     return undefined;
 }
 
-export const saveTestDataToJson = async (role, firstName, lastName, email, program) => {
+export const saveTestDataToJson = async (role, firstName, lastName, email, password,program) => {
     try {
         if (!testDataFilePath) {
             const timestamp = new Date().toISOString().replace(/[-:.]/g, '');
@@ -371,6 +371,7 @@ export const saveTestDataToJson = async (role, firstName, lastName, email, progr
             FirstName: firstName,
             LastName: lastName,
             Email: email,
+            Password:password
         });
 
         fs.writeFileSync(testDataFilePath, JSON.stringify(existingData, null, 2), 'utf8');

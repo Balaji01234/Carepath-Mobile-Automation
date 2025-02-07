@@ -76,7 +76,8 @@ describe('Carepath Automation', async () => {
                 await writeExcelData1("Signup-Positive", "TC_01", `Writedata${iterationValue[i]}`, "Firstname", FirstName);
                 const LastName = (`Automation${getRandomString()}`).toLowerCase();
                 await writeExcelData1("Signup-Positive", "TC_01", `Writedata${iterationValue[i]}`, "Lastname", LastName);
-                const mail = `prabha${getRandomString() + generateRandomNumber()}@mailinator.com`;
+                const mailPrefix = await readData1("Signup-Positive", "TC_01", "MailPrefix", `Testdata${iterationValue[i]}`);
+                const mail = `${mailPrefix}${getRandomString() + generateRandomNumber()}@mailinator.com`;
                 await writeExcelData1("Signup-Positive", "TC_01", `Writedata${iterationValue[i]}`, "Email", mail);
                 const phoneNumber = await readData1("Signup-Positive", "TC_01", "Phone number", `Testdata${iterationValue[i]}`);
                 const password = await readData1("Signup-Positive", "TC_01", "Password", `Testdata${iterationValue[i]}`);
@@ -187,7 +188,7 @@ describe('Carepath Automation', async () => {
                 await Keywords.waitForDisplay(locator.success, 45000, "Success Message!!!");
                 await Keywords.click(locator.closeButton, "Close Button");
                 await Keywords.waitForDisplay(locator.startNow, 30000, "Start Now Button");
-                await saveTestDataToJson(role, FirstName, LastName, mail, program)
+                await saveTestDataToJson(role, FirstName, LastName, mail,password, program)
             } catch (err) {
                 throw new Error(err);
             }
