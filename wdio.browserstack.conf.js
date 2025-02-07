@@ -179,7 +179,7 @@ export const config = {
         // "appium:chromedriverAutodownload": true
 
         'bstack:options': {
-            deviceName: 'Google Pixel 8',
+            deviceName: 'Samsung Galaxy Tab S10+',
             platformVersion: '14.0',
             platformName: 'android',
         }
