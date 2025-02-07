@@ -65,7 +65,7 @@ describe('Carepath Automation', async () => {
     });
 
     for (let i = 0; i < iterationValue.length; i++) {
-        it(`TC-001-Sign Up - Iteration${iterationValue[i]}`, async () => {
+        it(`TC-001-Sign Up - Positive Iteration${iterationValue[i]}`, async () => {
             try {
                 const role = await readData1("Signup-Positive", "TC_01", "Role", `Testdata${iterationValue[i]}`);
                 allureReporter.addDescription(`New User Sign Up for: "${role} role" `)
@@ -193,6 +193,134 @@ describe('Carepath Automation', async () => {
             }
         })
     }
+
+    it(`TC-001-Sign Up - Negative Iteration${iterationValue[i]}`, async () => {
+        try {
+            const role = await readData1("Signup-Positive", "TC_01", "Role", `Testdata${iterationValue[i]}`);
+            allureReporter.addDescription(`New User Sign Up for: "${role} role" `)
+            console.log(`Role: ${role}`)
+            const employeeText = await readData1("Signup-Positive", "TC_01", "EmployeeText", `Testdata${iterationValue[i]}`);
+            const studentText = await readData1("Signup-Positive", "TC_01", "StudentText", `Testdata${iterationValue[i]}`);
+            const FirstName = `Prabha${getRandomString()}`
+            await writeExcelData1("Signup-Positive", "TC_01", `Writedata${iterationValue[i]}`, "Firstname", FirstName);
+            const LastName = (`Automation${getRandomString()}`).toLowerCase();
+            await writeExcelData1("Signup-Positive", "TC_01", `Writedata${iterationValue[i]}`, "Lastname", LastName);
+            const mail = `prabha${getRandomString() + generateRandomNumber()}@mailinator.com`;
+            await writeExcelData1("Signup-Positive", "TC_01", `Writedata${iterationValue[i]}`, "Email", mail);
+            const phoneNumber = await readData1("Signup-Positive", "TC_01", "Phone number", `Testdata${iterationValue[i]}`);
+            const password = await readData1("Signup-Positive", "TC_01", "Password", `Testdata${iterationValue[i]}`);
+            const employerName = await readData1("Signup-Positive", "TC_01", "Employer name", `Testdata${iterationValue[i]}`);
+            const referral = await readData1("Signup-Positive", "TC_01", "Referrals", `Testdata${iterationValue[i]}`);
+            const dob = await readData1("Signup-Positive", "TC_01", "DOB", `Testdata${iterationValue[i]}`);
+            const relation = await readData1("Signup-Positive", "TC_01", "Relation", `Testdata${iterationValue[i]}`);
+            const referralDropdownText = await readData1("Signup-Positive", "TC_01", "ReferralText", `Testdata${iterationValue[i]}`);
+            const dobText = await readData1("Signup-Positive", "TC_01", "dobText", `Testdata${iterationValue[i]}`);
+            const studentId = await readData1("Signup-Positive", "TC_01", "StudentId", `Testdata${iterationValue[i]}`);
+            const courseEnrolled = await readData1("Signup-Positive", "TC_01", "CourseEnrolled", `Testdata${iterationValue[i]}`);
+            const program = await readData1("Signup-Positive", "TC_01", "Program", `Testdata${iterationValue[i]}`);
+            await Keywords.waitForDisplay(locator.startNow, 60000, "Start Now Button")
+            await Keywords.verifyElementIsEnabled(locator.startNow, "Start Now Button")
+            await Keywords.click(locator.startNow, "Start Now Button")
+            await Keywords.verifyElementIsEnabled(locator.createAccountButton, "Create Account button");
+            const createBtnTxt = await locator.createAccountButton.getText();
+            console.log(createBtnTxt)
+            await Keywords.click(locator.createAccountButton, "Create Account button")
+            await Keywords.verifyElementIsEnabled(locator.createRequestButton, "Create Request button")
+            await Keywords.click(locator.createRequestButton, "Create Account button")
+            await Keywords.verifyElementDisplayed(locator.signUpPage, "Signup screen")
+            if (role == "Employee") {
+                await Keywords.verifyText(locator.employeeText, "content-desc", employeeText, "I am a Employee")
+                await Keywords.isEnabled(locator.employeeButton, "Employee Button")
+                await Keywords.click(locator.employeeButton, "Employee Button");
+            } else {
+                await Keywords.verifyText(locator.studentText, "content-desc", studentText, "I am a Student")
+                await Keywords.isEnabled(locator.studentButton, "Student Button")
+                await Keywords.click(locator.studentButton, "Student Button");
+            }
+            await Keywords.verifyElementIsEnabled(locator.nextButton, "Next button")
+            await Keywords.click(locator.nextButton, "Next Button")
+            console.log({
+                FirstName,
+                LastName,
+                mail,
+                phoneNumber,
+                password, employerName, referral, dob, relation
+            });
+            await Keywords.SetValue(locator.firstName, FirstName);
+            await Keywords.SetValue(locator.lastName, LastName);
+            await Keywords.SetValue(locator.emailId, mail);
+            await Keywords.SetValue(locator.phoneNumber, phoneNumber);
+            await Keywords.SetValue(locator.passwordField, password);
+            await Keywords.SetValue(locator.repeatPassword, password);
+            if (!await locator.nextButton.isDisplayed()) {
+                await browser.hideKeyboard();
+            }
+            await Keywords.verifyElementIsEnabled(locator.nextButton, "Next button")
+            await Keywords.click(locator.nextButton, "Next Button")
+            if (role === "Employee") {
+                await Keywords.SetValue(locator.employerName, employerName);
+                await Keywords.verifyText(locator.referralDropdownText, "content-desc", referralDropdownText, "Referral dropdown")
+                await Keywords.click(locator.referral, "Referral dropdown");
+                await Keywords.click(locator.referrals(referral), "referral")
+                await Keywords.verifyText(locator.dobText, "content-desc", dobText, "DOB")
+                await Keywords.SetValue(locator.dob, dob);
+                await Keywords.SetValue(locator.relationToEmployee, relation);
+            } else {
+                await Keywords.verifyText(locator.referralDropdownText, "content-desc", referralDropdownText, "Referral dropdown")
+                await Keywords.click(locator.referral, "Referral dropdown");
+                await Keywords.click(locator.referrals(referral), "referral")
+                await Keywords.verifyText(locator.dobText, "content-desc", dobText, "DOB")
+                await Keywords.SetValue(locator.dob, dob);
+            }
+            if (!await locator.signUpButton.isDisplayed()) {
+                await browser.hideKeyboard();
+            }
+            await Keywords.click(locator.signUpButton, "Signup button");
+            if (role === 'Student') {
+                await Keywords.waitForDisplay(locator.studentInformationScreen, "Student Information Screen")
+                await Keywords.isDisplayed(locator.athabascaUniversity, "Athabasca University");
+                await Keywords.SetValue(locator.studentId, studentId)
+                await Keywords.SetValue(locator.courseEnrolled, courseEnrolled);
+                if (!await locator.nextButton.isDisplayed()) {
+                    await browser.hideKeyboard();
+                }
+                await Keywords.verifyElementIsEnabled(locator.nextButton, "Next button")
+                await Keywords.click(locator.nextButton, "Next Button")
+            }
+            await Keywords.verifyElementIsEnabled(locator.verifyYourAccount, "Verify your account")
+            await Keywords.waitForDisplay(locator.verifyYourAccount, timeout, "Verify your account");
+            await Keywords.click(locator.getMail, "Get by email card")
+            await Keywords.verifyElementIsEnabled(locator.verifyButton, "Verify button")
+            await Keywords.click(locator.verifyButton, "Verify Button");
+            const otp = await Keywords.getOTPFromMailinator(mail);
+            expect(otp).to.not.equal("");
+            await driver.switchContext('NATIVE_APP');
+            await Keywords.waitForDisplay(locator.otpPage(0), timeout, "OTP input");
+            for (let i = 0; i < 6; i++) {
+                await Keywords.SetValue(locator.otpPage(i), otp[i]);
+            }
+            await Keywords.waitForDisplay(locator.homePage, 45000, "Home Page")
+            if (role.toLowerCase() === "student") {
+                await Keywords.verifyElementIsEnabled(locator.mentalHealthCard, "Mental Health card");
+                await Keywords.click(locator.mentalHealthCard, "Mental Health card")
+            } else {
+                await Keywords.verifyElementIsEnabled(locator.program(program), program);
+                await Keywords.click(locator.program(program), program)
+            }
+            await Keywords.verifyElementIsEnabled(locator.sendRequestButton, "Send Request Button")
+            await Keywords.click(locator.sendRequestButton, "Send Request Button")
+            await driver.pause(5000);
+            if (await Keywords.isDisplayed(locator.allowNotificationButton, "Allow Notification Button")) {
+                await Keywords.locator.allowNotificationButton.click();
+            }
+            await Keywords.waitForDisplay(locator.success, 45000, "Success Message!!!");
+            await Keywords.click(locator.closeButton, "Close Button");
+            await Keywords.waitForDisplay(locator.startNow, 30000, "Start Now Button");
+            await saveTestDataToJson(role, FirstName, LastName, mail, program)
+        } catch (err) {
+            throw new Error(err);
+        }
+    })
 
     it('TC-002-NewUserOnboarding', async () => {
         try {
