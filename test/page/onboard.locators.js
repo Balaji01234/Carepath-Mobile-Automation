@@ -696,6 +696,5 @@ export class onboardLocators {
     get ChronicDi(){
         return $(`//android.view.View[@content-desc="button_Program.chronicDisease"]`)
     }
-    
-
+  
 }

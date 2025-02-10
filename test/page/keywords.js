@@ -53,7 +53,7 @@ export class keywords {
     async click(locator, text) {
         allureReporter.startStep("Click on the element: " + text)
         try {
-            await locator.waitForDisplayed({ timeout: this.timeout })
+           await locator.waitForDisplayed({ timeout: this.timeout })
             await locator.click();
             await this.AllurePass("Successfully Clicked on: " + text);
             allureReporter.endStep('passed');
