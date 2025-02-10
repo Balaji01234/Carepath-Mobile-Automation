@@ -164,6 +164,10 @@ export class locators {
         return $('~by_email_card')
     }
 
+    get getByText() {
+        return $('~by_text_card')
+    }
+
     get verifyButton() {
         return $('android=new UiSelector().resourceId("verify_text")')
     }
@@ -313,5 +317,47 @@ export class locators {
         const formattedProgramName = programName.includes(" ") ? programName.replace(/ /g, "\n") : programName;
         return $(`//android.view.View[@content-desc="${formattedProgramName}"]`);
     }
+
+    errorText(accessibilityId) {
+        return $(`~${accessibilityId}`)
+    }
+
+    get yearsOldText() {
+        return $('android=new UiSelector().resourceId("should_be_18_years_old_to_register_text")')
+
+    }
+
+    get pleaseEnterValidDateText() {
+        return $('android=new UiSelector().resourceId("please_enter_valid_date_text")')
+    }
+
+    get referralErrorText() {
+        return $('android=new UiSelector().resourceId("please_choose_referral_source_text")')
+    }
+
+    get errorPopup() {
+        return $('~Error!')
+    }
+
+    get okButton() {
+        return $('~ok_button')
+    }
+
+    get invalidVerificationCode() {
+        return $('android=new UiSelector().resourceId("invalid_verification_code_text")')
+    }
+
+    get enterValidCodeText(){
+        return $('android=new UiSelector().resourceId("please_enter_valid_code_text")')
+    }
+
+    get resendCode(){
+        return $('~resend_code_button')
+    }
+
+    get pinMustBe6DigitText(){
+        return $('android=new UiSelector().resourceId("pin_must_be_6_digit_long_text")')
+    }
+
 
 }

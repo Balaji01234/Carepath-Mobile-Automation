@@ -188,140 +188,260 @@ describe('Carepath Automation', async () => {
                 await Keywords.waitForDisplay(locator.success, 45000, "Success Message!!!");
                 await Keywords.click(locator.closeButton, "Close Button");
                 await Keywords.waitForDisplay(locator.startNow, 30000, "Start Now Button");
-                await saveTestDataToJson(role, FirstName, LastName, mail,password, program)
+                await saveTestDataToJson(role, FirstName, LastName, mail, password, program)
             } catch (err) {
                 throw new Error(err);
             }
         })
     }
 
-    it(`TC-001-Sign Up - Negative Iteration${iterationValue[i]}`, async () => {
-        try {
-            const role = await readData1("Signup-Positive", "TC_01", "Role", `Testdata${iterationValue[i]}`);
-            allureReporter.addDescription(`New User Sign Up for: "${role} role" `)
-            console.log(`Role: ${role}`)
-            const employeeText = await readData1("Signup-Positive", "TC_01", "EmployeeText", `Testdata${iterationValue[i]}`);
-            const studentText = await readData1("Signup-Positive", "TC_01", "StudentText", `Testdata${iterationValue[i]}`);
-            const FirstName = `Prabha${getRandomString()}`
-            await writeExcelData1("Signup-Positive", "TC_01", `Writedata${iterationValue[i]}`, "Firstname", FirstName);
-            const LastName = (`Automation${getRandomString()}`).toLowerCase();
-            await writeExcelData1("Signup-Positive", "TC_01", `Writedata${iterationValue[i]}`, "Lastname", LastName);
-            const mail = `prabha${getRandomString() + generateRandomNumber()}@mailinator.com`;
-            await writeExcelData1("Signup-Positive", "TC_01", `Writedata${iterationValue[i]}`, "Email", mail);
-            const phoneNumber = await readData1("Signup-Positive", "TC_01", "Phone number", `Testdata${iterationValue[i]}`);
-            const password = await readData1("Signup-Positive", "TC_01", "Password", `Testdata${iterationValue[i]}`);
-            const employerName = await readData1("Signup-Positive", "TC_01", "Employer name", `Testdata${iterationValue[i]}`);
-            const referral = await readData1("Signup-Positive", "TC_01", "Referrals", `Testdata${iterationValue[i]}`);
-            const dob = await readData1("Signup-Positive", "TC_01", "DOB", `Testdata${iterationValue[i]}`);
-            const relation = await readData1("Signup-Positive", "TC_01", "Relation", `Testdata${iterationValue[i]}`);
-            const referralDropdownText = await readData1("Signup-Positive", "TC_01", "ReferralText", `Testdata${iterationValue[i]}`);
-            const dobText = await readData1("Signup-Positive", "TC_01", "dobText", `Testdata${iterationValue[i]}`);
-            const studentId = await readData1("Signup-Positive", "TC_01", "StudentId", `Testdata${iterationValue[i]}`);
-            const courseEnrolled = await readData1("Signup-Positive", "TC_01", "CourseEnrolled", `Testdata${iterationValue[i]}`);
-            const program = await readData1("Signup-Positive", "TC_01", "Program", `Testdata${iterationValue[i]}`);
-            await Keywords.waitForDisplay(locator.startNow, 60000, "Start Now Button")
-            await Keywords.verifyElementIsEnabled(locator.startNow, "Start Now Button")
-            await Keywords.click(locator.startNow, "Start Now Button")
-            await Keywords.verifyElementIsEnabled(locator.createAccountButton, "Create Account button");
-            const createBtnTxt = await locator.createAccountButton.getText();
-            console.log(createBtnTxt)
-            await Keywords.click(locator.createAccountButton, "Create Account button")
-            await Keywords.verifyElementIsEnabled(locator.createRequestButton, "Create Request button")
-            await Keywords.click(locator.createRequestButton, "Create Account button")
-            await Keywords.verifyElementDisplayed(locator.signUpPage, "Signup screen")
-            if (role == "Employee") {
-                await Keywords.verifyText(locator.employeeText, "content-desc", employeeText, "I am a Employee")
-                await Keywords.isEnabled(locator.employeeButton, "Employee Button")
-                await Keywords.click(locator.employeeButton, "Employee Button");
-            } else {
-                await Keywords.verifyText(locator.studentText, "content-desc", studentText, "I am a Student")
-                await Keywords.isEnabled(locator.studentButton, "Student Button")
-                await Keywords.click(locator.studentButton, "Student Button");
-            }
-            await Keywords.verifyElementIsEnabled(locator.nextButton, "Next button")
-            await Keywords.click(locator.nextButton, "Next Button")
-            console.log({
-                FirstName,
-                LastName,
-                mail,
-                phoneNumber,
-                password, employerName, referral, dob, relation
-            });
-            await Keywords.SetValue(locator.firstName, FirstName);
-            await Keywords.SetValue(locator.lastName, LastName);
-            await Keywords.SetValue(locator.emailId, mail);
-            await Keywords.SetValue(locator.phoneNumber, phoneNumber);
-            await Keywords.SetValue(locator.passwordField, password);
-            await Keywords.SetValue(locator.repeatPassword, password);
-            if (!await locator.nextButton.isDisplayed()) {
-                await browser.hideKeyboard();
-            }
-            await Keywords.verifyElementIsEnabled(locator.nextButton, "Next button")
-            await Keywords.click(locator.nextButton, "Next Button")
-            if (role === "Employee") {
-                await Keywords.SetValue(locator.employerName, employerName);
-                await Keywords.verifyText(locator.referralDropdownText, "content-desc", referralDropdownText, "Referral dropdown")
-                await Keywords.click(locator.referral, "Referral dropdown");
-                await Keywords.click(locator.referrals(referral), "referral")
-                await Keywords.verifyText(locator.dobText, "content-desc", dobText, "DOB")
-                await Keywords.SetValue(locator.dob, dob);
-                await Keywords.SetValue(locator.relationToEmployee, relation);
-            } else {
-                await Keywords.verifyText(locator.referralDropdownText, "content-desc", referralDropdownText, "Referral dropdown")
-                await Keywords.click(locator.referral, "Referral dropdown");
-                await Keywords.click(locator.referrals(referral), "referral")
-                await Keywords.verifyText(locator.dobText, "content-desc", dobText, "DOB")
-                await Keywords.SetValue(locator.dob, dob);
-            }
-            if (!await locator.signUpButton.isDisplayed()) {
-                await browser.hideKeyboard();
-            }
-            await Keywords.click(locator.signUpButton, "Signup button");
-            if (role === 'Student') {
-                await Keywords.waitForDisplay(locator.studentInformationScreen, "Student Information Screen")
-                await Keywords.isDisplayed(locator.athabascaUniversity, "Athabasca University");
-                await Keywords.SetValue(locator.studentId, studentId)
-                await Keywords.SetValue(locator.courseEnrolled, courseEnrolled);
+    for (let i = 0; i < iterationValue.length; i++) {
+        it(`TC-001-Sign Up - Negative Iteration${iterationValue[i]}`, async () => {
+            try {
+                const role = await readData1("Signup-Positive", "TC_01", "Role", `Testdata${iterationValue[i]}`);
+                allureReporter.addDescription(`New User Sign Up for: "${role} role" `)
+                console.log(`Role: ${role}`)
+                const employeeText = await readData1("Signup-Positive", "TC_01", "EmployeeText", `Testdata${iterationValue[i]}`);
+                const studentText = await readData1("Signup-Positive", "TC_01", "StudentText", `Testdata${iterationValue[i]}`);
+                const FirstName = `Prabha${getRandomString()}`
+                await writeExcelData1("Signup-Negative", "TC_02", `Writedata${iterationValue[i]}`, "Firstname", FirstName);
+                const LastName = (`Automation${getRandomString()}`).toLowerCase();
+                await writeExcelData1("Signup-Negative", "TC_02", `Writedata${iterationValue[i]}`, "Lastname", LastName);
+                const mail = `prabha${getRandomString() + generateRandomNumber()}@mailinator.com`;
+                await writeExcelData1("Signup-Negative", "TC_02", `Writedata${iterationValue[i]}`, "Email", mail);
+                const phoneNumber = await readData1("Signup-Positive", "TC_01", "Phone number", `Testdata${iterationValue[i]}`);
+                const password = await readData1("Signup-Positive", "TC_01", "Password", `Testdata${iterationValue[i]}`);
+                const employerName = await readData1("Signup-Positive", "TC_01", "Employer name", `Testdata${iterationValue[i]}`);
+                const referral = await readData1("Signup-Positive", "TC_01", "Referrals", `Testdata${iterationValue[i]}`);
+                const dob = await readData1("Signup-Positive", "TC_01", "DOB", `Testdata${iterationValue[i]}`);
+                const relation = await readData1("Signup-Positive", "TC_01", "Relation", `Testdata${iterationValue[i]}`);
+                const referralDropdownText = await readData1("Signup-Positive", "TC_01", "ReferralText", `Testdata${iterationValue[i]}`);
+                const dobText = await readData1("Signup-Positive", "TC_01", "dobText", `Testdata${iterationValue[i]}`);
+                const studentId = await readData1("Signup-Positive", "TC_01", "StudentId", `Testdata${iterationValue[i]}`);
+                const courseEnrolled = await readData1("Signup-Positive", "TC_01", "CourseEnrolled", `Testdata${iterationValue[i]}`);
+                const program = await readData1("Signup-Positive", "TC_01", "Program", `Testdata${iterationValue[i]}`);
+                const FirstNameErrorText = await readData1("Signup-Negative", "TC_02", "FirstNameErrorText", `Testdata${iterationValue[i]}`);
+                const LastNameErrorText = await readData1("Signup-Negative", "TC_02", "LastNameErrorText", `Testdata${iterationValue[i]}`);
+                const EmailIDErrorText = await readData1("Signup-Negative", "TC_02", "EmailIDErrorText", `Testdata${iterationValue[i]}`);
+                const PhoneNumberErrorText = await readData1("Signup-Negative", "TC_02", "PhoneNumberErrorText", `Testdata${iterationValue[i]}`);
+                const PasswordErrorText = await readData1("Signup-Negative", "TC_02", "PasswordErrorText", `Testdata${iterationValue[i]}`);
+                const RepeatPasswordErrorText = await readData1("Signup-Negative", "TC_02", "RepeatPasswordErrorText", `Testdata${iterationValue[i]}`);
+                const PasswordHint = await readData1("Signup-Negative", "TC_02", "PasswordHint", `Testdata${iterationValue[i]}`);
+                const invalidFirstName = await readData1("Signup-Negative", "TC_02", "Firstname", `Testdata${iterationValue[i]}`);
+                const invalidLastName = await readData1("Signup-Negative", "TC_02", "Lastname", `Testdata${iterationValue[i]}`);
+                const invalidPhoneNumber = await readData1("Signup-Negative", "TC_02", "InvalidPhoneNumber", `Testdata${iterationValue[i]}`);
+                const invalidPassword = await readData1("Signup-Negative", "TC_02", "InvalidPassword", `Testdata${iterationValue[i]}`);
+                const invalidRepeatPassword = await readData1("Signup-Negative", "TC_02", "InvalidRepeatPassword", `Testdata${iterationValue[i]}`);
+                const invalidEmail = await readData1("Signup-Negative", "TC_02", "Email", `Testdata${iterationValue[i]}`);
+                const employerErrorText = await readData1("Signup-Negative", "TC_02", "EmployerNameErrorText", `Testdata${iterationValue[i]}`);
+                const dobErrorText = await readData1("Signup-Negative", "TC_02", "DOBErrorText", `Testdata${iterationValue[i]}`);
+                const referralErrorText = await readData1("Signup-Negative", "TC_02", "RefferalErrorText", `Testdata${iterationValue[i]}`);
+                const invalidDOBbelow18 = await readData1("Signup-Negative", "TC_02", "InvalidDOBbelow18", `Testdata${iterationValue[i]}`);
+                const invalidDOB = await readData1("Signup-Negative", "TC_02", "InvalidDOB", `Testdata${iterationValue[i]}`);
+                const invalidOTP = await readData1("Signup-Negative", "TC_02", "InvalidOTP", `Testdata${iterationValue[i]}`);
+                const invalidOTPError = await readData1("Signup-Negative", "TC_02", "InvalidOTPError", `Testdata${iterationValue[i]}`);
+                const pinMustBe6DigitText = await readData1("Signup-Negative", "TC_02", "PinMustBe6DigitText", `Testdata${iterationValue[i]}`);
+                const programNotToDisplay = await readData1("Signup-Negative", "TC_02", "ProgramNotToDisplay", `Testdata${iterationValue[i]}`);
+                const programToDisplay = await readData1("Signup-Negative", "TC_02", "ProgramToDisplay", `Testdata${iterationValue[i]}`);
+                const studentIDErrorText = await readData1("Signup-Negative", "TC_02", "StudentIDErrorText", `Testdata${iterationValue[i]}`);
+                const courseEnrolledErrorText = await readData1("Signup-Negative", "TC_02", "CourseEnrolledErrorText", `Testdata${iterationValue[i]}`);
+                await Keywords.waitForDisplay(locator.startNow, 60000, "Start Now Button")
+                await Keywords.verifyElementIsEnabled(locator.startNow, "Start Now Button")
+                await Keywords.click(locator.startNow, "Start Now Button")
+                await Keywords.verifyElementIsEnabled(locator.createAccountButton, "Create Account button");
+                const createBtnTxt = await locator.createAccountButton.getText();
+                console.log(createBtnTxt)
+                await Keywords.click(locator.createAccountButton, "Create Account button")
+                await Keywords.verifyElementIsEnabled(locator.createRequestButton, "Create Request button")
+                await Keywords.click(locator.createRequestButton, "Create Account button")
+                await Keywords.verifyElementDisplayed(locator.signUpPage, "Signup screen")
+                if (role == "Employee") {
+                    await Keywords.verifyText(locator.employeeText, "content-desc", employeeText, "I am a Employee")
+                    await Keywords.isEnabled(locator.employeeButton, "Employee Button")
+                    await Keywords.click(locator.employeeButton, "Employee Button");
+                } else {
+                    await Keywords.verifyText(locator.studentText, "content-desc", studentText, "I am a Student")
+                    await Keywords.isEnabled(locator.studentButton, "Student Button")
+                    await Keywords.click(locator.studentButton, "Student Button");
+                }
+                await Keywords.verifyElementIsEnabled(locator.nextButton, "Next button")
+                await Keywords.click(locator.nextButton, "Next Button")
+                console.log({
+                    FirstName,
+                    LastName,
+                    mail,
+                    phoneNumber,
+                    password, employerName, referral, dob, relation
+                });
+                await Keywords.verifyElementIsEnabled(locator.nextButton, "Next button")
+                await Keywords.click(locator.nextButton, "Next Button")
+                const errorTexts = [FirstNameErrorText, LastNameErrorText, PhoneNumberErrorText, PasswordErrorText, EmailIDErrorText]
+                for (const errorText of errorTexts) {
+                    let text = errorText.split(',');
+                    await Keywords.verifyElementDisplayed(locator.errorText(text[0].trim()), text[0].trim());
+                }
+                const errorTexts1 = [FirstNameErrorText, LastNameErrorText, EmailIDErrorText, PhoneNumberErrorText, PasswordHint, RepeatPasswordErrorText]
+                for (const errorText of errorTexts1) {
+                    let text = errorText.split(',');
+                    if (errorText === FirstNameErrorText) {
+                        await Keywords.SetValue(locator.firstName, invalidFirstName);
+                        await Keywords.verifyElementDisplayed(locator.errorText(text[1].trim()), text[1].trim());
+                    } else if (errorText === LastNameErrorText) {
+                        await Keywords.SetValue(locator.lastName, invalidLastName);
+                        await Keywords.verifyElementDisplayed(locator.errorText(text[1].trim()), text[1].trim());
+                    } else if (errorText === EmailIDErrorText) {
+                        await Keywords.SetValue(locator.emailId, invalidEmail);
+                        await Keywords.verifyElementDisplayed(locator.errorText(text[1].trim()), text[1].trim());
+                    } else if (errorText === PhoneNumberErrorText) {
+                        await Keywords.SetValue(locator.phoneNumber, invalidPhoneNumber);
+                        await Keywords.verifyElementDisplayed(locator.errorText(text[1].trim()), text[1].trim());
+                    } else if (errorText === PasswordHint) {
+                        await Keywords.SetValue(locator.passwordField, invalidPassword);
+                        let text = errorText.split(',');
+                        for (const passwordHint of text) {
+                            await Keywords.verifyElementDisplayed(locator.errorText(passwordHint.trim()), passwordHint.trim());
+                        }
+                    } else if (errorText === RepeatPasswordErrorText) {
+                        let text = errorText.split(',');
+                        await Keywords.SetValue(locator.repeatPassword, invalidRepeatPassword);
+                        await Keywords.verifyElementDisplayed(locator.errorText(text[0].trim()), text[0].trim());
+                    }
+                }
+                await Keywords.SetValue(locator.firstName, FirstName);
+                await Keywords.SetValue(locator.lastName, LastName);
+                await Keywords.SetValue(locator.emailId, mail);
+                await Keywords.SetValue(locator.phoneNumber, phoneNumber);
+                await Keywords.SetValue(locator.passwordField, password);
+                await Keywords.SetValue(locator.repeatPassword, password);
                 if (!await locator.nextButton.isDisplayed()) {
                     await browser.hideKeyboard();
                 }
                 await Keywords.verifyElementIsEnabled(locator.nextButton, "Next button")
-                await Keywords.click(locator.nextButton, "Next Button")
+                await Keywords.click(locator.nextButton, "Next Button");
+                await Keywords.verifyElementIsEnabled(locator.nextButton, "Signup button")
+                await Keywords.click(locator.signUpButton, "Signup button");
+                if (role === "Employee") {
+                    await Keywords.verifyElementDisplayed(locator.errorText(employerErrorText.trim()), employerErrorText.trim());
+                }
+                let dobErrortext = dobErrorText.split(',');
+                await Keywords.verifyElementDisplayed(locator.errorText(dobErrortext[0].trim()), dobErrortext[0].trim());
+                if (role === "Employee") {
+                    await Keywords.SetValue(locator.employerName, employerName);
+                }
+                const errorTexts2 = [dobErrorText, referralErrorText];
+                for (const errorText of errorTexts2) {
+                    if (errorText === dobErrorText) {
+                        let dobErrortext = dobErrorText.split(',');
+                        await Keywords.SetValue(locator.dob, invalidDOBbelow18);
+                        await Keywords.waitForDisplay(locator.errorPopup, 60000, "Error Popup")
+                        await Keywords.verifyText(locator.yearsOldText, "content-desc", dobErrortext[1].trim(), dobErrortext[1].trim());
+                        await Keywords.click(locator.okButton, "Ok Button");
+                        await Keywords.SetValue(locator.dob, invalidDOB);
+                        await Keywords.waitForDisplay(locator.errorPopup, 60000, "Error Popup")
+                        await Keywords.verifyText(locator.pleaseEnterValidDateText, "content-desc", dobErrortext[2].trim(), dobErrortext[2].trim());
+                        await Keywords.click(locator.okButton, "Ok Button");
+                        await Keywords.SetValue(locator.dob, dob);
+                    } else {
+                        await Keywords.verifyElementIsEnabled(locator.signUpButton, "Signup button")
+                        await Keywords.click(locator.signUpButton, "Signup button");
+                        await Keywords.waitForDisplay(locator.errorPopup, 60000, "Error Popup")
+                        await Keywords.verifyText(locator.referralErrorText, "content-desc", referralErrorText, referralErrorText);
+                        await Keywords.click(locator.okButton, "Ok Button");
+                    }
+                }
+                await Keywords.verifyText(locator.referralDropdownText, "content-desc", referralDropdownText, "Referral dropdown")
+                await Keywords.click(locator.referral, "Referral dropdown");
+                await Keywords.click(locator.referrals(referral), "referral");
+                if (role === "Employee") {
+                    await Keywords.SetValue(locator.relationToEmployee, relation);
+                }
+                if (!await locator.signUpButton.isDisplayed()) {
+                    await browser.hideKeyboard();
+                }
+                await Keywords.verifyElementIsEnabled(locator.signUpButton, "Signup button")
+                await Keywords.click(locator.signUpButton, "Signup button");
+                if (role === 'Student') {
+                    await Keywords.verifyElementIsEnabled(locator.nextButton, "Next button")
+                    await Keywords.click(locator.nextButton, "Next Button")
+                    const errorTexts = [studentIDErrorText, courseEnrolledErrorText]
+                    for (const errorText of errorTexts) {
+                        let studentInfoScreen = errorText.split(',');
+                        await Keywords.verifyElementDisplayed(locator.errorText(studentInfoScreen.trim()), studentInfoScreen.trim());
+                    }
+                    await Keywords.waitForDisplay(locator.studentInformationScreen, "Student Information Screen")
+                    await Keywords.isDisplayed(locator.athabascaUniversity, "Athabasca University");
+                    await Keywords.SetValue(locator.studentId, studentId)
+                    await Keywords.SetValue(locator.courseEnrolled, courseEnrolled);
+                    if (!await locator.nextButton.isDisplayed()) {
+                        await browser.hideKeyboard();
+                    }
+                    await Keywords.verifyElementIsEnabled(locator.nextButton, "Next button")
+                    await Keywords.click(locator.nextButton, "Next Button")
+                }
+                await Keywords.waitForDisplay(locator.verifyYourAccount, timeout, "Verify your account");
+                if (role === 'Student') {
+                    await Keywords.verifyElementNotDisplayed(locator.getByText, "Get By Text card")
+                } else {
+                    await Keywords.verifyElementDisplayed(locator.getMail, "Get by email card");
+                    await Keywords.verifyElementDisplayed(locator.getByText, "Get By Text card")
+                }
+                await Keywords.verifyElementIsDisabled(locator.verifyButton, "Verify button");
+                await Keywords.click(locator.getMail, "Get by email card");
+                await Keywords.verifyElementIsEnabled(locator.verifyButton, "Verify button");
+                await Keywords.click(locator.verifyButton, "Verify Button");
+                await Keywords.waitForDisplay(locator.otpPage(0), timeout, "OTP input");
+                for (let i = 0; i < 6; i++) {
+                    await Keywords.SetValue(locator.otpPage(i), invalidOTP[i]);
+                    await Keywords.verifyText(locator.pinMustBe6DigitText, "content-desc", pinMustBe6DigitText, pinMustBe6DigitText)
+                    if (i == 5) {
+                        await Keywords.SetValue(locator.otpPage(i), invalidOTP[i]);
+                        await browser.pause(2000)
+                        await Keywords.waitForDisplay(locator.errorPopup, 60000, "Error Popup")
+                        let text = invalidOTPError.split(',');
+                        text = text.slice(2).join(',');
+                        await Keywords.verifyText(locator.invalidVerificationCode, "content-desc", text[0].trim(), text[0].trim())
+                        await Keywords.click(locator.okButton, "Ok Button");
+                        await Keywords.verifyText(locator.invalidVerificationCode, "content-desc", text[1].trim(), text[1].trim())
+                    }
+                }
+                const otp = await Keywords.getOTPFromMailinator(mail);
+                expect(otp).to.not.equal("");
+                await driver.switchContext('NATIVE_APP');
+                await Keywords.waitForDisplay(locator.otpPage(0), timeout, "OTP input");
+                for (let i = 0; i < 6; i++) {
+                    await Keywords.SetValue(locator.otpPage(i), otp[i]);
+                }
+                await Keywords.waitForDisplay(locator.homePage, 45000, "Home Page")
+                if (role.toLowerCase() === "student") {
+                    let text = programNotToDisplay.split(',');
+                    for (const program of text) {
+                        await Keywords.verifyElementNotDisplayed(locator.program(program), program);
+                    }
+                    await Keywords.verifyElementIsEnabled(locator.mentalHealthCard, "Mental Health card");
+                    await Keywords.click(locator.mentalHealthCard, "Mental Health card")
+                } else {
+                    let text = programToDisplay.split(',');
+                    for (const program of text) {
+                        await Keywords.verifyElementDisplayed(locator.program(program), program);
+                    }
+                    await Keywords.verifyElementIsEnabled(locator.program(program), program);
+                    await Keywords.click(locator.program(program), program)
+                }
+                await Keywords.verifyElementIsEnabled(locator.sendRequestButton, "Send Request Button")
+                await Keywords.click(locator.sendRequestButton, "Send Request Button")
+                await driver.pause(5000);
+                if (await Keywords.isDisplayed(locator.allowNotificationButton, "Allow Notification Button")) {
+                    await Keywords.locator.allowNotificationButton.click();
+                }
+                await Keywords.waitForDisplay(locator.success, 45000, "Success Message!!!");
+                await Keywords.click(locator.closeButton, "Close Button");
+                await Keywords.waitForDisplay(locator.startNow, 30000, "Start Now Button");
+                await saveTestDataToJson(role, FirstName, LastName, mail, program)
+            } catch (err) {
+                throw new Error(err);
             }
-            await Keywords.verifyElementIsEnabled(locator.verifyYourAccount, "Verify your account")
-            await Keywords.waitForDisplay(locator.verifyYourAccount, timeout, "Verify your account");
-            await Keywords.click(locator.getMail, "Get by email card")
-            await Keywords.verifyElementIsEnabled(locator.verifyButton, "Verify button")
-            await Keywords.click(locator.verifyButton, "Verify Button");
-            const otp = await Keywords.getOTPFromMailinator(mail);
-            expect(otp).to.not.equal("");
-            await driver.switchContext('NATIVE_APP');
-            await Keywords.waitForDisplay(locator.otpPage(0), timeout, "OTP input");
-            for (let i = 0; i < 6; i++) {
-                await Keywords.SetValue(locator.otpPage(i), otp[i]);
-            }
-            await Keywords.waitForDisplay(locator.homePage, 45000, "Home Page")
-            if (role.toLowerCase() === "student") {
-                await Keywords.verifyElementIsEnabled(locator.mentalHealthCard, "Mental Health card");
-                await Keywords.click(locator.mentalHealthCard, "Mental Health card")
-            } else {
-                await Keywords.verifyElementIsEnabled(locator.program(program), program);
-                await Keywords.click(locator.program(program), program)
-            }
-            await Keywords.verifyElementIsEnabled(locator.sendRequestButton, "Send Request Button")
-            await Keywords.click(locator.sendRequestButton, "Send Request Button")
-            await driver.pause(5000);
-            if (await Keywords.isDisplayed(locator.allowNotificationButton, "Allow Notification Button")) {
-                await Keywords.locator.allowNotificationButton.click();
-            }
-            await Keywords.waitForDisplay(locator.success, 45000, "Success Message!!!");
-            await Keywords.click(locator.closeButton, "Close Button");
-            await Keywords.waitForDisplay(locator.startNow, 30000, "Start Now Button");
-            await saveTestDataToJson(role, FirstName, LastName, mail, program)
-        } catch (err) {
-            throw new Error(err);
-        }
-    })
+        })
+    }
 
     it('TC-002-NewUserOnboarding', async () => {
         try {
@@ -975,5 +1095,5 @@ describe('Carepath Automation', async () => {
         } catch (err) {
             throw new Error(err);
         }
-    })
+    });
 });

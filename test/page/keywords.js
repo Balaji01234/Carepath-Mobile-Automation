@@ -236,6 +236,29 @@ export class keywords {
         }
     }
 
+    async verifyElementNotDisplayed(locator, text) {
+        allureReporter.startStep(`🔍 **VERIFY**: "${text}" is not to be displayed`);
+        try {
+            // await browser.pause(2000);
+            const display = await locator.isDisplayed({ timeout: 90000 });
+            if (!display) {
+                console.log(`${text} is not displayed!!!`);
+                await this.AllurePass(`${text} is not displayed!!!`);
+                allureReporter.endStep('passed');
+            } else {
+                console.log(`${text} is displayed!!!`);
+                await this.AllureFail(`${text} is displayed!!!`);
+                allureReporter.endStep('failed');
+                // await assert.fail(`${text} should be displayed, but it is not.`);
+            }
+        } catch (err) {
+            await this.AllureFail(`${text} is displayed!!!`, err);
+            allureReporter.endStep('failed');
+            console.log(`${text} is displayed!!!`);
+            await assert.fail(err.message || `${text} was displayed due to an error.`);
+        }
+    }
+
     async verifyElementDisplayed1(locator, text) {
         allureReporter.startStep(`🔍 **VERIFY**: "${text}" is displayed or not`);
         try {
@@ -271,6 +294,23 @@ export class keywords {
         } catch (err) {
             allureReporter.endStep('failed');
             console.log(`${text} is not Enabled!!!`)
+        }
+    }
+
+    async verifyElementIsDisabled(locator, text) {
+        allureReporter.startStep(`🔍 **VERIFY**: "${text}" is disabled or not`)
+        let enable = false;
+        try {
+            if(!await locator.isEnabled()){
+                enable = true;
+                console.log(`${text} is disabled!!!`)
+                await this.AllurePass(`${text} is disabled!!!`);
+                allureReporter.endStep('passed');
+            };
+        } catch (err) {
+            allureReporter.endStep('failed');
+            console.log(`${text} is Enabled!!!`)
+            throw new Error(`${text} is Enabled!!!`);
         }
     }
 
