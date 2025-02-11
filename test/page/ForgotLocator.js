@@ -121,8 +121,45 @@ export class Forgotslocators {
     get secondaryButton(){
         return $(`~secondary_button`)
     }
-    
-
+    get cancer(){
+        return $(`~button_Program.cancer`)
+    }
+    get Hambugar(){
+        return $(`~hamburger_action`)
+    }
+    get myprofile(){
+        return $(`~My Profile`)
+    }
+    get myprofilepa(){
+        return $(`//android.view.View[@resource-id="my_profile_text"]`)
+    }
+    get edit(){
+        return $(`//android.view.View[@content-desc="text_with_icon_button"]/android.widget.ImageView`)
+    }
+    get changePassword(){
+        return $(`//android.widget.Button[@content-desc="change_password_button"]/android.widget.Button/android.widget.ImageView`)
+    }
+    get changepasswordScreen(){
+        return $(`//android.view.View[@resource-id="change_my_password_text"]`)
+    }
+    get changepasswordpage(){
+        return $(`android=new UiSelector().resourceId("current_password_textfield")`)
+    }   
+    get newpass(){
+        return $(`android=new UiSelector().resourceId("new_password_textfield")`)
+    }
+    get repeatpass(){
+        return $(`android=new UiSelector().resourceId("repeat_password_textfield")`)
+    }
+    get currentHide(){
+        return $(`(//android.view.View[@content-desc="action_eye_closed_icon_action"])[1]`)
+    }
+    get newHide(){
+        return $(`(//android.view.View[@content-desc="action_eye_closed_icon_action"])[2]`)
+    }
+    get repeathide(){
+        return $(`(//android.view.View[@content-desc="action_eye_closed_icon_action"])[3]`)
+    }
 
 
 

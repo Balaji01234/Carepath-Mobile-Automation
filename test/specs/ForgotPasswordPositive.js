@@ -111,6 +111,7 @@ describe('Carepath Automation', async () => {
                    await Keywords.SetValue(Forgot.repeatPasswordField, oldPass);
                    await Keywords.verifyElementIsEnabled(Forgot.savebutton, "Save Button");
                    await Keywords.click(Forgot.savebutton, "Save Button"); 
+                   await browser.implicitWait(1000);
                    const loginDisplay2 = await Keywords.isDisplayed(locator.loginScreen, "Login screen")
                    expect(loginDisplay2).to.be.true;
                
