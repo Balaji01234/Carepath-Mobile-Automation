@@ -198,8 +198,20 @@ export class keywords {
             } else {
                 await this.click(this.locator.verificationCodeText, "OTP message");
             }
-            await this.locator.verifyAccount.waitForDisplayed({ timeout: 30000 })
-            const otp = await $('(//android.view.View[@text="Verify icon Verify your account Here is your verification code for Carepath Digital Health "]//..//..//android.view.View)[3]//android.view.View').getText();
+            if(await this.locator.mailForgot.waitForDisplayed({timeout:30000})){
+ 
+            }else{
+                await this.locator.verifyAccount.waitForDisplayed({ timeout: 30000 })
+
+            }
+            
+            let otp;
+            const forgot = $(`(//android.widget.TextView[@text="FORGOT PASSWORD"]//..//..//..//android.widget.TextView)[3]`);
+            if (await forgot) {
+                otp = await forgot.getText();
+            } else {
+                otp = await $('(//android.view.View[@text="Verify icon Verify your account Here is your verification code for Carepath Digital Health "]//..//..//android.view.View)[3]//android.view.View').getText();
+            }
             console.log('Extracted OTP:', otp);
             return otp;
         } catch (error) {
