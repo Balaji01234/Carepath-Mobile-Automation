@@ -23,16 +23,6 @@ describe('Carepath Automation', async () => {
     let iterationValue = dataSets(iterations)
     let testName = '';
 
-    // beforeEach(async function () {
-    //     try {
-    //         testName = this.currentTest.title;
-    //         console.log(`Starting test: ${testName}`);
-    //     } catch (error) {
-    //         console.error(`Error in beforeEach for test ${this.currentTest.title}:`, error.message);
-    //     }
-    // });
-
-
     it('ForgotpasswordMyProfile', async () => {
          allureReporter.addDescription(`
              1. Click on the "Start Now" button.
