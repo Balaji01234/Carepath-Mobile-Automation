@@ -327,6 +327,11 @@ export class locators {
 
     }
 
+    get yearsOldText1() {
+        return $('android=new UiSelector().resourceId("should_be_14_years_old_to_register_text")')
+
+    }
+
     get pleaseEnterValidDateText() {
         return $('android=new UiSelector().resourceId("please_enter_valid_date_text")')
     }
@@ -359,5 +364,8 @@ export class locators {
         return $('android=new UiSelector().resourceId("pin_must_be_6_digit_long_text")')
     }
 
+    get cancelButton(){
+        return $('~more_options_menu_item_cancel')
+    }
 
 }

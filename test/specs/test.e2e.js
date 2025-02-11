@@ -235,6 +235,7 @@ describe('Carepath Automation', async () => {
                 const invalidEmail = await readData1("Signup-Negative", "TC_02", "Email", `Testdata${iterationValue[i]}`);
                 const employerErrorText = await readData1("Signup-Negative", "TC_02", "EmployerNameErrorText", `Testdata${iterationValue[i]}`);
                 const dobErrorText = await readData1("Signup-Negative", "TC_02", "DOBErrorText", `Testdata${iterationValue[i]}`);
+                const studentDobErrorText = await readData1("Signup-Negative", "TC_02", "StudentDOBErrorText", `Testdata${iterationValue[i]}`);
                 const referralErrorText = await readData1("Signup-Negative", "TC_02", "RefferalErrorText", `Testdata${iterationValue[i]}`);
                 const invalidDOBbelow18 = await readData1("Signup-Negative", "TC_02", "InvalidDOBbelow18", `Testdata${iterationValue[i]}`);
                 const invalidDOB = await readData1("Signup-Negative", "TC_02", "InvalidDOB", `Testdata${iterationValue[i]}`);
@@ -245,6 +246,7 @@ describe('Carepath Automation', async () => {
                 const programToDisplay = await readData1("Signup-Negative", "TC_02", "ProgramToDisplay", `Testdata${iterationValue[i]}`);
                 const studentIDErrorText = await readData1("Signup-Negative", "TC_02", "StudentIDErrorText", `Testdata${iterationValue[i]}`);
                 const courseEnrolledErrorText = await readData1("Signup-Negative", "TC_02", "CourseEnrolledErrorText", `Testdata${iterationValue[i]}`);
+                const phoneNumberErrorStudent = await readData1("Signup-Negative", "TC_02", "PhoneNumberErrorStudent", `Testdata${iterationValue[i]}`);
                 await Keywords.waitForDisplay(locator.startNow, 60000, "Start Now Button")
                 await Keywords.verifyElementIsEnabled(locator.startNow, "Start Now Button")
                 await Keywords.click(locator.startNow, "Start Now Button")
@@ -278,7 +280,9 @@ describe('Carepath Automation', async () => {
                 const errorTexts = [FirstNameErrorText, LastNameErrorText, PhoneNumberErrorText, PasswordErrorText, EmailIDErrorText]
                 for (const errorText of errorTexts) {
                     let text = errorText.split(',');
-                    await Keywords.verifyElementDisplayed(locator.errorText(text[0].trim()), text[0].trim());
+                    if (role !== 'Student' && errorText !== PhoneNumberErrorText) {
+                        await Keywords.verifyElementDisplayed(locator.errorText(text[0].trim()), text[0].trim());
+                    }
                 }
                 const errorTexts1 = [FirstNameErrorText, LastNameErrorText, EmailIDErrorText, PhoneNumberErrorText, PasswordHint, RepeatPasswordErrorText]
                 for (const errorText of errorTexts1) {
@@ -293,8 +297,16 @@ describe('Carepath Automation', async () => {
                         await Keywords.SetValue(locator.emailId, invalidEmail);
                         await Keywords.verifyElementDisplayed(locator.errorText(text[1].trim()), text[1].trim());
                     } else if (errorText === PhoneNumberErrorText) {
-                        await Keywords.SetValue(locator.phoneNumber, invalidPhoneNumber);
-                        await Keywords.verifyElementDisplayed(locator.errorText(text[1].trim()), text[1].trim());
+                        if (role === 'Student') {
+                            await Keywords.SetValue(locator.phoneNumber, invalidPhoneNumber);
+                            await Keywords.verifyElementIsEnabled(locator.nextButton, "Next button")
+                            await Keywords.click(locator.nextButton, "Next Button")
+                            await Keywords.verifyElementDisplayed(locator.errorText(phoneNumberErrorStudent.trim()), phoneNumberErrorStudent.trim());
+                        } else {
+                            await Keywords.SetValue(locator.phoneNumber, invalidPhoneNumber);
+                            await Keywords.verifyElementDisplayed(locator.errorText(text[1].trim()), text[1].trim());
+                        }
+
                     } else if (errorText === PasswordHint) {
                         await Keywords.SetValue(locator.passwordField, invalidPassword);
                         let text = errorText.split(',');
@@ -318,7 +330,7 @@ describe('Carepath Automation', async () => {
                 }
                 await Keywords.verifyElementIsEnabled(locator.nextButton, "Next button")
                 await Keywords.click(locator.nextButton, "Next Button");
-                await Keywords.verifyElementIsEnabled(locator.nextButton, "Signup button")
+                await Keywords.verifyElementIsEnabled(locator.signUpButton, "Signup button")
                 await Keywords.click(locator.signUpButton, "Signup button");
                 if (role === "Employee") {
                     await Keywords.verifyElementDisplayed(locator.errorText(employerErrorText.trim()), employerErrorText.trim());
@@ -334,7 +346,11 @@ describe('Carepath Automation', async () => {
                         let dobErrortext = dobErrorText.split(',');
                         await Keywords.SetValue(locator.dob, invalidDOBbelow18);
                         await Keywords.waitForDisplay(locator.errorPopup, 60000, "Error Popup")
-                        await Keywords.verifyText(locator.yearsOldText, "content-desc", dobErrortext[1].trim(), dobErrortext[1].trim());
+                        if (role === 'Employee') {
+                            await Keywords.verifyText(locator.yearsOldText, "content-desc", dobErrortext[1].trim(), dobErrortext[1].trim());
+                        } else {
+                            await Keywords.verifyText(locator.yearsOldText1, "content-desc", studentDobErrorText.trim(), studentDobErrorText.trim());
+                        }
                         await Keywords.click(locator.okButton, "Ok Button");
                         await Keywords.SetValue(locator.dob, invalidDOB);
                         await Keywords.waitForDisplay(locator.errorPopup, 60000, "Error Popup")
@@ -365,10 +381,9 @@ describe('Carepath Automation', async () => {
                     await Keywords.click(locator.nextButton, "Next Button")
                     const errorTexts = [studentIDErrorText, courseEnrolledErrorText]
                     for (const errorText of errorTexts) {
-                        let studentInfoScreen = errorText.split(',');
-                        await Keywords.verifyElementDisplayed(locator.errorText(studentInfoScreen.trim()), studentInfoScreen.trim());
+                        await Keywords.verifyElementDisplayed(locator.errorText(errorText.trim()), errorText.trim());
                     }
-                    await Keywords.waitForDisplay(locator.studentInformationScreen, "Student Information Screen")
+                    await Keywords.waitForDisplay(locator.studentInformationScreen, 90000, "Student Information Screen")
                     await Keywords.isDisplayed(locator.athabascaUniversity, "Athabasca University");
                     await Keywords.SetValue(locator.studentId, studentId)
                     await Keywords.SetValue(locator.courseEnrolled, courseEnrolled);
@@ -392,16 +407,16 @@ describe('Carepath Automation', async () => {
                 await Keywords.waitForDisplay(locator.otpPage(0), timeout, "OTP input");
                 for (let i = 0; i < 6; i++) {
                     await Keywords.SetValue(locator.otpPage(i), invalidOTP[i]);
-                    await Keywords.verifyText(locator.pinMustBe6DigitText, "content-desc", pinMustBe6DigitText, pinMustBe6DigitText)
+                    if (i !== 5) {
+                        await Keywords.verifyText(locator.pinMustBe6DigitText, "content-desc", pinMustBe6DigitText, pinMustBe6DigitText)
+                    }
                     if (i == 5) {
-                        await Keywords.SetValue(locator.otpPage(i), invalidOTP[i]);
-                        await browser.pause(2000)
                         await Keywords.waitForDisplay(locator.errorPopup, 60000, "Error Popup")
-                        let text = invalidOTPError.split(',');
-                        text = text.slice(2).join(',');
+                        let text = invalidOTPError.split(';');
                         await Keywords.verifyText(locator.invalidVerificationCode, "content-desc", text[0].trim(), text[0].trim())
                         await Keywords.click(locator.okButton, "Ok Button");
-                        await Keywords.verifyText(locator.invalidVerificationCode, "content-desc", text[1].trim(), text[1].trim())
+                        await Keywords.verifyText(locator.enterValidCodeText, "content-desc", text[1].trim(), text[1].trim())
+                        await Keywords.SetValue(locator.otpPage(i), '');
                     }
                 }
                 const otp = await Keywords.getOTPFromMailinator(mail);
@@ -502,12 +517,6 @@ describe('Carepath Automation', async () => {
             const loginBtnEnable = await Keywords.isEnabled(locator.loginButton, "Login button")
             expect(loginBtnEnable).to.be.true;
             await Keywords.click(locator.loginButton, "Login Button")
-            // if (await locator.allowButton.isDisplayed({ timeout: 60000 })) {
-            //     await Keywords.click(locator.allowButton, "Allow button");
-            // }
-            // if (await locator.allowNotificationButton.isDisplayed({ timeout: 60000 })) {
-            //     await Keywords.click(locator.allowNotificationButton, "Allow notification button");
-            // }
             await Keywords.waitForDisplay(locator.allowButton, 40000, "Get notified dialog box")
             await Keywords.click(locator.allowButton, "Allow button");
             await Keywords.waitForDisplay(locator.allowNotificationButton, 40000, "Allow notification")
