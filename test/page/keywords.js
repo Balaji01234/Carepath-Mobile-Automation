@@ -1,6 +1,5 @@
 import allureReporter from '@wdio/allure-reporter'
 import { locators } from './locators.js';
-import { assert } from 'chai';
 export class keywords {
 
     constructor() {
@@ -30,7 +29,7 @@ export class keywords {
 
 
     /**
-     * Log failure message, perform assertion, and attach a screenshot.
+     * Log failure message, perform throw new Errorion, and attach a screenshot.
      * @param {string} message - Failure message to log.
      * @param {Error|string} error - Optional error object or failure reason for detailed logs.
      */
@@ -59,7 +58,7 @@ export class keywords {
             console.log("Click action failed for: " + text);
             await this.AllureFail("Click action failed for: " + text, err);
             allureReporter.endStep('failed');
-            assert.fail(err);
+            throw new Error.fail(err);
         }
     }
 
@@ -81,7 +80,7 @@ export class keywords {
             console.log(`SetValue to the element: ${text} is failed`);
             await this.AllureFail(`SetValue to the element: ${text} is failed`, err);
             allureReporter.endStep('failed');
-            await assert.fail(err);
+            throw new Error.fail(err);
         }
     }
 
@@ -95,8 +94,8 @@ export class keywords {
         allureReporter.startStep(`🔍 **VERIFY**: "${text}" is displayed or not`)
         let display = false;
         try {
-            await browser.pause(2000)
-            display = await locator.isDisplayed({ timeout: 60000 });
+            await browser.pause(5000)
+            display = await locator.isDisplayed({ timeout: 90000 });
             if (display) {
                 console.log(`${text} is displayed!!!`)
                 await this.AllurePass(`${text} is displayed!!!`);
@@ -153,7 +152,7 @@ export class keywords {
             await this.AllureFail(`${text} is not displayed after waiting for ${90 * 1000}`, err)
             allureReporter.endStep('failed');
             console.log(err);
-            assert.fail(err);
+            throw new Error.fail(err);
         }
     }
 
@@ -216,9 +215,10 @@ export class keywords {
     async verifyElementDisplayed(locator, text) {
         allureReporter.startStep(`🔍 **VERIFY**: "${text}" is displayed or not`);
         try {
-            // await browser.pause(2000);
-            const display = await locator.isDisplayed({ timeout: 90000 });
-            if (display) {
+            await browser.pause(2000);
+            await locator.waitForExist({timeout: 90000})
+            const display = locator.isDisplayed({ timeout: 90000 });
+            if (await display) {
                 console.log(`${text} is displayed!!!`);
                 await this.AllurePass(`${text} is displayed!!!`);
                 allureReporter.endStep('passed');
@@ -226,13 +226,36 @@ export class keywords {
                 console.log(`${text} is not displayed!!!`);
                 await this.AllureFail(`${text} is not displayed!!!`);
                 allureReporter.endStep('failed');
-                // await assert.fail(`${text} should be displayed, but it is not.`);
+                // throw new Error.fail(`${text} should be displayed, but it is not.`);
             }
         } catch (err) {
             await this.AllureFail(`${text} is not displayed!!!`, err);
             allureReporter.endStep('failed');
             console.log(`${text} is not displayed!!!`);
-            await assert.fail(err.message || `${text} was not displayed due to an error.`);
+            throw new Error.fail(err.message || `${text} was not displayed due to an error.`);
+        }
+    }
+
+    async verifyElementNotDisplayed(locator, text) {
+        allureReporter.startStep(`🔍 **VERIFY**: "${text}" is not to be displayed`);
+        try {
+            // await browser.pause(2000);
+            const display = await locator.isDisplayed({ timeout: 90000 });
+            if (!display) {
+                console.log(`${text} is not displayed!!!`);
+                await this.AllurePass(`${text} is not displayed!!!`);
+                allureReporter.endStep('passed');
+            } else {
+                console.log(`${text} is displayed!!!`);
+                await this.AllureFail(`${text} is displayed!!!`);
+                allureReporter.endStep('failed');
+                // throw new Error.fail(`${text} should be displayed, but it is not.`);
+            }
+        } catch (err) {
+            await this.AllureFail(`${text} is displayed!!!`, err);
+            allureReporter.endStep('failed');
+            console.log(`${text} is displayed!!!`);
+            throw new Error(err.message || `${text} was displayed due to an error.`);
         }
     }
 
@@ -249,13 +272,13 @@ export class keywords {
                 console.log(`${text} is not displayed!!!`);
                 await this.AllureFail(`${text} is not displayed!!!`);
                 allureReporter.endStep('failed');
-                // await assert.fail(`${text} should be displayed, but it is not.`);
+                // throw new Error.fail(`${text} should be displayed, but it is not.`);
             }
         } catch (err) {
             await this.AllureFail(`${text} is not displayed!!!`, err);
             allureReporter.endStep('failed');
             console.log(`${text} is not displayed!!!`);
-            await assert.fail(err.message || `${text} was not displayed due to an error.`);
+            throw new Error(err.message || `${text} was not displayed due to an error.`);
         }
     }
 
@@ -274,6 +297,23 @@ export class keywords {
         }
     }
 
+    async verifyElementIsDisabled(locator, text) {
+        allureReporter.startStep(`🔍 **VERIFY**: "${text}" is disabled or not`)
+        let enable = false;
+        try {
+            if(!await locator.isEnabled()){
+                enable = true;
+                console.log(`${text} is disabled!!!`)
+                await this.AllurePass(`${text} is disabled!!!`);
+                allureReporter.endStep('passed');
+            };
+        } catch (err) {
+            allureReporter.endStep('failed');
+            console.log(`${text} is Enabled!!!`)
+            throw new Error(`${text} is Enabled!!!`);
+        }
+    }
+
     async verifyText(locator, attributeName, expectedText, logText) {
         allureReporter.startStep(`🔍 **TEXT VERIFY**: "${logText}" `)
         let actualText;
@@ -288,14 +328,14 @@ export class keywords {
                 console.log(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
                 await this.AllureFail(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
                 allureReporter.endStep('failed');
-                // await assert.fail(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+                // throw new Error.fail(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
                 throw new Error(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
             }
         } catch (error) {
             await this.AllureFail(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`, error);
             allureReporter.endStep('failed');
             console.log(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
-            assert.fail(error.message || `Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+            throw new Error(error.message || `Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
         }
     }
 
@@ -324,7 +364,7 @@ export class keywords {
             await this.AllureFail(`Error during text verification: ${error.message}`, error);
             allureReporter.endStep('failed');
             console.log(`Error: ${error.message}`);
-            assert.fail(error.message || `Error during text verification.`);
+            throw new Error(error.message || `Error during text verification.`);
         }
     }
 
@@ -358,13 +398,13 @@ export class keywords {
                 console.log(`Not Matched -> Actual text: ${actualText} is not in the expected list: ${expectedTextList}`);
                 await this.AllureFail(`Not Matched -> Actual text: ${actualText} is not in the expected list: ${expectedTextList}`);
                 allureReporter.endStep('failed');
-                // await assert.fail(`Not Matched -> Actual text: ${actualText} is not in the expected list: ${expectedTextList}`);
+                // throw new Error.fail(`Not Matched -> Actual text: ${actualText} is not in the expected list: ${expectedTextList}`);
             }
         } catch (error) {
             await this.AllureFail(`Error occurred while verifying text: ${error.message || error}`, error);
             allureReporter.endStep('failed');
             console.log(`Error occurred while verifying text: ${error.message || error}`);
-            await assert.fail(error.message || `Error occurred while verifying text.`);
+            throw new Error.fail(error.message || `Error occurred while verifying text.`);
         }
     }
 
@@ -382,14 +422,14 @@ export class keywords {
                 console.log(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
                 await this.AllureFail(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
                 allureReporter.endStep('failed');
-                // await assert.fail(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+                // throw new Error.fail(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
                 throw new Error(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
             }
         } catch (error) {
             await this.AllureFail(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`, error);
             allureReporter.endStep('failed');
             console.log(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
-            assert.fail(error.message || `Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+            throw new Error.fail(error.message || `Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
         }
     }
 
