@@ -1104,5 +1104,5 @@ describe('Carepath Automation', async () => {
         } catch (err) {
             throw new Error(err);
         }
-    });
+    })
 });
