@@ -242,6 +242,7 @@ describe('Carepath Automation', async () => {
             await Keywords.verifyText(community.likepage, "content-desc", "automation post", "automation post");
             await Keywords.verifyElementDisplayed(community.test, "test");
             await Keywords.verifyElementDisplayed(community.Browsearticlesabout, "Browse articles about:");
+            await driver.pause(5000);
             await Keywords.verifyElementDisplayed(community.image, "image");    
             await Keywords.verifyElementIsEnabled(community.addComment, "Add Comment Button");
             await Keywords.click(community.clickonimage, "Image");   
@@ -249,6 +250,8 @@ describe('Carepath Automation', async () => {
             await Keywords.verifyElementDisplayed(community.imagesScreenClose, "Image Screen close");   
             await Keywords.click(community.imagesScreenClose, "Image Screen close");   
             await Keywords.verifyElementDisplayed(community.Browsearticlesabout, "Browse articles about:");
+
+
 
         } catch (err) {
             throw new Error(err);
