@@ -160,6 +160,9 @@ export class Forgotslocators {
     get repeathide(){
         return $(`(//android.view.View[@content-desc="action_eye_closed_icon_action"])[3]`)
     }
+    forgotloc(forgot) {
+        return $(`~{forgot}`);
+    }
 
 
 

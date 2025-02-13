@@ -4,7 +4,7 @@ import { assert } from 'chai';
 export class keywords {
 
     constructor() {
-        this.locator = new locators(this.locator);
+        this.locator = new locators();
         this.timeout = process.env.DISPLAY_TIMEOUT
     }
     /**
@@ -402,6 +402,40 @@ export class keywords {
             allureReporter.endStep('failed');
             console.log(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
             assert.fail(error.message || `Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+        }
+    }
+
+    async verifyElementDisplayed2(locators, text) {
+        allureReporter.startStep(`🔍 **VERIFY**: "${text}" is displayed or not`);
+        let value = false;
+        try {
+            let locator = locators.split(';');
+            console.log("locator: "+ locator)
+            const locatorCount = locator.length;
+            await browser.pause(2000);
+            for(let i=0;i<locatorCount;i++){
+                const display = this.locator.errorText(locator[i]).isDisplayed({ timeout: 90000 });
+                if (await display) {
+                    value = true;
+                    console.log(`${locator[i]} is displayed!!!`);
+                    await this.AllurePass(`${locator[i]} is displayed!!!`);
+                    allureReporter.endStep('passed');
+                    break;
+                }
+            }
+            if(value === false ){
+                
+                    console.log(`${text} is not displayed!!!`);
+                    await this.AllureFail(`${text} is not displayed!!!`);
+                    allureReporter.endStep('failed');
+                    throw new Error(`${text} should be displayed, but it is not.`);
+            }
+           
+        } catch (err) {
+            await this.AllureFail(`${text} is not displayed!!!`, err);
+            allureReporter.endStep('failed');
+            console.log(`${text} is not displayed!!!`);
+            throw new Error(err.message || `${text} was not displayed due to an error.`);
         }
     }
 
