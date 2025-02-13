@@ -177,7 +177,7 @@ describe('Carepath Automation', async () => {
                 await Keywords.verifyElementIsEnabled(Forgot.savebutton, "Save Button");
                 await Keywords.click(Forgot.savebutton, "Save Button"); 
                 await Keywords.verifyElementDisplayed(Forgot.withoutSpecialChar, "Password must have at least one special character");
-                // await Keywords.verifyElementDisplayed(Forgot.notmatch, "Password do not match");
+             
 
                 await Keywords.SetValue(Forgot.newpasswordField, EmptySpace);
                 await Keywords.SetValue(Forgot.repeatPasswordField, EmptySpace);
@@ -191,21 +191,7 @@ describe('Carepath Automation', async () => {
                 await Keywords.click(Forgot.savebutton, "Save Button"); 
                 await Keywords.verifyElementDisplayed(Forgot.newpassword, "Please enter new password");
 
-                // await Keywords.SetValue(Forgot.newpasswordField, Valied);
-                // await Keywords.verifyElementIsEnabled(Forgot.savebutton, "Save Button");
-                // await Keywords.click(Forgot.savebutton, "Save Button"); 
-                // await Keywords.verifyElementDisplayed(Forgot.notmatch, "Password do not match");
-           
-                // await Keywords.SetValue(Forgot.repeatPasswordField, Valied);
-                // await Keywords.verifyElementIsEnabled(Forgot.savebutton, "Save Button");
-                // await Keywords.click(Forgot.savebutton, "Save Button"); 
-                // await Keywords.verifyElementDisplayed(Forgot.newpassword, "Please enter new password");
-                // await Keywords.verifyElementDisplayed(Forgot.notmatch, "Password do not match");
-
-
-                // await Keywords.verifyElementIsEnabled(Forgot.savebutton, "Save Button");
-                // await Keywords.click(Forgot.savebutton, "Save Button"); 
-                // await Keywords.verifyElementDisplayed(Forgot.newpassword, "Please enter new password");
+                
                    await Keywords.SetValue(Forgot.newpasswordField, oldPass);
                    await Keywords.SetValue(Forgot.repeatPasswordField, oldPass);
                    await Keywords.verifyElementIsEnabled(Forgot.savebutton, "Save Button");
@@ -213,12 +199,8 @@ describe('Carepath Automation', async () => {
                    const loginDisplay2 = await Keywords.isDisplayed(locator.loginScreen, "Login screen")
                    expect(loginDisplay2).to.be.true;
                
-
-                 
                    
-                   
-
-
+                
 
          } catch (err) {
              throw new Error(err);
