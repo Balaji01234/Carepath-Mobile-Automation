@@ -111,7 +111,7 @@ describe('Carepath Automation', async () => {
                     let text = errorText.split(',');
                     if (errorText === FirstNameErrorText) {
                         console.log("invalidFirstName:"+invalidFirstName);
-                        if((invalidFirstName).toLowerCase() == "empty"){
+                        if((invalidFirstName.trim()).toLowerCase() == "empty"){
                             await Keywords.SetValue(locator.firstName, "     ");
                             await Keywords.click(locator.nextButton, "Next Button")  
                             await Keywords.verifyElementDisplayed2(FirstNameErrorText, FirstNameErrorText);
@@ -151,10 +151,12 @@ describe('Carepath Automation', async () => {
                             
                             if((invalidPhoneNumber.trim()).toLowerCase() == "empty"){
                                 await Keywords.SetValue(locator.phoneNumber, "     ");
+                                
                                 await Keywords.click(locator.nextButton, "Next Button")  
                                 await Keywords.verifyElementDisplayed2(PhoneNumberErrorText, PhoneNumberErrorText);
                             }else{
                                 await Keywords.SetValue(locator.phoneNumber, invalidPhoneNumber);
+                                
                                 await Keywords.click(locator.nextButton, "Next Button")
                                 await Keywords.verifyElementDisplayed2(PhoneNumberErrorText, PhoneNumberErrorText);
                             }
