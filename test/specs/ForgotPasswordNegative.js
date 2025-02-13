@@ -207,6 +207,157 @@ describe('Carepath Automation', async () => {
          }
      });
 
+     for (let i = 0; i < iterationValue.length; i++) {
+     it('Tc_001ForgotpasswordNegativeFlow ${iterationValue[i]}', async () => {
+        allureReporter.addDescription(`
+            1. Click on the "Start Now" button.
+            2.Click on Forgot password
+            3.Chnage the password
+            4.Provide invalied password
+        `);
+        try {
 
+
+           const Email = await readData1("ForgotPassword", "ForgotPasswords","My profile",`Testdata${iterationValue[i]}`);
+           const Firstname = await readData1("ForgotPassword", "ForgotPasswords","Firstname",`Testdata${iterationValue[i]}`);
+           const Lastname = await readData1("ForgotPassword", "ForgotPasswords","Lastname",`Testdata${iterationValue[i]}`);
+           const FirestnameError = await readData1("ForgotPassword", "ForgotPasswords","FirstNameErrorText",`Testdata${iterationValue[i]}`);
+           const LastnameError = await readData1("ForgotPassword", "ForgotPasswords","LastNameErrorText",`Testdata${iterationValue[i]}`);
+           const oldpass = await readData1("ForgotPassword", "ForgotPasswords","OldPasswordForTesting",`Testdata${iterationValue[i]}`);
+        
+
+            await Keywords.waitForDisplay(locator.startNow, 60000, "Start Now Button")
+            await Keywords.click(locator.startNow, "Start Now Button")
+            const loginDisplay = await Keywords.isDisplayed(locator.loginScreen, "Login screen")
+            expect(loginDisplay).to.be.true;
+            await Keywords.verifyText(Forgot.forgot, "content-desc", "Forgot password?", "Forgot password?") 
+            await Keywords.click(Forgot.forgot, "Forgot password?");
+            await Keywords.verifyElementDisplayed(Forgot.Pleaseentertheemailaddress, "Please enter the email address");
+            await Keywords.verifyElementDisplayed(Forgot.forgotpage, "In case you have forgotten your password, please send us a request to reset it. You will receive an email with instructions to update your password.");
+            await Keywords.SetValue(Forgot.EmailField, Email);
+            await Keywords.verifyElementIsEnabled(Forgot.sendRequest, "Send Request");
+            await Keywords.click(Forgot.sendRequest, "Send Request"); 
+            await Keywords.verifyText(Forgot.forgotScreen, "content-desc", "FORGOT PASSWORD?", "Forgot password");
+            await Keywords.verifyElementDisplayed(Forgot.conform, "We need to send you the code to reset password");
+            await Keywords.verifyElementDisplayed(Forgot.verifymessage, "Verified and recommended for you");
+            await Keywords.click(Forgot.sendrequest, "Send Request"); 
+            await Keywords.verifyText(Forgot.forgotScreen, "content-desc", "FORGOT PASSWORD?", "Forgot password");
+            const oldPass = await readData1("Testdata", "ForgotPassword","Testdata1","Old Password");
+
+               const otp = await Keywords.getOTPFromMailinator(Email);
+               
+               expect(otp).to.not.equal("");
+               await driver.switchContext('NATIVE_APP');
+               await Keywords.waitForDisplay(locator.otpPage(0), timeout, "OTP input");
+               for (let i = 0; i < 6; i++) {
+                   await Keywords.SetValue(locator.otpPage(i), otp[i]);
+               }
+               
+
+               await Keywords.waitForDisplay(Forgot.resetpass, 60000, "Reset your password")
+               await Keywords.verifyText(Forgot.Reset, "content-desc", "Reset your password", "Reset your password");
+               await Keywords.verifyElementDisplayed(Forgot.newpass, "New Password");
+               await Keywords.verifyElementDisplayed(Forgot.repeatpassword, "Repeat Password");
+               await Keywords.click(Forgot.newpassunhide, "Un hide"); 
+
+               console.log({
+                FirstName,
+                LastName,
+              
+            });
+
+
+            
+            const errorTexts1 = [FirstNameErrorText, LastNameErrorText]
+            for (const errorText of errorTexts1) {
+                let text = errorText.split(',');
+                if (errorText === FirstNameErrorText) {
+                    console.log("invalidFirstName:" + invalidFirstName);
+                    if ((invalidFirstName.trim()).toLowerCase() == "empty") {
+                        await Keywords.SetValue(Forgot.newpasswordField, "     ");
+                        
+                        await Keywords.SetValue(Forgot.repeatPasswordField, oldpass);       
+                        await Keywords.click(locator.nextButton, "Next Button")
+                        await Keywords.verifyElementIsEnabled(Forgot.savebutton, "Save Button");
+                        await Keywords.click(Forgot.savebutton, "Save Button"); 
+                     
+                    } else {
+                        await Keywords.SetValue(locator.firstName, invalidFirstName);
+                        await Keywords.SetValue(locator.lastName, LastName);
+                        await Keywords.SetValue(locator.emailId, mail);
+                        await Keywords.SetValue(locator.phoneNumber, phoneNumber);
+                        await Keywords.SetValue(locator.passwordField, password);
+                        await Keywords.SetValue(locator.repeatPassword, password);
+                        await Keywords.click(locator.nextButton, "Next Button");
+                        await Keywords.verifyElementDisplayed2(FirstNameErrorText, FirstNameErrorText);
+                    }
+
+                } else if (errorText === LastNameErrorText) {
+
+                    if ((invalidLastName.trim()).toLowerCase() == "empty") {
+                        await Keywords.SetValue(locator.lastName, "     ");
+                        await Keywords.SetValue(locator.firstName, FirstName);
+            await Keywords.SetValue(locator.emailId, mail);
+            await Keywords.SetValue(locator.phoneNumber, phoneNumber);
+            await Keywords.SetValue(locator.passwordField, password);
+            await Keywords.SetValue(locator.repeatPassword, password);
+                        await Keywords.click(locator.nextButton, "Next Button")
+                        await Keywords.verifyElementDisplayed2(LastNameErrorText, LastNameErrorText);
+                    } else {
+                        await Keywords.SetValue(locator.lastName, invalidLastName);
+                        await Keywords.SetValue(locator.firstName, FirstName);
+                        await Keywords.SetValue(locator.emailId, mail);
+                        await Keywords.SetValue(locator.phoneNumber, phoneNumber);
+                        await Keywords.SetValue(locator.passwordField, password);
+                        await Keywords.SetValue(locator.repeatPassword, password);
+                        await Keywords.click(locator.nextButton, "Next Button");
+                        await Keywords.verifyElementDisplayed2(LastNameErrorText, LastNameErrorText);
+                    }
+
+                } else if (errorText === EmailIDErrorText) {
+
+                    if ((invalidEmail.trim()).toLowerCase() == "empty") {
+                        await Keywords.SetValue(locator.emailId, "     ");
+                        await Keywords.SetValue(locator.firstName, FirstName);
+                        await Keywords.SetValue(locator.lastName, LastName);
+                        await Keywords.SetValue(locator.phoneNumber, phoneNumber);
+                        await Keywords.SetValue(locator.passwordField, password);
+                        await Keywords.SetValue(locator.repeatPassword, password);
+
+                        await Keywords.click(locator.nextButton, "Next Button")
+                        await Keywords.verifyElementDisplayed2(EmailIDErrorText, EmailIDErrorText);
+                    } else {
+                        await Keywords.SetValue(locator.emailId, invalidEmail);
+                        await Keywords.SetValue(locator.firstName, FirstName);
+                        await Keywords.SetValue(locator.lastName, LastName);
+                        await Keywords.SetValue(locator.phoneNumber, phoneNumber);
+                        await Keywords.SetValue(locator.passwordField, password);
+                        await Keywords.SetValue(locator.repeatPassword, password);
+                        await Keywords.click(locator.nextButton, "Next Button")
+                        await Keywords.verifyElementDisplayed2(EmailIDErrorText, EmailIDErrorText);
+                    }
+
+                }
+            }
+
+
+
+               
+               
+                  await Keywords.SetValue(Forgot.newpasswordField, oldPass);
+                  await Keywords.SetValue(Forgot.repeatPasswordField, oldPass);
+                  await Keywords.verifyElementIsEnabled(Forgot.savebutton, "Save Button");
+                  await Keywords.click(Forgot.savebutton, "Save Button"); 
+                  const loginDisplay2 = await Keywords.isDisplayed(locator.loginScreen, "Login screen")
+                  expect(loginDisplay2).to.be.true;
+              
+        } catch (err) {
+            throw new Error(err);
+        }
+   
+    });
+
+     }
+  
 
 });
