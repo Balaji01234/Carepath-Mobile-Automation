@@ -269,50 +269,39 @@ describe('Carepath Automation', async () => {
                             await Keywords.SetValue(Forgot.repeatPasswordField, oldpass);
                             await Keywords.verifyElementIsEnabled(Forgot.savebutton, "Save Button");
                             await Keywords.click(Forgot.savebutton, "Save Button");
-                            // await Keywords.verifyElementDisplayed2(Forgot.forgotloc, FirestnameError);
                             await Keywords.verifyElementDisplayed2(FirestnameError, FirestnameError);
                         } else {
                             await Keywords.SetValue(Forgot.newpasswordField,Firstnameval);
                             await Keywords.verifyElementIsEnabled(Forgot.savebutton, "Save Button");
                             await Keywords.click(Forgot.savebutton, "Save Button");
-                            // await Keywords.verifyElementDisplayed2(Forgot.forgotloc, FirestnameError);
                             await Keywords.verifyElementDisplayed2(FirestnameError, FirestnameError);
                            
                         }
 
-                    // } else if (errorText === LastNameErrorText) {
+                    } else if (errorText === LastnameError) {
 
-                    //     if ((invalidLastName.trim()).toLowerCase() == "empty") {
-                    //         await Keywords.SetValue(locator.lastName, "     ");
-                    //         await Keywords.SetValue(locator.firstName, FirstName);
-                    //         await Keywords.SetValue(locator.emailId, mail);
-                    //         await Keywords.SetValue(locator.phoneNumber, phoneNumber);
-                    //         await Keywords.SetValue(locator.passwordField, password);
-                    //         await Keywords.SetValue(locator.repeatPassword, password);
-                    //         await Keywords.click(locator.nextButton, "Next Button")
-                    //         await Keywords.verifyElementDisplayed2(LastNameErrorText, LastNameErrorText);
-                    //     } else {
-                    //         await Keywords.SetValue(locator.lastName, invalidLastName);
-                    //         await Keywords.SetValue(locator.firstName, FirstName);
-                    //         await Keywords.SetValue(locator.emailId, mail);
-                    //         await Keywords.SetValue(locator.phoneNumber, phoneNumber);
-                    //         await Keywords.SetValue(locator.passwordField, password);
-                    //         await Keywords.SetValue(locator.repeatPassword, password);
-                    //         await Keywords.click(locator.nextButton, "Next Button");
-                    //         await Keywords.verifyElementDisplayed2(LastNameErrorText, LastNameErrorText);
-                    //     }
+                        if ((Lastname.trim()).toLowerCase() == "empty") {
+                            await Keywords.SetValue(Forgot.repeatPasswordField, "     ");
+                            await Keywords.SetValue(Forgot.newpasswordField, oldpass);
+                            await Keywords.verifyElementIsEnabled(Forgot.savebutton, "Save Button");
+                            await Keywords.click(Forgot.savebutton, "Save Button");
+                            await Keywords.verifyElementDisplayed2(LastnameError, LastnameError);
+                        } else {
+                            await Keywords.SetValue(Forgot.repeatPasswordField,Lastname);
+                            await Keywords.SetValue(Forgot.newpasswordField, oldpass);
+                            await Keywords.verifyElementIsEnabled(Forgot.savebutton, "Save Button");
+                            await Keywords.click(Forgot.savebutton, "Save Button");
+                            await Keywords.verifyElementDisplayed2(LastnameError, LastnameError);
+                        }
 
                     }
                 }
-
-
-
-
 
                 await Keywords.SetValue(Forgot.newpasswordField, oldPass);
                 await Keywords.SetValue(Forgot.repeatPasswordField, oldPass);
                 await Keywords.verifyElementIsEnabled(Forgot.savebutton, "Save Button");
                 await Keywords.click(Forgot.savebutton, "Save Button");
+                await browser.implicitWait(9000);
                 const loginDisplay2 = await Keywords.isDisplayed(locator.loginScreen, "Login screen")
                 expect(loginDisplay2).to.be.true;
 

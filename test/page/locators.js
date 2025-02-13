@@ -316,5 +316,8 @@ export class locators {
     get mailForgot(){
         return $(`//android.widget.TextView[@text="FORGOT PASSWORD"]`)
     }
+    errorText(accessibilityId) {
+        return $(`~${accessibilityId}`)
+    }
 
 }

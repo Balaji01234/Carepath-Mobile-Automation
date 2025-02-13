@@ -31,8 +31,9 @@ describe('Carepath Automation', async () => {
     //     }
     // });
 
-
-    it('Forgotpasswordpositive', async () => {
+    for (let i = 0; i < iterationValue.length; i++) {
+    it(`Forgotpasswordpositive${iterationValue[i]}`, async () => {
+  
          allureReporter.addDescription(`
              1. Click on the "Start Now" button.
              2.Click on Forgot password
@@ -41,9 +42,12 @@ describe('Carepath Automation', async () => {
          `);
          try {
 
-            const Email = await readData1("Testdata", "ForgotPassword","Testdata1","Valied Mail");
-            const newPass = await readData1("Testdata", "ForgotPassword","Testdata1","New Password");
-            const oldPass = await readData1("Testdata", "ForgotPassword","Testdata1","Old Password");
+            const Email = await readData1("ForgotPassword", "ForgotPasswords", "My profile", `Testdata${iterationValue[i]}`);
+            // const Email = await readData1("Testdata", "ForgotPassword","Testdata1","Valied Mail");
+            // const newPass = await readData1("Testdata", "ForgotPassword","Testdata1","New Password");
+            // const oldPass = await readData1("Testdata", "ForgotPassword","Testdata1","Old Password");
+            const newPass = await readData1("ForgotPassword", "ForgotPasswords", "New Password", `Testdata${iterationValue[i]}`);
+            const oldPass = await readData1("ForgotPassword", "ForgotPasswords", "Old Password", `Testdata${iterationValue[i]}`);
 
              await Keywords.waitForDisplay(locator.startNow, 60000, "Start Now Button")
              await Keywords.click(locator.startNow, "Start Now Button")
@@ -118,8 +122,9 @@ describe('Carepath Automation', async () => {
          } catch (err) {
              throw new Error(err);
          }
+        
      });
-
+    }
 
 
 });
