@@ -420,13 +420,13 @@ describe('Carepath Automation', async () => {
                         console.log("invalidFirstName:" + invalidFirstName);
                         if ((invalidFirstName.trim()).toLowerCase() == "empty") {
                             await Keywords.SetValue(locator.firstName, "     ");
-                            
+
                             await Keywords.SetValue(locator.lastName, LastName);
                             await Keywords.SetValue(locator.emailId, mail);
                             await Keywords.SetValue(locator.phoneNumber, phoneNumber);
                             await Keywords.SetValue(locator.passwordField, password);
                             await Keywords.SetValue(locator.repeatPassword, password);
-                            
+
                             await Keywords.click(locator.nextButton, "Next Button")
                             await Keywords.verifyElementDisplayed2(FirstNameErrorText, FirstNameErrorText);
                         } else {
@@ -443,17 +443,18 @@ describe('Carepath Automation', async () => {
                     } else if (errorText === LastNameErrorText) {
 
                         if ((invalidLastName.trim()).toLowerCase() == "empty") {
+                          
+                            await Keywords.SetValue(locator.firstName, FirstName); 
                             await Keywords.SetValue(locator.lastName, "     ");
-                            await Keywords.SetValue(locator.firstName, FirstName);
-                await Keywords.SetValue(locator.emailId, mail);
-                await Keywords.SetValue(locator.phoneNumber, phoneNumber);
-                await Keywords.SetValue(locator.passwordField, password);
-                await Keywords.SetValue(locator.repeatPassword, password);
+                            await Keywords.SetValue(locator.emailId, mail);
+                            await Keywords.SetValue(locator.phoneNumber, phoneNumber);
+                            await Keywords.SetValue(locator.passwordField, password);
+                            await Keywords.SetValue(locator.repeatPassword, password);
                             await Keywords.click(locator.nextButton, "Next Button")
                             await Keywords.verifyElementDisplayed2(LastNameErrorText, LastNameErrorText);
                         } else {
-                            await Keywords.SetValue(locator.lastName, invalidLastName);
                             await Keywords.SetValue(locator.firstName, FirstName);
+                            await Keywords.SetValue(locator.lastName, invalidLastName);
                             await Keywords.SetValue(locator.emailId, mail);
                             await Keywords.SetValue(locator.phoneNumber, phoneNumber);
                             await Keywords.SetValue(locator.passwordField, password);
@@ -465,9 +466,9 @@ describe('Carepath Automation', async () => {
                     } else if (errorText === EmailIDErrorText) {
 
                         if ((invalidEmail.trim()).toLowerCase() == "empty") {
-                            await Keywords.SetValue(locator.emailId, "     ");
                             await Keywords.SetValue(locator.firstName, FirstName);
                             await Keywords.SetValue(locator.lastName, LastName);
+                            await Keywords.SetValue(locator.emailId, "     ");
                             await Keywords.SetValue(locator.phoneNumber, phoneNumber);
                             await Keywords.SetValue(locator.passwordField, password);
                             await Keywords.SetValue(locator.repeatPassword, password);
@@ -475,9 +476,10 @@ describe('Carepath Automation', async () => {
                             await Keywords.click(locator.nextButton, "Next Button")
                             await Keywords.verifyElementDisplayed2(EmailIDErrorText, EmailIDErrorText);
                         } else {
-                            await Keywords.SetValue(locator.emailId, invalidEmail);
+                       
                             await Keywords.SetValue(locator.firstName, FirstName);
                             await Keywords.SetValue(locator.lastName, LastName);
+                            await Keywords.SetValue(locator.emailId, invalidEmail);
                             await Keywords.SetValue(locator.phoneNumber, phoneNumber);
                             await Keywords.SetValue(locator.passwordField, password);
                             await Keywords.SetValue(locator.repeatPassword, password);
@@ -490,32 +492,35 @@ describe('Carepath Automation', async () => {
                         if (role === 'Student') {
 
                             if ((invalidPhoneNumber.trim()).toLowerCase() == "empty") {
+                            
+                                await Keywords.SetValue(locator.firstName, FirstName);
+                                await Keywords.SetValue(locator.lastName, LastName);
+                                await Keywords.SetValue(locator.emailId, mail);
                                 await Keywords.SetValue(locator.phoneNumber, "     ");
-                                await Keywords.SetValue(locator.firstName, FirstName);
-                                await Keywords.SetValue(locator.lastName, LastName);
-                                await Keywords.SetValue(locator.emailId, mail);
                                 await Keywords.SetValue(locator.passwordField, password);
                                 await Keywords.SetValue(locator.repeatPassword, password);
                                 await Keywords.click(locator.nextButton, "Next Button")
-                                await Keywords.verifyElementDisplayed2(PhoneNumberErrorText, PhoneNumberErrorText);
+                                await Keywords.verifyElementDisplayed2(phoneNumberErrorStudent, phoneNumberErrorStudent);
                             } else {
-                                await Keywords.SetValue(locator.phoneNumber, invalidPhoneNumber);
+                              
                                 await Keywords.SetValue(locator.firstName, FirstName);
                                 await Keywords.SetValue(locator.lastName, LastName);
                                 await Keywords.SetValue(locator.emailId, mail);
+                                await Keywords.SetValue(locator.phoneNumber, invalidPhoneNumber);
                                 await Keywords.SetValue(locator.passwordField, password);
                                 await Keywords.SetValue(locator.repeatPassword, password);
                                 await Keywords.click(locator.nextButton, "Next Button")
-                                await Keywords.verifyElementDisplayed2(PhoneNumberErrorText, PhoneNumberErrorText);
+                                await Keywords.verifyElementDisplayed2(phoneNumberErrorStudent, phoneNumberErrorStudent);
                             }
 
                         } else {
 
                             if ((invalidPhoneNumber).toLowerCase() == "empty") {
-                                await Keywords.SetValue(locator.phoneNumber, "     ");
+                              
                                 await Keywords.SetValue(locator.firstName, FirstName);
                                 await Keywords.SetValue(locator.lastName, LastName);
                                 await Keywords.SetValue(locator.emailId, mail);
+                                await Keywords.SetValue(locator.phoneNumber, "     ");
                                 await Keywords.SetValue(locator.passwordField, password);
                                 await Keywords.SetValue(locator.repeatPassword, password);
 
@@ -524,10 +529,11 @@ describe('Carepath Automation', async () => {
                                 await Keywords.verifyElementDisplayed2(PhoneNumberErrorText, PhoneNumberErrorText);
                             } else {
 
-                                await Keywords.SetValue(locator.phoneNumber, invalidPhoneNumber);
+                          
                                 await Keywords.SetValue(locator.firstName, FirstName);
                                 await Keywords.SetValue(locator.lastName, LastName);
                                 await Keywords.SetValue(locator.emailId, mail);
+                                await Keywords.SetValue(locator.phoneNumber, invalidPhoneNumber);
                                 await Keywords.SetValue(locator.passwordField, password);
                                 await Keywords.SetValue(locator.repeatPassword, password);
                                 await Keywords.click(locator.nextButton, "Next Button")
@@ -553,14 +559,6 @@ describe('Carepath Automation', async () => {
                 await Keywords.SetValue(locator.phoneNumber, phoneNumber);
                 await Keywords.SetValue(locator.passwordField, password);
                 await Keywords.SetValue(locator.repeatPassword, password);
-
-
-
-
-
-
-
-                //done
 
                 if (!await locator.nextButton.isDisplayed()) {
                     await browser.hideKeyboard();
