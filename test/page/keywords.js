@@ -3,7 +3,7 @@ import { locators } from './locators.js';
 export class keywords {
 
     constructor() {
-        this.locator = new locators(this.locator);
+        this.locator = new locators();
         this.timeout = process.env.DISPLAY_TIMEOUT
     }
     /**
@@ -362,7 +362,6 @@ export class keywords {
                 console.log(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
                 await this.AllureFail(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
                 allureReporter.endStep('failed');
-                // throw new Error(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
                 throw new Error(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
             }
         } catch (error) {
@@ -432,7 +431,7 @@ export class keywords {
                 console.log(`Not Matched -> Actual text: ${actualText} is not in the expected list: ${expectedTextList}`);
                 await this.AllureFail(`Not Matched -> Actual text: ${actualText} is not in the expected list: ${expectedTextList}`);
                 allureReporter.endStep('failed');
-                // throw new Error(`Not Matched -> Actual text: ${actualText} is not in the expected list: ${expectedTextList}`);
+                throw new Error(`Not Matched -> Actual text: ${actualText} is not in the expected list: ${expectedTextList}`);
             }
         } catch (error) {
             await this.AllureFail(`Error occurred while verifying text: ${error.message || error}`, error);
