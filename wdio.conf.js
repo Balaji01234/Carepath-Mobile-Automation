@@ -294,7 +294,7 @@ export const config = {
             });
             if (!passed) {
                 const fileName = `${test.title.replace(/ /g, '_')}.png`;
-                const screenshotPath = `./reports/html-reports/screenshots/${fileName}`;
+                const screenshotPath = `./reports/html-reports/${HTMLResultsDir}screenshots/${fileName}`;
                 await browser.saveScreenshot(screenshotPath);
                 console.log(`Screenshot saved: ${screenshotPath}`);
             }
