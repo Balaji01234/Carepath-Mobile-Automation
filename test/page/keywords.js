@@ -73,6 +73,7 @@ export class keywords {
             await locator.waitForDisplayed({ timeout: 45000 });
             await locator.click();
             await browser.pause(2000);
+            await locator.clearValue();
             await locator.setValue(text);
             await this.AllurePass(`Successfully set value ${text}`)
             allureReporter.endStep('passed');
@@ -179,7 +180,8 @@ export class keywords {
             await this.SetValue(this.locator.chromeUrl, process.env.MAILINATOR);
             await browser.pause(2000)
             await driver.keys('Enter');
-            if (await this.locator.mailinatorInbox.isDisplayed({ timeout: 60000 })) {
+            await browser.pause(2000)
+            if (await this.locator.mailinatorInbox.isDisplayed({ timeout: 80000 })) {
                 await this.locator.mailinatorInbox.clearValue();
                 await this.SetValue(this.locator.mailinatorInbox, mail);
             } else {
@@ -216,15 +218,15 @@ export class keywords {
         allureReporter.startStep(`🔍 **VERIFY**: "${text}" is displayed or not`);
         try {
             await browser.pause(2000);
-            await locator.waitForExist({timeout: 90000})
+            await locator.waitForExist({ timeout: 90000 })
             const display = locator.isDisplayed({ timeout: 90000 });
             if (await display) {
                 console.log(`${text} is displayed!!!`);
-                await this.AllurePass(`${text} is displayed!!!`);
+                await this.AllurePass(`"${text}" is displayed!!!`);
                 allureReporter.endStep('passed');
             } else {
                 console.log(`${text} is not displayed!!!`);
-                await this.AllureFail(`${text} is not displayed!!!`);
+                await this.AllureFail(`"${text}" is not displayed!!!`);
                 allureReporter.endStep('failed');
                 // throw new Error.fail(`${text} should be displayed, but it is not.`);
             }
@@ -241,27 +243,25 @@ export class keywords {
         let value = false;
         try {
             let locator = locators.split(';');
-            console.log("locator: "+ locator)
             const locatorCount = locator.length;
             await browser.pause(2000);
-            for(let i=0;i<locatorCount;i++){
+            for (let i = 0; i < locatorCount; i++) {
                 const display = this.locator.errorText(locator[i]).isDisplayed({ timeout: 90000 });
                 if (await display) {
                     value = true;
                     console.log(`${locator[i]} is displayed!!!`);
-                    await this.AllurePass(`${locator[i]} is displayed!!!`);
+                    await this.AllurePass(`"${locator[i]}" is displayed!!!`);
                     allureReporter.endStep('passed');
                     break;
                 }
             }
-            if(value === false ){
-                
-                    console.log(`${text} is not displayed!!!`);
-                    await this.AllureFail(`${text} is not displayed!!!`);
-                    allureReporter.endStep('failed');
-                    throw new Error(`${text} should be displayed, but it is not.`);
+            if (value === false) {
+                console.log(`${text} is not displayed!!!`);
+                await this.AllureFail(`"${text}" is not displayed!!!`);
+                allureReporter.endStep('failed');
+                throw new Error(`${text} should be displayed, but it is not.`);
             }
-           
+
         } catch (err) {
             await this.AllureFail(`${text} is not displayed!!!`, err);
             allureReporter.endStep('failed');
@@ -335,7 +335,7 @@ export class keywords {
         allureReporter.startStep(`🔍 **VERIFY**: "${text}" is disabled or not`)
         let enable = false;
         try {
-            if(!await locator.isEnabled()){
+            if (!await locator.isEnabled()) {
                 enable = true;
                 console.log(`${text} is disabled!!!`)
                 await this.AllurePass(`${text} is disabled!!!`);
