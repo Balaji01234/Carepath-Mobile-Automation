@@ -133,7 +133,7 @@ describe('Carepath Automation', async () => {
                     await Keywords.SetValue(locator.employerName, employerName);
                     await Keywords.verifyText(locator.referralDropdownText, "content-desc", referralDropdownText, "Referral dropdown")
                     await Keywords.click(locator.referral, "Referral dropdown");
-                    await Keywords.click(locator.referrals(referral), "referral")
+                    await Keywords.click(locator.referrals(referral), referral)
                     await Keywords.verifyText(locator.dobText, "content-desc", dobText, "DOB")
                     await Keywords.SetValue(locator.dob, dob);
                     await Keywords.SetValue(locator.relationToEmployee, relation);
