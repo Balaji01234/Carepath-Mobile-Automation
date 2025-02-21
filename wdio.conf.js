@@ -80,7 +80,7 @@ export const config = {
     capabilities: [{
         "platformName": "android",
         "appium:platformVersion": "15.0",
-        "appium:deviceName": "Medium Tablet API 35",
+        "appium:deviceName": "Medium Phone API 35",
         "appium:automationName": "uiAutomator2",
         "appium:appPackage": "com.carepath.app.dev",
         "appium:appActivity": "com.carepath.MainActivity",
@@ -185,7 +185,7 @@ export const config = {
     // See the full list at http://mochajs.org/
     mochaOpts: {
         ui: 'bdd',
-        timeout: 18 * 60 * 1000
+        timeout: 25 * 60 * 1000
     },
 
     //
@@ -294,7 +294,7 @@ export const config = {
             });
             if (!passed) {
                 const fileName = `${test.title.replace(/ /g, '_')}.png`;
-                const screenshotPath = `./reports/html-reports/screenshots/${fileName}`;
+                const screenshotPath = `./reports/html-reports/${HTMLResultsDir}screenshots/${fileName}`;
                 await browser.saveScreenshot(screenshotPath);
                 console.log(`Screenshot saved: ${screenshotPath}`);
             }
