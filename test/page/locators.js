@@ -317,6 +317,9 @@ export class locators {
         const formattedProgramName = programName.includes(" ") ? programName.replace(/ /g, "\n") : programName;
         return $(`//android.view.View[@content-desc="${formattedProgramName}"]`);
     }
+    get mailForgot() {
+        return $(`//android.widget.TextView[@text="FORGOT PASSWORD"]`)
+    }
 
     errorText(accessibilityId) {
         return $(`~${accessibilityId}`)
@@ -352,20 +355,37 @@ export class locators {
         return $('android=new UiSelector().resourceId("invalid_verification_code_text")')
     }
 
-    get enterValidCodeText(){
+    get enterValidCodeText() {
         return $('android=new UiSelector().resourceId("please_enter_valid_code_text")')
     }
 
-    get resendCode(){
+    get resendCode() {
         return $('~resend_code_button')
     }
 
-    get pinMustBe6DigitText(){
+    get pinMustBe6DigitText() {
         return $('android=new UiSelector().resourceId("pin_must_be_6_digit_long_text")')
     }
 
-    get cancelButton(){
+    get cancelButton() {
         return $('~more_options_menu_item_cancel')
     }
+
+    get dailyGoalCheck() {
+        return $('~Daily Goal Check-In')
+    }
+
+    get remindLater() {
+        return $('~Remind me later')
+    }
+
+    get forgotPasswordOtp() {
+        return $(`(//android.widget.TextView[@text="FORGOT PASSWORD"]//..//..//..//android.widget.TextView)[3]`);
+    }
+
+    get retrieveOTP() {
+        return $(`(//android.view.View[@text="Verify icon Verify your account Here is your verification code for Carepath Digital Health "]//..//..//android.view.View)[3]//android.view.View`);
+    }
+
 
 }

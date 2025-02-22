@@ -13,7 +13,7 @@ describe('Carepath Automation', async () => {
     const lessonLocator = new lessonsLocators();
     const Keywords = new keywords(locator);
     const timeout = process.env.DISPLAY_TIMEOUT
-    const iterations = process.env.ITERATIONS
+    const iterations = process.env.SIGN_UP_ITERATIONS
     console.log("iterations: " + iterations)
     let iterationValue = dataSets(iterations)
     let testName = '';
@@ -280,7 +280,7 @@ describe('Carepath Automation', async () => {
                     if (errorText === FirstNameErrorText) {
                         console.log("invalidFirstName:" + invalidFirstName);
                         if ((invalidFirstName.trim()).toLowerCase() == "empty") {
-                            await Keywords.SetValue(locator.firstName, "     ");
+                            await Keywords.SetValue(locator.firstName, "");
                             await Keywords.SetValue(locator.lastName, LastName);
                             await Keywords.SetValue(locator.emailId, mail);
                             await Keywords.SetValue(locator.phoneNumber, phoneNumber);
@@ -302,7 +302,7 @@ describe('Carepath Automation', async () => {
                     } else if (errorText === LastNameErrorText) {
                         if ((invalidLastName.trim()).toLowerCase() == "empty") {
                             await Keywords.SetValue(locator.firstName, FirstName);
-                            await Keywords.SetValue(locator.lastName, "     ");
+                            await Keywords.SetValue(locator.lastName, "");
                             await Keywords.click(locator.nextButton, "Next Button")
                             await Keywords.verifyElementDisplayed2(LastNameErrorText, "LastNameErrorText");
                         } else {
@@ -314,7 +314,7 @@ describe('Carepath Automation', async () => {
                     } else if (errorText === EmailIDErrorText) {
                         if ((invalidEmail.trim()).toLowerCase() == "empty") {
                             await Keywords.SetValue(locator.lastName, LastName);
-                            await Keywords.SetValue(locator.emailId, "     ");
+                            await Keywords.SetValue(locator.emailId, "");
                             await Keywords.click(locator.nextButton, "Next Button");
                             await Keywords.verifyElementDisplayed2(EmailIDErrorText, "EmailIDErrorText");
                         } else {
@@ -328,7 +328,7 @@ describe('Carepath Automation', async () => {
                         if (role === 'Student') {
                             if ((invalidPhoneNumber.trim()).toLowerCase() == "empty") {
                                 await Keywords.SetValue(locator.emailId, mail);
-                                await Keywords.SetValue(locator.phoneNumber, "     ");
+                                await Keywords.SetValue(locator.phoneNumber, "");
                                 await Keywords.click(locator.nextButton, "Next Button")
                                 await Keywords.verifyElementDisplayed2(phoneNumberErrorStudent, "phoneNumberErrorStudent");
                             } else {
@@ -339,7 +339,7 @@ describe('Carepath Automation', async () => {
                             }
                         } else {
                             if ((invalidPhoneNumber).toLowerCase() == "empty") {
-                                await Keywords.SetValue(locator.phoneNumber, "     ");
+                                await Keywords.SetValue(locator.phoneNumber, "");
                                 await Keywords.click(locator.nextButton, "Next Button")
                                 await Keywords.verifyElementDisplayed2(PhoneNumberErrorText, "PhoneNumberErrorText");
                             } else {
@@ -350,12 +350,22 @@ describe('Carepath Automation', async () => {
                         }
                     } else if (errorText === PasswordHint) {
                         await Keywords.SetValue(locator.phoneNumber, phoneNumber);
-                        await Keywords.SetValue(locator.passwordField, invalidPassword);
-                        await Keywords.verifyElementDisplayed2(PasswordHint, PasswordHint);
+                        if (invalidPassword.toLowerCase() === 'empty') {
+                            await Keywords.SetValue(locator.passwordField, "");
+                            await Keywords.verifyElementDisplayed2(PasswordHint, PasswordHint);
+                        } else {
+                            await Keywords.SetValue(locator.passwordField, invalidPassword);
+                            await Keywords.verifyElementDisplayed2(PasswordHint, PasswordHint);
+                        }
                         await Keywords.SetValue(locator.passwordField, password);
                     } else if (errorText === RepeatPasswordErrorText) {
-                        await Keywords.SetValue(locator.repeatPassword, invalidRepeatPassword);
-                        await Keywords.verifyElementDisplayed2(RepeatPasswordErrorText, "RepeatPasswordErrorText");
+                        if (invalidRepeatPassword.toLowerCase() === 'empty') {
+                            await Keywords.SetValue(locator.repeatPassword, "");
+                            await Keywords.verifyElementDisplayed2(RepeatPasswordErrorText, "RepeatPasswordErrorText");
+                        } else {
+                            await Keywords.SetValue(locator.repeatPassword, invalidRepeatPassword);
+                            await Keywords.verifyElementDisplayed2(RepeatPasswordErrorText, "RepeatPasswordErrorText");
+                        }
                         await Keywords.SetValue(locator.repeatPassword, password);
                     }
                 }

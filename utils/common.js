@@ -115,7 +115,7 @@ export const readData1 = async (file, sheetName, headerName, rowName) => {
 
         // Get headers from the first row
         const headers = sheet.getRow(1).values;
-        const headerIndex = headers.indexOf(headerName);
+        const headerIndex = headers.indexOf(headerName.trim());
 
         if (headerIndex === -1) {
             throw new Error(`Header "${headerName}" not found.`);
@@ -125,7 +125,6 @@ export const readData1 = async (file, sheetName, headerName, rowName) => {
         for (let i = 2; i <= sheet.rowCount; i++) {
             const row = sheet.getRow(i);
             const firstCell = row.getCell(1).value; // Assuming rowName is in the first column
-
             if (firstCell === rowName) {
                 return row.getCell(headerIndex).value; // Return the value in the specified column
             }
@@ -346,7 +345,7 @@ export default function getValueByComponent(componentName) {
     return undefined;
 }
 
-export const saveTestDataToJson = async (role, firstName, lastName, email, password,program) => {
+export const saveTestDataToJson = async (role, firstName, lastName, email, password, program) => {
     try {
         if (!testDataFilePath) {
             const timestamp = new Date().toISOString().replace(/[-:.]/g, '');
@@ -371,7 +370,7 @@ export const saveTestDataToJson = async (role, firstName, lastName, email, passw
             FirstName: firstName,
             LastName: lastName,
             Email: email,
-            Password:password
+            Password: password
         });
 
         fs.writeFileSync(testDataFilePath, JSON.stringify(existingData, null, 2), 'utf8');
