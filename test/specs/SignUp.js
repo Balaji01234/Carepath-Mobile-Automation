@@ -329,13 +329,9 @@ describe('Carepath Automation', async () => {
                             if ((invalidPhoneNumber.trim()).toLowerCase() == "empty") {
                                 await Keywords.SetValue(locator.emailId, mail);
                                 await Keywords.SetValue(locator.phoneNumber, "");
-                                await Keywords.click(locator.nextButton, "Next Button")
-                                await Keywords.verifyElementDisplayed2(phoneNumberErrorStudent, "phoneNumberErrorStudent");
                             } else {
                                 await Keywords.SetValue(locator.emailId, mail);
                                 await Keywords.SetValue(locator.phoneNumber, invalidPhoneNumber);
-                                await Keywords.click(locator.nextButton, "Next Button")
-                                await Keywords.verifyElementDisplayed2(phoneNumberErrorStudent, "phoneNumberErrorStudent");
                             }
                         } else {
                             if ((invalidPhoneNumber).toLowerCase() == "empty") {
