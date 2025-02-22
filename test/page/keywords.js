@@ -204,12 +204,6 @@ export class keywords {
             } else {
                 await this.click(this.locator.verificationCodeText, "OTP message");
             }
-            if (await this.locator.mailForgot.waitForDisplayed({ timeout: 30000 })) {
-
-            } else {
-                await this.locator.verifyAccount.waitForDisplayed({ timeout: 30000 })
-
-            }
 
             let otp = await this.locator.retrieveOTP.getText();
             console.log('Extracted OTP:', otp);
@@ -529,13 +523,13 @@ export class keywords {
     }
 
     async logOut() {
-        if (await this.locator.moreOptions.isDisplayed({timeout:90000})) {
+        if (await this.locator.moreOptions.isDisplayed({ timeout: 90000 })) {
             await this.click(this.locator.moreOptions, "More Options");
             await this.waitForDisplay(this.locator.logout, 30000, "Logout option");
             await this.click(this.locator.logout, "Logout option");
             await this.waitForDisplay(this.locator.startNow, 30000, "Start now button");
             await this.click(this.locator.startNow, "Start now button");
-        } else if (await this.onboardLocator.hamburgerMenu.isDisplayed({timeout:90000})) {
+        } else if (await this.onboardLocator.hamburgerMenu.isDisplayed({ timeout: 90000 })) {
             await this.click(this.onboardLocator.hamburgerMenu, "Hamburger menu");
             await this.click(this.onboardLocator.logOut, "Logout option");
             await this.verifyElementDisplayed(this.locator.startNow, "Start now button");
