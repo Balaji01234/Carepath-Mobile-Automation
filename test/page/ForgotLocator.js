@@ -1,4 +1,4 @@
-export class Forgotslocators {
+export class ForgotPasswordLocators {
       get forgot(){
         return $(`//android.view.View[@resource-id="forgot_password_?_text"] `)
       }

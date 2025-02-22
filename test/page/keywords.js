@@ -1,9 +1,13 @@
 import allureReporter from '@wdio/allure-reporter'
 import { locators } from './locators.js';
+import { onboardLocators } from './onboard.locators.js';
+import { ForgotPasswordLocators } from './ForgotLocator.js';
 export class keywords {
 
     constructor() {
         this.locator = new locators();
+        this.onboardLocator = new onboardLocators();
+        this.forgotLocator = new ForgotPasswordLocators();
         this.timeout = process.env.DISPLAY_TIMEOUT
     }
     /**
@@ -103,6 +107,7 @@ export class keywords {
                 allureReporter.endStep('passed');
             } else {
                 console.log(`${text} is not displayed!!!`)
+                allureReporter.endStep('failed');
             }
         } catch (err) {
             await this.AllureFail(`${text} is not displayed!!!`, err)
@@ -199,20 +204,65 @@ export class keywords {
             } else {
                 await this.click(this.locator.verificationCodeText, "OTP message");
             }
-            if(await this.locator.mailForgot.waitForDisplayed({timeout:30000})){
- 
-            }else{
+            if (await this.locator.mailForgot.waitForDisplayed({ timeout: 30000 })) {
+
+            } else {
                 await this.locator.verifyAccount.waitForDisplayed({ timeout: 30000 })
 
             }
-            
-            let otp;
-            const forgot = $(`(//android.widget.TextView[@text="FORGOT PASSWORD"]//..//..//..//android.widget.TextView)[3]`);
-            if (await forgot) {
-                otp = await forgot.getText();
-            } else {
-                otp = await $('(//android.view.View[@text="Verify icon Verify your account Here is your verification code for Carepath Digital Health "]//..//..//android.view.View)[3]//android.view.View').getText();
+
+            let otp = await this.locator.retrieveOTP.getText();
+            console.log('Extracted OTP:', otp);
+            return otp;
+        } catch (error) {
+            console.log(error)
+        } finally {
+            // await this.click(this.locator.chrome3dots, "Chrome option");
+            // await this.click(this.locator.deleteBrowsingData, "Delete browsing data");
+            // await this.click(this.locator.deleteData, "Delete data");
+            await browser.pause(3000)
+            await driver.terminateApp('com.android.chrome');
+        }
+    }
+
+    async getForForgotOTPFromMailinator(mail) {
+        try {
+            await driver.startActivity('com.android.chrome', 'com.google.android.apps.chrome.Main');
+            if (await this.locator.chromeDismissButton.isDisplayed()) {
+                await this.locator.chromeDismissButton.click()
             }
+            if (await this.locator.chromeGotIt.isDisplayed()) {
+                await this.locator.chromeGotIt.click()
+            }
+            if (await this.locator.chromeEasierPopup.isDisplayed()) {
+                await this.click(this.locator.noThanks, 'No Thanks')
+            }
+            await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 60000 });
+            await this.locator.chromeHomeButton.click();
+            await this.locator.chromeSearchBox.click();
+            await this.SetValue(this.locator.chromeUrl, process.env.MAILINATOR);
+            await browser.pause(2000)
+            await driver.keys('Enter');
+            await browser.pause(4000)
+            if (await this.locator.mailinatorInbox.isDisplayed({ timeout: 80000 })) {
+                await this.locator.mailinatorInbox.clearValue();
+                await this.SetValue(this.locator.mailinatorInbox, mail);
+            } else {
+                await this.locator.mailinatorInbox1.clearValue();
+                await this.SetValue(this.locator.mailinatorInbox1, mail);
+            }
+            await this.click(this.locator.goButton, "Go Button");
+            if (await this.locator.pauseButton.isDisplayed({ timeout: 60000 })) {
+                await this.click(this.locator.pauseButton, "Click on pause button")
+            } else {
+                await this.click(this.locator.pauseButton1, "Click on pause button")
+            }
+            if (await this.locator.doNotReply.isDisplayed({ timeout: 60000 })) {
+                await this.click(this.locator.doNotReply, "OTP message");
+            } else {
+                await this.click(this.locator.verificationCodeText, "OTP message");
+            }
+            let otp = await this.locator.forgotPasswordOtp.getText();
             console.log('Extracted OTP:', otp);
             return otp;
         } catch (error) {
@@ -364,7 +414,7 @@ export class keywords {
         allureReporter.startStep(`🔍 **TEXT VERIFY**: "${logText}" `)
         let actualText;
         try {
-            await this.waitForDisplay(locator, 45000, logText);
+            await this.waitForDisplay(locator, 60000, logText);
             actualText = await locator.getAttribute(attributeName);
             if (expectedText === actualText) {
                 console.log(`Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
@@ -475,6 +525,46 @@ export class keywords {
             allureReporter.endStep('failed');
             console.log(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
             throw new Error(error.message || `Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
+        }
+    }
+
+    async logOut() {
+        if (await this.locator.moreOptions.isDisplayed({timeout:90000})) {
+            await this.click(this.locator.moreOptions, "More Options");
+            await this.waitForDisplay(this.locator.logout, 30000, "Logout option");
+            await this.click(this.locator.logout, "Logout option");
+            await this.waitForDisplay(this.locator.startNow, 30000, "Start now button");
+            await this.click(this.locator.startNow, "Start now button");
+        } else if (await this.onboardLocator.hamburgerMenu.isDisplayed({timeout:90000})) {
+            await this.click(this.onboardLocator.hamburgerMenu, "Hamburger menu");
+            await this.click(this.onboardLocator.logOut, "Logout option");
+            await this.verifyElementDisplayed(this.locator.startNow, "Start now button");
+        }
+    }
+
+    async resetPassword(program, oldPassword, newPassword) {
+        await this.click(this.locator.program(program), program);
+        await this.verifyElementIsEnabled(this.onboardLocator.continueButton, "Continue Button");
+        await this.click(this.onboardLocator.continueButton, "Continue Button");
+        await browser.pause(8000);
+        if (await this.locator.dailyGoalCheck.isDisplayed({ timeout: 90000 })) {
+            await this.click(this.locator.remindLater, "Remind Later")
+        }
+        await this.verifyElementDisplayed(this.forgotLocator.Hambugar, "Hamburger menu");
+        await this.click(this.forgotLocator.Hambugar, "Hamburger menu");
+        await this.verifyElementDisplayed(this.forgotLocator.myprofile, "My Profile");
+        await this.click(this.forgotLocator.myprofile, "My Profile");
+        await this.click(this.forgotLocator.edit, "Edit Icon");
+        await this.click(this.forgotLocator.changePassword, "Change Password Button");
+        await this.verifyElementDisplayed(this.forgotLocator.changepasswordScreen, "Change Password Screen");
+        await this.SetValue(this.forgotLocator.changepasswordpage, newPassword);
+        await this.SetValue(this.forgotLocator.newpass, oldPassword);
+        await this.SetValue(this.forgotLocator.repeatpass, oldPassword);
+        await this.verifyElementIsEnabled(this.forgotLocator.savebutton, "Save Button");
+        await this.click(this.forgotLocator.savebutton, "Save Button");
+        await browser.pause(8000);
+        if (await this.locator.dailyGoalCheck.isDisplayed({ timeout: 90000 })) {
+            await this.click(this.locator.remindLater, "Remind Later")
         }
     }
 
