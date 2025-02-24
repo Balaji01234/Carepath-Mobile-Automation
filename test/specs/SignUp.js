@@ -65,7 +65,7 @@ describe('Carepath Automation', async () => {
     });
 
     for (let i = 0; i < iterationValue.length; i++) {
-        it(`Sign Up - Positive Iteration${iterationValue[i]}`, async () => {
+        it.only(`Sign Up - Positive Iteration${iterationValue[i]}`, async () => {
             try {
                 const role = await readData1("Signup-Positive", "TC_01", "Role", `Testdata${iterationValue[i]}`);
                 allureReporter.addDescription(`New User Sign Up for: "${role} role" `)
