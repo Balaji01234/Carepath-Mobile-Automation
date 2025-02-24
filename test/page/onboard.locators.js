@@ -841,26 +841,6 @@ export class onboardLocators {
         return $('//android.view.View[@content-desc="Address Information"]')
     }
 
-    get addressField() {
-        return $('//android.widget.EditText[@resource-id="address_textfield"]')
-    }
-
-    get unitField() {
-        return $('//android.widget.EditText[@resource-id="unit_textfield"]')
-    }
-
-    get cityField() {
-        return $('//android.widget.EditText[@resource-id="city_textfield"]')
-    }
-
-    get provinceDropdown() {
-        return $('//android.widget.ImageView[@resource-id="province_textfield"]')
-    }
-
-    get postalCode() {
-        return $('//android.widget.EditText[@resource-id="postal_code_textfield"]')
-    }
-
     backgroundText(text) {
         return $(`android=new UiSelector().resourceId("${text}_text")`)
     }
@@ -871,14 +851,6 @@ export class onboardLocators {
 
     get healthCardInformationScreen() {
         return $('~Health Card Information')
-    }
-
-    get healthCardNumberField() {
-        return $('//android.widget.EditText[@resource-id="health_card_textfield"]')
-    }
-
-    get dobInHealthCard() {
-        return $('//android.view.View[@resource-id="dob_textfield"]')
     }
 
     get employmentInformationScreen() {

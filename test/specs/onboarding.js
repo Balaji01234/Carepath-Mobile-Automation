@@ -131,9 +131,9 @@ describe('Carepath Automation', () => {
             for (let i = 0; i < text1.length; i++) {
                 await Keywords.verifyText(locators1[i], "content-desc", text1[i], `Verify text in address information screen->${text1[i]}`);
             }
-            await Keywords.SetValue(Locatoronboard.addressMultipleOptions, address);
-            await Keywords.SetValue(Locatoronboard.unitMultipleOptions, unit);
-            await Keywords.SetValue(Locatoronboard.cityMultipleOptions, city);
+            await Keywords.SetValue(Locatoronboard.addressField, address);
+            await Keywords.SetValue(Locatoronboard.unitField, unit);
+            await Keywords.SetValue(Locatoronboard.cityField, city);
             await Keywords.click(Locatoronboard.provinceDropdown, "Province Dropdown")
             await Keywords.click(Locatoronboard.accessibilityLocator(province), `${province} option`)
             await Keywords.SetValue(Locatoronboard.postalCode, postal);
@@ -146,8 +146,8 @@ describe('Carepath Automation', () => {
             await Keywords.click(Locatoronboard.nextButton, "Next Button");
             await Keywords.AllureInfo("Address Information Screen Completed!!!");
             await Keywords.waitForDisplay(Locatoronboard.healthCardInformationScreen, 45000, "Health card Information Screen");
-            await Keywords.SetValue(Locatoronboard.healthCardNumberMultipleOptions, healthCardNumber);
-            await Keywords.SetValue(Locatoronboard.healthCardNumberMultipleOptions, healthCardNumber);
+            await Keywords.SetValue(Locatoronboard.healthCardNumberField, healthCardNumber);
+            await Keywords.SetValue(Locatoronboard.healthCardNumberField, healthCardNumber);
             const getDob = await Locatoronboard.dobInHealthCard.getText();
             const formattedGetDob = getDob.replace(/-/g, '');
             await expect(dob).to.be.equal(formattedGetDob);
@@ -215,11 +215,11 @@ describe('Carepath Automation', () => {
             await Keywords.verifyElementIsEnabled(Locatoronboard.applyButtonInInitials, "Apply Button")
             await Keywords.click(Locatoronboard.applyButtonInInitials, "Apply Button");
             await browser.pause(2000);
-            await Keywords.waitForDisplay(Locatoronboard.requiredMultipleOptionsCompleted, 90000, "Required MultipleOptionss completed");
+            await Keywords.waitForDisplay(Locatoronboard.requiredFieldsCompletedText, 90000, "Required MultipleOptions completed");
             await Keywords.verifyElementDisplayed(Locatoronboard.reviewAgreementText, "Review Agreement Text");
             await Keywords.verifyElementIsEnabled(Locatoronboard.reviewAgreementButton, "Review Agreement button");
             await Keywords.click(Locatoronboard.reviewAgreementButton, "Review Agreement button");
-            await Keywords.waitForDisplay(Locatoronboard.requiredMultipleOptionssCompletedText, 45000, "Required MultipleOptionss Completed");
+            await Keywords.waitForDisplay(Locatoronboard.requiredFieldsCompletedText, 45000, "Required MultipleOptions Completed");
             await Keywords.verifyElementIsEnabled(Locatoronboard.finishButton, "Finish Button")
             await Keywords.click(Locatoronboard.finishButton, "Finish Button");
             await Keywords.verifyElementIsEnabled(Locatoronboard.tapToSign, "Tap to sign Button")
@@ -289,7 +289,16 @@ describe('Carepath Automation', () => {
             await Keywords.waitForDisplay(Locatoronboard.preferredTimeForClinic, 45000, "Preferred Time for Clinic")
             await Keywords.verifyElementDisplayed(Locatoronboard.completeStatus(98), "98% complete status");
             await Keywords.verifyText(Locatoronboard.preferredTimeForClinic, "content-desc", preferredTimeText, "Preferred Time for Clinic")
-            await Keywords.verifyElementIsEnabled(Locatoronboard.preferredTimeDropdown, "Preferred Time dropdown")
+            await Keywords.verifyElementIsEnabled(Locatoronboard.preferredTimeDropdown, "Preferred Time dropdown");
+            await Keywords.verifyElementIsEnabled(Locatoronboard.saveButton, "Save Button");
+            await Keywords.click(Locatoronboard.saveButton, "Save Button")
+            await Keywords.waitForDisplay(Locatoronboard.thankYouText, 45000, "Thank you ")
+            await Keywords.verifyElementDisplayed(Locatoronboard.completeStatus(100), "100% complete status");
+            await Keywords.verifyText1(Locatoronboard.thankYouMessage, "content-desc", thankYouText, "Thank You for Onboarding");
+            await Keywords.verifyElementDisplayed(Locatoronboard.goToProgramSelection, "Go to program selection button")
+            await Keywords.click(Locatoronboard.goToProgramSelection, "Go to program selection button");
+            await Keywords.waitForDisplay(locator.homePage, 45000, "Home Page");
+            await Keywords.AllureInfo("Onboard Flow Completed!!!");
         }
         catch (err) {
             throw new Error(err);
@@ -511,7 +520,7 @@ describe('Carepath Automation', () => {
             await Keywords.verifyElementDisplayed(Locatoronboard.reviewAgreementText, "Review Agreement Text");
             await Keywords.verifyElementIsEnabled(Locatoronboard.reviewAgreementButton, "Review Agreement button");
             await Keywords.click(Locatoronboard.reviewAgreementButton, "Review Agreement button");
-            await Keywords.waitForDisplay(Locatoronboard.requiredMultipleOptionssCompletedText, 45000, "Required MultipleOptionss Completed");
+            await Keywords.waitForDisplay(Locatoronboard.requiredFieldsCompletedText, 45000, "Required MultipleOptionss Completed");
             await Keywords.verifyElementIsEnabled(Locatoronboard.finishButton, "Finish Button")
             await Keywords.click(Locatoronboard.finishButton, "Finish Button");
             await Keywords.verifyElementIsEnabled(Locatoronboard.tapToSign, "Tap to sign Button")
