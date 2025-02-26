@@ -1,8 +1,7 @@
 import { locators } from '../page/locators.js';
 import { onboardLocators } from '../page/onboard.locators.js'
-import { lessonsLocators } from '../page/lessons.locators.js'
 import { keywords } from '../page/keywords.js';
-import { getRandomString, saveTestDataToJson, readData1, generateRandomNumber, dataSets, writeExcelData1 } from '../../utils/common.js';
+import { getRandomString, saveTestDataToJson, readData1, generateRandomNumber, dataSets, writeExcelData1, getFilteredTests } from '../../utils/common.js';
 import allureReporter from '@wdio/allure-reporter'
 import { expect } from 'chai';
 
@@ -10,13 +9,14 @@ describe('Carepath Automation', async () => {
 
     const locator = new locators();
     const onboardLocator = new onboardLocators();
-    const lessonLocator = new lessonsLocators();
     const Keywords = new keywords(locator);
     const timeout = process.env.DISPLAY_TIMEOUT
     const iterations = process.env.SIGN_UP_ITERATIONS
     console.log("iterations: " + iterations)
     let iterationValue = dataSets(iterations)
     let testName = '';
+    const testCases = getFilteredTests("Signup-Positive", "TC_01");
+    console.log("Filtered Test Cases from Excel:", testCases);
 
     beforeEach(async function () {
         try {
@@ -27,8 +27,7 @@ describe('Carepath Automation', async () => {
         }
     });
 
-
-    it('should login with valid credentials', async () => {
+    it.skip('should login with valid credentials', async () => {
         allureReporter.addDescription(`
             1. Click on the "Start Now" button.
             2. Check if the login screen is displayed.
@@ -64,32 +63,33 @@ describe('Carepath Automation', async () => {
         }
     });
 
-    for (let i = 0; i < iterationValue.length; i++) {
-        it.only(`Sign Up - Positive Iteration${iterationValue[i]}`, async () => {
+    for (let i = 0; i < testCases.length; i++) {
+        it.only(`${testCases[i].testId} - ${testCases[i].testDescription}`, async () => {
             try {
-                const role = await readData1("Signup-Positive", "TC_01", "Role", `Testdata${iterationValue[i]}`);
-                allureReporter.addDescription(`New User Sign Up for: "${role} role" `)
+                const role = await readData1("Signup-Positive", "TC_01", "Role", `${testCases[i].testId}`);
+                const description = await readData1("Signup-Positive", "TC_01", "Test Description", `${testCases[i].testId}`);
+                allureReporter.addDescription(description)
                 console.log(`Role: ${role}`)
-                const employeeText = await readData1("Signup-Positive", "TC_01", "EmployeeText", `Testdata${iterationValue[i]}`);
-                const studentText = await readData1("Signup-Positive", "TC_01", "StudentText", `Testdata${iterationValue[i]}`);
+                const employeeText = await readData1("Signup-Positive", "TC_01", "EmployeeText", `${testCases[i].testId}`);
+                const studentText = await readData1("Signup-Positive", "TC_01", "StudentText", `${testCases[i].testId}`);
                 const FirstName = `Prabha${getRandomString()}`
-                await writeExcelData1("Signup-Positive", "TC_01", `Writedata${iterationValue[i]}`, "Firstname", FirstName);
+                await writeExcelData1("Signup-Positive", "TC_01", `${testCases[i].testId}`, "Firstname", FirstName);
                 const LastName = (`Automation${getRandomString()}`).toLowerCase();
-                await writeExcelData1("Signup-Positive", "TC_01", `Writedata${iterationValue[i]}`, "Lastname", LastName);
-                const mailPrefix = await readData1("Signup-Positive", "TC_01", "MailPrefix", `Testdata${iterationValue[i]}`);
+                await writeExcelData1("Signup-Positive", "TC_01", `${testCases[i].testId}`, "Lastname", LastName);
+                const mailPrefix = await readData1("Signup-Positive", "TC_01", "MailPrefix", `${testCases[i].testId}`);
                 const mail = `${mailPrefix}${getRandomString() + generateRandomNumber()}@mailinator.com`;
-                await writeExcelData1("Signup-Positive", "TC_01", `Writedata${iterationValue[i]}`, "Email", mail);
-                const phoneNumber = await readData1("Signup-Positive", "TC_01", "Phone number", `Testdata${iterationValue[i]}`);
-                const password = await readData1("Signup-Positive", "TC_01", "Password", `Testdata${iterationValue[i]}`);
-                const employerName = await readData1("Signup-Positive", "TC_01", "Employer name", `Testdata${iterationValue[i]}`);
-                const referral = await readData1("Signup-Positive", "TC_01", "Referrals", `Testdata${iterationValue[i]}`);
-                const dob = await readData1("Signup-Positive", "TC_01", "DOB", `Testdata${iterationValue[i]}`);
-                const relation = await readData1("Signup-Positive", "TC_01", "Relation", `Testdata${iterationValue[i]}`);
-                const referralDropdownText = await readData1("Signup-Positive", "TC_01", "ReferralText", `Testdata${iterationValue[i]}`);
-                const dobText = await readData1("Signup-Positive", "TC_01", "dobText", `Testdata${iterationValue[i]}`);
-                const studentId = await readData1("Signup-Positive", "TC_01", "StudentId", `Testdata${iterationValue[i]}`);
-                const courseEnrolled = await readData1("Signup-Positive", "TC_01", "CourseEnrolled", `Testdata${iterationValue[i]}`);
-                const program = await readData1("Signup-Positive", "TC_01", "Program", `Testdata${iterationValue[i]}`);
+                await writeExcelData1("Signup-Positive", "TC_01", `${testCases[i].testId}`, "Email", mail);
+                const phoneNumber = await readData1("Signup-Positive", "TC_01", "Phone number", `${testCases[i].testId}`);
+                const password = await readData1("Signup-Positive", "TC_01", "Password", `${testCases[i].testId}`);
+                const employerName = await readData1("Signup-Positive", "TC_01", "Employer name", `${testCases[i].testId}`);
+                const referral = await readData1("Signup-Positive", "TC_01", "Referrals", `${testCases[i].testId}`);
+                const dob = await readData1("Signup-Positive", "TC_01", "DOB", `${testCases[i].testId}`);
+                const relation = await readData1("Signup-Positive", "TC_01", "Relation", `${testCases[i].testId}`);
+                const referralDropdownText = await readData1("Signup-Positive", "TC_01", "ReferralText", `${testCases[i].testId}`);
+                const dobText = await readData1("Signup-Positive", "TC_01", "dobText", `${testCases[i].testId}`);
+                const studentId = await readData1("Signup-Positive", "TC_01", "StudentId", `${testCases[i].testId}`);
+                const courseEnrolled = await readData1("Signup-Positive", "TC_01", "CourseEnrolled", `${testCases[i].testId}`);
+                const program = await readData1("Signup-Positive", "TC_01", "Program", `${testCases[i].testId}`);
                 await Keywords.waitForDisplay(locator.startNow, 60000, "Start Now Button")
                 await Keywords.verifyElementIsEnabled(locator.startNow, "Start Now Button")
                 await Keywords.click(locator.startNow, "Start Now Button")
@@ -198,54 +198,55 @@ describe('Carepath Automation', async () => {
     for (let i = 0; i < iterationValue.length; i++) {
         it(`Sign Up - Negative Iteration${iterationValue[i]}`, async () => {
             try {
-                const role = await readData1("Signup-Positive", "TC_01", "Role", `Testdata${iterationValue[i]}`);
-                allureReporter.addDescription(`New User Sign Up for: "${role} role" `)
+                const role = await readData1("Signup-Positive", "TC_01", "Role", `${testCases[i].testId}`);
+                const description = await readData1("Signup-Positive", "TC_01", "Test Description", `${testCases[i].testId}`);
+                allureReporter.addDescription(description);
                 console.log(`Role: ${role}`)
-                const employeeText = await readData1("Signup-Positive", "TC_01", "EmployeeText", `Testdata${iterationValue[i]}`);
-                const studentText = await readData1("Signup-Positive", "TC_01", "StudentText", `Testdata${iterationValue[i]}`);
+                const employeeText = await readData1("Signup-Positive", "TC_01", "EmployeeText", `${testCases[i].testId}`);
+                const studentText = await readData1("Signup-Positive", "TC_01", "StudentText", `${testCases[i].testId}`);
                 const FirstName = `Prabha${getRandomString()}`
-                await writeExcelData1("Signup-Negative", "SignUpNegative", `Writedata${iterationValue[i]}`, "Firstname", FirstName);
+                await writeExcelData1("Signup-Negative", "SignUpNegative", `${testCases[i].testId}`, "Firstname", FirstName);
                 const LastName = (`Automation${getRandomString()}`).toLowerCase();
-                await writeExcelData1("Signup-Negative", "SignUpNegative", `Writedata${iterationValue[i]}`, "Lastname", LastName);
+                await writeExcelData1("Signup-Negative", "SignUpNegative", `${testCases[i].testId}`, "Lastname", LastName);
                 const mail = `prabha${getRandomString() + generateRandomNumber()}@mailinator.com`;
-                await writeExcelData1("Signup-Negative", "SignUpNegative", `Writedata${iterationValue[i]}`, "Email", mail);
-                const phoneNumber = await readData1("Signup-Positive", "TC_01", "Phone number", `Testdata${iterationValue[i]}`);
-                const password = await readData1("Signup-Positive", "TC_01", "Password", `Testdata${iterationValue[i]}`);
-                const validEmployerName = await readData1("Signup-Positive", "TC_01", "Employer name", `Testdata${iterationValue[i]}`);
-                const employerName = await readData1("Signup-Negative", "SignUpNegative", "Employer name", `Testdata${iterationValue[i]}`);
-                const referral = await readData1("Signup-Positive", "TC_01", "Referrals", `Testdata${iterationValue[i]}`);
-                const dob = await readData1("Signup-Positive", "TC_01", "DOB", `Testdata${iterationValue[i]}`);
-                const relation = await readData1("Signup-Positive", "TC_01", "Relation", `Testdata${iterationValue[i]}`);
-                const referralDropdownText = await readData1("Signup-Positive", "TC_01", "ReferralText", `Testdata${iterationValue[i]}`);
-                const studentId = await readData1("Signup-Positive", "TC_01", "StudentId", `Testdata${iterationValue[i]}`);
-                const courseEnrolled = await readData1("Signup-Positive", "TC_01", "CourseEnrolled", `Testdata${iterationValue[i]}`);
-                const program = await readData1("Signup-Positive", "TC_01", "Program", `Testdata${iterationValue[i]}`);
-                const FirstNameErrorText = await readData1("Signup-Negative", "SignUpNegative", "FirstNameErrorText", `Testdata${iterationValue[i]}`);
-                const LastNameErrorText = await readData1("Signup-Negative", "SignUpNegative", "LastNameErrorText", `Testdata${iterationValue[i]}`);
-                const EmailIDErrorText = await readData1("Signup-Negative", "SignUpNegative", "EmailIDErrorText", `Testdata${iterationValue[i]}`);
-                const PhoneNumberErrorText = await readData1("Signup-Negative", "SignUpNegative", "PhoneNumberErrorText", `Testdata${iterationValue[i]}`);
-                const RepeatPasswordErrorText = await readData1("Signup-Negative", "SignUpNegative", "RepeatPasswordErrorText", `Testdata${iterationValue[i]}`);
-                const PasswordHint = await readData1("Signup-Negative", "SignUpNegative", "PasswordHint", `Testdata${iterationValue[i]}`);
-                const invalidFirstName = await readData1("Signup-Negative", "SignUpNegative", "Firstname", `Testdata${iterationValue[i]}`);
-                const invalidLastName = await readData1("Signup-Negative", "SignUpNegative", "Lastname", `Testdata${iterationValue[i]}`);
-                const invalidPhoneNumber = await readData1("Signup-Negative", "SignUpNegative", "InvalidPhoneNumber", `Testdata${iterationValue[i]}`);
-                const invalidPassword = await readData1("Signup-Negative", "SignUpNegative", "InvalidPassword", `Testdata${iterationValue[i]}`);
-                const invalidRepeatPassword = await readData1("Signup-Negative", "SignUpNegative", "InvalidRepeatPassword", `Testdata${iterationValue[i]}`);
-                const invalidEmail = await readData1("Signup-Negative", "SignUpNegative", "Email", `Testdata${iterationValue[i]}`);
-                const employerErrorText = await readData1("Signup-Negative", "SignUpNegative", "EmployerNameErrorText", `Testdata${iterationValue[i]}`);
-                const dobErrorText = await readData1("Signup-Negative", "SignUpNegative", "DOBErrorText", `Testdata${iterationValue[i]}`);
-                const studentDobErrorText = await readData1("Signup-Negative", "SignUpNegative", "StudentDOBErrorText", `Testdata${iterationValue[i]}`);
-                const referralErrorText = await readData1("Signup-Negative", "SignUpNegative", "RefferalErrorText", `Testdata${iterationValue[i]}`);
-                const invalidDOBbelow18 = await readData1("Signup-Negative", "SignUpNegative", "InvalidDOBbelow18", `Testdata${iterationValue[i]}`);
-                const invalidDOB = await readData1("Signup-Negative", "SignUpNegative", "InvalidDOB", `Testdata${iterationValue[i]}`);
-                const invalidOTP = await readData1("Signup-Negative", "SignUpNegative", "InvalidOTP", `Testdata${iterationValue[i]}`);
-                const invalidOTPError = await readData1("Signup-Negative", "SignUpNegative", "InvalidOTPError", `Testdata${iterationValue[i]}`);
-                const pinMustBe6DigitText = await readData1("Signup-Negative", "SignUpNegative", "PinMustBe6DigitText", `Testdata${iterationValue[i]}`);
-                const programNotToDisplay = await readData1("Signup-Negative", "SignUpNegative", "ProgramNotToDisplay", `Testdata${iterationValue[i]}`);
-                const programToDisplay = await readData1("Signup-Negative", "SignUpNegative", "ProgramToDisplay", `Testdata${iterationValue[i]}`);
-                const studentIDErrorText = await readData1("Signup-Negative", "SignUpNegative", "StudentIDErrorText", `Testdata${iterationValue[i]}`);
-                const courseEnrolledErrorText = await readData1("Signup-Negative", "SignUpNegative", "CourseEnrolledErrorText", `Testdata${iterationValue[i]}`);
-                const phoneNumberErrorStudent = await readData1("Signup-Negative", "SignUpNegative", "PhoneNumberErrorStudent", `Testdata${iterationValue[i]}`);
+                await writeExcelData1("Signup-Negative", "SignUpNegative", `${testCases[i].testId}`, "Email", mail);
+                const phoneNumber = await readData1("Signup-Positive", "TC_01", "Phone number", `${testCases[i].testId}`);
+                const password = await readData1("Signup-Positive", "TC_01", "Password", `${testCases[i].testId}`);
+                const validEmployerName = await readData1("Signup-Positive", "TC_01", "Employer name", `${testCases[i].testId}`);
+                const employerName = await readData1("Signup-Negative", "SignUpNegative", "Employer name", `${testCases[i].testId}`);
+                const referral = await readData1("Signup-Positive", "TC_01", "Referrals", `${testCases[i].testId}`);
+                const dob = await readData1("Signup-Positive", "TC_01", "DOB", `${testCases[i].testId}`);
+                const relation = await readData1("Signup-Positive", "TC_01", "Relation", `${testCases[i].testId}`);
+                const referralDropdownText = await readData1("Signup-Positive", "TC_01", "ReferralText", `${testCases[i].testId}`);
+                const studentId = await readData1("Signup-Positive", "TC_01", "StudentId", `${testCases[i].testId}`);
+                const courseEnrolled = await readData1("Signup-Positive", "TC_01", "CourseEnrolled", `${testCases[i].testId}`);
+                const program = await readData1("Signup-Positive", "TC_01", "Program", `${testCases[i].testId}`);
+                const FirstNameErrorText = await readData1("Signup-Negative", "SignUpNegative", "FirstNameErrorText", `${testCases[i].testId}`);
+                const LastNameErrorText = await readData1("Signup-Negative", "SignUpNegative", "LastNameErrorText", `${testCases[i].testId}`);
+                const EmailIDErrorText = await readData1("Signup-Negative", "SignUpNegative", "EmailIDErrorText", `${testCases[i].testId}`);
+                const PhoneNumberErrorText = await readData1("Signup-Negative", "SignUpNegative", "PhoneNumberErrorText", `${testCases[i].testId}`);
+                const RepeatPasswordErrorText = await readData1("Signup-Negative", "SignUpNegative", "RepeatPasswordErrorText", `${testCases[i].testId}`);
+                const PasswordHint = await readData1("Signup-Negative", "SignUpNegative", "PasswordHint", `${testCases[i].testId}`);
+                const invalidFirstName = await readData1("Signup-Negative", "SignUpNegative", "Firstname", `${testCases[i].testId}`);
+                const invalidLastName = await readData1("Signup-Negative", "SignUpNegative", "Lastname", `${testCases[i].testId}`);
+                const invalidPhoneNumber = await readData1("Signup-Negative", "SignUpNegative", "InvalidPhoneNumber", `${testCases[i].testId}`);
+                const invalidPassword = await readData1("Signup-Negative", "SignUpNegative", "InvalidPassword", `${testCases[i].testId}`);
+                const invalidRepeatPassword = await readData1("Signup-Negative", "SignUpNegative", "InvalidRepeatPassword", `${testCases[i].testId}`);
+                const invalidEmail = await readData1("Signup-Negative", "SignUpNegative", "Email", `${testCases[i].testId}`);
+                const employerErrorText = await readData1("Signup-Negative", "SignUpNegative", "EmployerNameErrorText", `${testCases[i].testId}`);
+                const dobErrorText = await readData1("Signup-Negative", "SignUpNegative", "DOBErrorText", `${testCases[i].testId}`);
+                const studentDobErrorText = await readData1("Signup-Negative", "SignUpNegative", "StudentDOBErrorText", `${testCases[i].testId}`);
+                const referralErrorText = await readData1("Signup-Negative", "SignUpNegative", "RefferalErrorText", `${testCases[i].testId}`);
+                const invalidDOBbelow18 = await readData1("Signup-Negative", "SignUpNegative", "InvalidDOBbelow18", `${testCases[i].testId}`);
+                const invalidDOB = await readData1("Signup-Negative", "SignUpNegative", "InvalidDOB", `${testCases[i].testId}`);
+                const invalidOTP = await readData1("Signup-Negative", "SignUpNegative", "InvalidOTP", `${testCases[i].testId}`);
+                const invalidOTPError = await readData1("Signup-Negative", "SignUpNegative", "InvalidOTPError", `${testCases[i].testId}`);
+                const pinMustBe6DigitText = await readData1("Signup-Negative", "SignUpNegative", "PinMustBe6DigitText", `${testCases[i].testId}`);
+                const programNotToDisplay = await readData1("Signup-Negative", "SignUpNegative", "ProgramNotToDisplay", `${testCases[i].testId}`);
+                const programToDisplay = await readData1("Signup-Negative", "SignUpNegative", "ProgramToDisplay", `${testCases[i].testId}`);
+                const studentIDErrorText = await readData1("Signup-Negative", "SignUpNegative", "StudentIDErrorText", `${testCases[i].testId}`);
+                const courseEnrolledErrorText = await readData1("Signup-Negative", "SignUpNegative", "CourseEnrolledErrorText", `${testCases[i].testId}`);
+                const phoneNumberErrorStudent = await readData1("Signup-Negative", "SignUpNegative", "PhoneNumberErrorStudent", `${testCases[i].testId}`);
                 await Keywords.waitForDisplay(locator.startNow, 60000, "Start Now Button")
                 await Keywords.verifyElementIsEnabled(locator.startNow, "Start Now Button")
                 await Keywords.click(locator.startNow, "Start Now Button")

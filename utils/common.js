@@ -1,5 +1,6 @@
 import ExcelJS from 'exceljs';
 import * as XLSX from 'xlsx';
+import xlsx from "xlsx";
 import { readFileSync } from 'fs';
 import fs from 'fs';
 import path from 'path';
@@ -121,12 +122,13 @@ export const readData1 = async (file, sheetName, headerName, rowName) => {
             throw new Error(`Header "${headerName}" not found.`);
         }
 
-        // Find the row where rowName matches
+        // Iterate through rows to find the row containing rowName
         for (let i = 2; i <= sheet.rowCount; i++) {
             const row = sheet.getRow(i);
-            const firstCell = row.getCell(1).value; // Assuming rowName is in the first column
-            if (firstCell === rowName) {
-                return row.getCell(headerIndex).value; // Return the value in the specified column
+            for (let j = 1; j <= row.cellCount; j++) {  // Loop through all columns
+                if (row.getCell(j).value === rowName) {
+                    return row.getCell(headerIndex).value; // Return the value from the specified header column
+                }
             }
         }
 
@@ -381,4 +383,35 @@ export const saveTestDataToJson = async (role, firstName, lastName, email, passw
     }
 };
 
+/**
+ * Reads test details from an Excel sheet based on condition.
+ * Dynamically selects the first available "TestdataX" column.
+ * 
+ * @param {string} filePath - Path to the Excel file.
+ * @param {string} sheetName - Name of the sheet containing test data.
+ * @returns {Array} - Array of objects with Test ID, Test Description, and available TestdataX.
+ */
+
+export function getFilteredTests(file, sheetName) {
+    const filePath = `./dataFiles/${file}.xlsx`;
+    // 1. Read the Excel file
+    const workbook = xlsx.readFile(filePath);
+    const sheet = workbook.Sheets[sheetName];
+
+    if (!sheet) {
+        throw new Error(`Sheet '${sheetName}' not found in the Excel file.`);
+    }
+
+    // 2. Convert sheet to JSON
+    const jsonData = xlsx.utils.sheet_to_json(sheet);
+
+    // 3. Filter & map data
+    return jsonData
+        // Only rows with "Condition" = "Yes"
+        .filter(row => row["Condition"]?.toLowerCase() === "yes")
+        .map(row => ({
+            testId: row["Test ID"],
+            testDescription: row["Test Description"]
+        }));
+}
 

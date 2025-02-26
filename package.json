@@ -20,7 +20,8 @@
   "scripts": {
     "test:signup": "npx wdio wdio.conf.js --spec ./test/specs/SignUp.js",
     "test:forgotPassword": "npx wdio wdio.conf.js --spec ./test/specs/ForgotPassword.js",
-    "test:all": "npm run test:signup && npm run test:forgotPassword"
+    "test:onboarding": "npx wdio wdio.conf.js --spec ./test/specs/onboarding.js",
+    "test:all": "npm run test:signup && npm run test:forgotPassword && npm run test:onboarding"
   },
   "dependencies": {
     "axios": "^1.7.9",

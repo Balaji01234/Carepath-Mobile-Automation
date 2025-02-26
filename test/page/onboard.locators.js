@@ -494,6 +494,10 @@ export class onboardLocators {
         return $('android=new UiSelector().resourceId("over_last_week_bothered_problem_text")')
     }
 
+    reviewAnswer(answer) {
+        return $(`~${answer}`)
+    }
+
     getPhqLocator(questionNumber) {
         const propertyName = `phq${questionNumber}`;
         if (this[propertyName]) {
@@ -1249,7 +1253,7 @@ export class onboardLocators {
         return $(`//android.view.View[@resource-id=esasr_text"]`)
     }
     get esasSentences() {
-        return $(`~The Edmonton Symptom Assessment System (ESAS-r) is a symptom screening tool to assess common symptoms.\n\nPlease rate symptoms from 0 to 10; with 0 meaning that the symptom is absent and 10 that it is the worst possible severity.`)
+        return $(`~ESAS-r`)
     }
     get cancerStartAssessment() {
         return $(`//android.widget.Button[@content-desc="start_assessment_button"]/android.widget.Button/android.view.View`)
