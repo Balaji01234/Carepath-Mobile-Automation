@@ -148,7 +148,7 @@ describe('Sign-Up Positive', async () => {
                 await Keywords.waitForDisplay(locator.success, 45000, "Success Message!!!");
                 await Keywords.click(locator.closeButton, "Close Button");
                 await Keywords.waitForDisplay(locator.startNow, 30000, "Start Now Button");
-                await saveTestDataToJson(role, FirstName, LastName, mail, password, program)
+                await saveTestDataToJson(testCases[i].testId, testCases[i].testDescription, role, FirstName, LastName, mail, password, program)
             } catch (err) {
                 throw new Error(err);
             }

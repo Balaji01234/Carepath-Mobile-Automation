@@ -348,17 +348,18 @@ export default function getValueByComponent(componentName) {
     return undefined;
 }
 
-export const saveTestDataToJson = async (role, firstName, lastName, email, password, program) => {
+export const saveTestDataToJson = async (TestId, description, role, firstName, lastName, email, password, program) => {
     try {
         if (!testDataFilePath) {
-            const timestamp = new Date().toISOString().replace(/[-:.]/g, '');
+            const now = new Date();
+            const timestamp = `${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}-${now.getHours()}-${now.getMinutes()}`;
             const folderPath = path.join(process.cwd(), 'signUpData');
 
             if (!fs.existsSync(folderPath)) {
                 fs.mkdirSync(folderPath, { recursive: true });
             }
 
-            testDataFilePath = path.join(folderPath, `testData_${timestamp}.json`);
+            testDataFilePath = path.join(folderPath, `Signup_New_User_${timestamp}.json`);
 
             fs.writeFileSync(testDataFilePath, JSON.stringify([], null, 2), 'utf8');
 
@@ -368,6 +369,8 @@ export const saveTestDataToJson = async (role, firstName, lastName, email, passw
         const existingData = JSON.parse(fs.readFileSync(testDataFilePath, 'utf8'));
 
         existingData.push({
+            Test_ID: TestId,
+            Description: description,
             Role: role,
             Program: program,
             FirstName: firstName,

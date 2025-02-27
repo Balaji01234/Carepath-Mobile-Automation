@@ -20,14 +20,15 @@
   "scripts": {
     "test:signup-positive": "npx wdio wdio.conf.js --spec ./test/specs/signup/SignUp-Positive.js",
     "test:signup-negative": "npx wdio wdio.conf.js --spec ./test/specs/signup/SignUp-Negative.js",
-    "test:signup": "npm run test:signup-positive && npm run test:signup-negative",
+    "test:signup": "npx wdio wdio.conf.js --spec ./test/specs/signup/SignUp-Positive.js ; npx wdio wdio.conf.js --spec ./test/specs/signup/SignUp-Negative.js",
     "test:forgotPassword-positive": "npx wdio wdio.conf.js --spec ./test/specs/forgotPassword/forgotPassword-Positive.js",
     "test:forgotPassword-negative": "npx wdio wdio.conf.js --spec ./test/specs/forgotPassword/forgotPassword-Negative.js",
-    "test:forgotPassword": "npm run test:forgotPassword-positive && npm run test:forgotPassword-negative",
+    "test:forgotPassword": "npx wdio wdio.conf.js --spec ./test/specs/forgotPassword/forgotPassword-Positive.js ; npx wdio wdio.conf.js --spec ./test/specs/forgotPassword/forgotPassword-Negative.js",
     "test:onboarding-mh-positive": "npx wdio wdio.conf.js --spec ./test/specs/onboarding/mentalHealth-Positive.js",
     "test:onboarding-cancer-positive": "npx wdio wdio.conf.js --spec ./test/specs/onboarding/cancer-Positive.js",
-    "test:onboarding": "npm run test:onboarding-mh-positive && npm run test:onboarding-cancer-positive",
-    "test:all": "npm run test:signup && npm run test:forgotPassword && npm run test:onboarding"
+    "test:onboarding-chronic-positive": "npx wdio wdio.conf.js --spec ./test/specs/onboarding/chronic-Positive.js",
+    "test:onboarding": "npx wdio wdio.conf.js --spec ./test/specs/onboarding/mentalHealth-Positive.js ; npx wdio wdio.conf.js --spec ./test/specs/onboarding/cancer-Positive.js ; npx wdio wdio.conf.js --spec ./test/specs/onboarding/chronic-Positive.js",
+    "test:all": "npx wdio wdio.conf.js"
   },
   "dependencies": {
     "axios": "^1.7.9",
