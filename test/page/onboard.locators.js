@@ -53,7 +53,11 @@ export class onboardLocators {
     }
 
     get checkListScreen() {
-        return $$('//android.widget.ScrollView//android.view.View')
+        return $$('//android.widget.ScrollView//android.view.View');
+    }
+
+    get checkListScreenVerify() {
+        return $('~We collect personal information only for medical purposes required to determine your well-being. Based on that, our clinicians can provide you with faster and better support.')
     }
 
     get startOnboardingButton() {

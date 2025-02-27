@@ -71,6 +71,12 @@ describe('Onboarding - Cancer Program', async () => {
                 await Keywords.click(Locatoronboard.allowButton, "Allow button");
                 await Keywords.waitForDisplay(Locatoronboard.androidAllowNotificationButton, 40000, "Default Allow notification")
                 await Keywords.click(Locatoronboard.androidAllowNotificationButton, "Default Allow notification button");
+                if (await locator.allowButton.isDisplayed({ timeout: 60000 })) {
+                    await Keywords.click(locator.allowButton, "allow button");
+                    if (await Locatoronboard.backDefaultNotification.isDisplayed({ timeout: 90000 })) {
+                        await Keywords.click(Locatoronboard.backDefaultNotification, "Back arrow for Default notification button");
+                    }
+                }
                 await Keywords.AllureInfo("LogIn Screen Completed!!!");
                 console.log('Login process completed successfully.');
 
