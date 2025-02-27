@@ -18,9 +18,15 @@
     "wdio-wait-for": "^3.0.11"
   },
   "scripts": {
-    "test:signup": "npx wdio wdio.conf.js --spec ./test/specs/SignUp.js",
-    "test:forgotPassword": "npx wdio wdio.conf.js --spec ./test/specs/ForgotPassword.js",
-    "test:onboarding": "npx wdio wdio.conf.js --spec ./test/specs/onboarding.js",
+    "test:signup-positive": "npx wdio wdio.conf.js --spec ./test/specs/signup/SignUp-Positive.js",
+    "test:signup-negative": "npx wdio wdio.conf.js --spec ./test/specs/signup/SignUp-Negative.js",
+    "test:signup": "npm run test:signup-positive && npm run test:signup-negative",
+    "test:forgotPassword-positive": "npx wdio wdio.conf.js --spec ./test/specs/forgotPassword/forgotPassword-Positive.js",
+    "test:forgotPassword-negative": "npx wdio wdio.conf.js --spec ./test/specs/forgotPassword/forgotPassword-Negative.js",
+    "test:forgotPassword": "npm run test:forgotPassword-positive && npm run test:forgotPassword-negative",
+    "test:onboarding-mh-positive": "npx wdio wdio.conf.js --spec ./test/specs/onboarding/mentalHealth-Positive.js",
+    "test:onboarding-cancer-positive": "npx wdio wdio.conf.js --spec ./test/specs/onboarding/cancer-Positive.js",
+    "test:onboarding": "npm run test:onboarding-mh-positive && npm run test:onboarding-cancer-positive",
     "test:all": "npm run test:signup && npm run test:forgotPassword && npm run test:onboarding"
   },
   "dependencies": {
@@ -29,6 +35,7 @@
     "dotenv": "^16.4.7",
     "exceljs": "^4.4.0",
     "form-data": "^4.0.1",
+    "glob": "^11.0.1",
     "wdio-html-nice-reporter": "^8.1.6",
     "wdio-vscode-service": "^6.1.2",
     "xlsx": "^0.18.5"
