@@ -8,6 +8,14 @@ export class locators {
         return $('~Language_dropdown');
     }
 
+    get lessonContinueBtn(){
+        return $('~CONTINUE')
+    }
+
+    get lessonStartBtn(){
+        return $('~START')
+    }
+
     get englishLanguage() {
         return $('~dropdown_itemEN');
     }
