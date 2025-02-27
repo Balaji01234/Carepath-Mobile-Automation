@@ -1,8 +1,10 @@
 import ExcelJS from 'exceljs';
 import * as XLSX from 'xlsx';
+import xlsx from "xlsx";
 import { readFileSync } from 'fs';
 import fs from 'fs';
 import path from 'path';
+import { glob } from "glob";
 
 let testDataFilePath = null;
 
@@ -99,9 +101,9 @@ export const readData = async function getValueFromExcel(sheetName, rowHeader, r
     }
 }
 
-export const readData1 = async (file, sheetName, headerName, rowName) => {
+export const readData1 = async (folder, file, sheetName, headerName, rowName) => {
     try {
-        const filePath = `./dataFiles/${file}.xlsx`;
+        const filePath = `./dataFiles/${folder}/${file}.xlsx`;
         const workbook = new ExcelJS.Workbook();
 
         // Read the workbook
@@ -121,12 +123,13 @@ export const readData1 = async (file, sheetName, headerName, rowName) => {
             throw new Error(`Header "${headerName}" not found.`);
         }
 
-        // Find the row where rowName matches
+        // Iterate through rows to find the row containing rowName
         for (let i = 2; i <= sheet.rowCount; i++) {
             const row = sheet.getRow(i);
-            const firstCell = row.getCell(1).value; // Assuming rowName is in the first column
-            if (firstCell === rowName) {
-                return row.getCell(headerIndex).value; // Return the value in the specified column
+            for (let j = 1; j <= row.cellCount; j++) {  // Loop through all columns
+                if (row.getCell(j).value === rowName) {
+                    return row.getCell(headerIndex).value; // Return the value from the specified header column
+                }
             }
         }
 
@@ -137,9 +140,9 @@ export const readData1 = async (file, sheetName, headerName, rowName) => {
     }
 };
 
-export const readTestcase = async (file, sheetName, headerName, rowName) => {
+export const readTestcase = async (folder, file, sheetName, headerName, rowName) => {
     try {
-        const filePath = `./dataFiles/${file}.xlsx`;
+        const filePath = `./dataFiles/${folder}/${file}.xlsx`;
         const workbook = new ExcelJS.Workbook();
 
         // Read the workbook
@@ -243,8 +246,8 @@ export const writeExcelData = async (sheetName, rowHeader, rowValue, columnName,
     }
 };
 
-export const writeExcelData1 = async (file, sheetName, rowValue, columnValue, newValue) => {
-    const filePath = `./dataFiles/${file}.xlsx`;
+export const writeExcelData1 = async (folder, file, sheetName, rowValue, columnValue, newValue) => {
+    const filePath = `./dataFiles/${folder}/${file}.xlsx`;
     try {
         const workbook = new ExcelJS.Workbook();
         await workbook.xlsx.readFile(filePath);
@@ -381,4 +384,46 @@ export const saveTestDataToJson = async (role, firstName, lastName, email, passw
     }
 };
 
+/**
+ * Reads test details from an Excel sheet based on condition.
+ * Dynamically selects the first available "TestdataX" column.
+ * 
+ * @param {string} filePath - Path to the Excel file.
+ * @param {string} sheetName - Name of the sheet containing test data.
+ * @returns {Array} - Array of objects with Test ID, Test Description, and available TestdataX.
+ */
 
+export function getFilteredTests(folder, file, sheetName) {
+    const filePath = `./dataFiles/${folder}/${file}.xlsx`;
+    // 1. Read the Excel file
+    const workbook = xlsx.readFile(filePath);
+    const sheet = workbook.Sheets[sheetName];
+
+    if (!sheet) {
+        throw new Error(`Sheet '${sheetName}' not found in the Excel file.`);
+    }
+
+    // 2. Convert sheet to JSON
+    const jsonData = xlsx.utils.sheet_to_json(sheet);
+
+    // 3. Filter & map data
+    return jsonData
+        // Only rows with "Condition" = "Yes"
+        .filter(row => row["Condition"]?.toLowerCase() === "yes")
+        .map(row => ({
+            testId: row["Test ID"],
+            testDescription: row["Test Description"]
+        }));
+}
+
+async function findExcelFile(file) {
+    const pattern = `./dataFiles/**/${file}.xlsx`; // Search in all subfolders
+    const files = await glob(pattern); // Asynchronously find matching files
+
+    if (files.length > 0) {
+        console.log(files[0])
+        return files[0]; // Return the first matched file
+    } else {
+        throw new Error(`File ${file}.xlsx not found in any subfolder of dataFiles`);
+    }
+}

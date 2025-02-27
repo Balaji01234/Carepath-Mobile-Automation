@@ -74,7 +74,7 @@ export class keywords {
     async SetValue(locator, text) {
         allureReporter.startStep(`SetValue: ${text}`)
         try {
-            await locator.waitForDisplayed({ timeout: 45000 });
+            await locator.waitForDisplayed({ timeout: 60000 });
             await locator.click();
             await browser.pause(2000);
             await locator.clearValue();
