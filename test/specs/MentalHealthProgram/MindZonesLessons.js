@@ -1,6 +1,6 @@
-import { locators } from '../page/locators.js';
-import { keywords } from '../page/keywords.js';
-import { getRandomString, writeExcelData, readData } from '../../utils/common.js';
+import { locators } from '../../page/locators.js';
+import { keywords } from '../../page/keywords.js';
+import { getRandomString, writeExcelData, readData } from '../../../utils/common.js';
 import { readData1, getFilteredTests } from '../../../utils/common.js';
 import allureReporter from '@wdio/allure-reporter'
 import { expect } from 'chai';
