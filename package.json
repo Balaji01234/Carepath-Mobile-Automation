@@ -27,7 +27,8 @@
     "test:onboarding-mh-positive": "npx wdio wdio.conf.js --spec ./test/specs/onboarding/mentalHealth-Positive.js",
     "test:onboarding-cancer-positive": "npx wdio wdio.conf.js --spec ./test/specs/onboarding/cancer-Positive.js",
     "test:onboarding-chronic-positive": "npx wdio wdio.conf.js --spec ./test/specs/onboarding/chronic-Positive.js",
-    "test:onboarding": "npx wdio wdio.conf.js --spec ./test/specs/onboarding/mentalHealth-Positive.js ; npx wdio wdio.conf.js --spec ./test/specs/onboarding/cancer-Positive.js ; npx wdio wdio.conf.js --spec ./test/specs/onboarding/chronic-Positive.js",
+    "test:onboarding-eldercare-positive": "npx wdio wdio.conf.js --spec ./test/specs/onboarding/eldercare-Positive.js",
+    "test:onboarding": "npx wdio wdio.conf.js --spec ./test/specs/onboarding/mentalHealth-Positive.js ; npx wdio wdio.conf.js --spec ./test/specs/onboarding/cancer-Positive.js ; npx wdio wdio.conf.js --spec ./test/specs/onboarding/chronic-Positive.js ; npx wdio wdio.conf.js --spec ./test/specs/onboarding/eldercare-Positive.js",
     "test:all": "npx wdio wdio.conf.js"
   },
   "dependencies": {
