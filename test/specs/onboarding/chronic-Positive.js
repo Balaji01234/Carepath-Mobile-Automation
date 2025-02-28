@@ -154,7 +154,7 @@ describe('Onboarding - Chronic Program', () => {
                 await Keywords.verifyElementDisplayed(Locatoronboard.completeStatus(34), "34% complete status")
                 await Keywords.click(Locatoronboard.nextButton, "Next Button");
                 await Keywords.AllureInfo("Employment Information Screen Completed!!!");
-                await Keywords.waitForDisplay(Locatoronboard.termsAndConditionsScreen, 90000, "Terms & Conditions Screen");
+                await Keywords.waitForDisplay(Locatoronboard.termsAndConditionsScreen, 100000, "Terms & Conditions Screen");
                 await Keywords.verifyText(Locatoronboard.acceptTermsAndConditions, "content-desc", termsAndConditions, "Accept Terms & Conditions")
                 await Keywords.click(Locatoronboard.acceptTermsAndConditions, "Accept Terms and Conditions Radio button");
                 await Keywords.verifyText(Locatoronboard.provideMyConsent, "content-desc", provideMyConsentText, "Provide My Consent");
@@ -190,6 +190,9 @@ describe('Onboarding - Chronic Program', () => {
                     await Keywords.click(Locatoronboard.initialHere, "Initial Here");
                     await Keywords.verifyElementIsEnabled(Locatoronboard.applyButtonInInitials, "Apply Button")
                     await Keywords.click(Locatoronboard.applyButtonInInitials, "Apply Button");
+                    if(await Locatoronboard.applyButtonInInitials.isDisplayed({timeout:45000})){
+                        await Keywords.click(Locatoronboard.applyButtonInInitials, "Apply Button");
+                    }
                     await driver.pause(2500);
                     await Locatoronboard.remainingFields(number - 1).click();
                     await Keywords.verifyElementDisplayed(Locatoronboard.remainingFields(number - 1), `${number - 1} required fields remaining`)

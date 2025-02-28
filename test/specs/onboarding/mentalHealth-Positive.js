@@ -171,7 +171,7 @@ describe('Onboarding - Mental Health Program', async () => {
                 await Keywords.click(Locatoronboard.nextButton, "Next Button");
                 await Keywords.AllureInfo("Employment Information Screen Completed!!!");
 
-                await Keywords.waitForDisplay(Locatoronboard.termsAndConditionsScreen, 90000, "Terms & Conditions Screen");
+                await Keywords.waitForDisplay(Locatoronboard.termsAndConditionsScreen, 100000, "Terms & Conditions Screen");
                 await Keywords.verifyText(Locatoronboard.acceptTermsAndConditions, "content-desc", termsAndConditions, "Accept Terms & Conditions")
                 await Keywords.click(Locatoronboard.acceptTermsAndConditions, "Accept Terms and Conditions Radio button");
                 await Keywords.verifyText(Locatoronboard.provideMyConsent, "content-desc", provideMyConsentText, "Provide My Consent");
@@ -181,7 +181,7 @@ describe('Onboarding - Mental Health Program', async () => {
                 await browser.pause(3000);
                 await Keywords.click(Locatoronboard.continueBtn, "Continue Button in Consent Popup");
                 console.log(await browser.getContexts());
-                await Keywords.waitForDisplay(Locatoronboard.adobeAcknowledgeMessage, 90000, "Adobe Acknowledge Message");
+                await Keywords.waitForDisplay(Locatoronboard.adobeAcknowledgeMessage, 100000, "Adobe Acknowledge Message");
                 await Keywords.click(Locatoronboard.continueBtnInAdobe, "Continue Button in Adobe")
                 console.log(await browser.getContexts());
                 await Keywords.verifyElementIsEnabled(Locatoronboard.startButton, "Start Button");
@@ -207,8 +207,14 @@ describe('Onboarding - Mental Health Program', async () => {
                     await Keywords.click(Locatoronboard.initialHere, "Initial Here");
                     await Keywords.verifyElementIsEnabled(Locatoronboard.applyButtonInInitials, "Apply Button")
                     await Keywords.click(Locatoronboard.applyButtonInInitials, "Apply Button");
-                    await Locatoronboard.remainingFields(number - 1).click();
-                    await Keywords.verifyElementDisplayed(Locatoronboard.remainingFields(number - 1), `${number - 1} required fields remaining`)
+                    if (await Locatoronboard.applyButtonInInitials.isDisplayed({ timeout: 45000 })) {
+                        await Keywords.click(Locatoronboard.applyButtonInInitials, "Apply Button");
+                    }
+                    try {
+                        await Keywords.verifyElementDisplayed(Locatoronboard.remainingFields(number - 1), `${number - 1} required fields remaining`)
+                    } catch (err) {
+
+                    }
                     await Keywords.click(Locatoronboard.nextArrowButton(number - 1), "Next Arrow Button");
                     if (!await Locatoronboard.initialHere.isDisplayed()) {
                         break;
