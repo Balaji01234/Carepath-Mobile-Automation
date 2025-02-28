@@ -109,7 +109,7 @@ describe('Sign-Up Positive', async () => {
                 }
                 await Keywords.click(locator.signUpButton, "Signup button");
                 if (role === 'Student') {
-                    await Keywords.waitForDisplay(locator.studentInformationScreen, "Student Information Screen")
+                    await Keywords.waitForDisplay(locator.studentInformationScreen,60000, "Student Information Screen")
                     await Keywords.isDisplayed(locator.athabascaUniversity, "Athabasca University");
                     await Keywords.SetValue(locator.studentId, studentId)
                     await Keywords.SetValue(locator.courseEnrolled, courseEnrolled);

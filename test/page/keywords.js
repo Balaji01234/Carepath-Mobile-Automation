@@ -149,7 +149,7 @@ export class keywords {
     async waitForDisplay(locator, timeout, text) {
         allureReporter.startStep("Waiting for element to display: " + text)
         try {
-            await locator.waitForDisplayed({ timeout: 90 * 1000 });
+            await locator.waitForDisplayed({ timeout: timeout});
             console.log(`${text} is displayed`)
             await this.AllurePass(`${text} is displayed`);
             allureReporter.endStep('passed');
