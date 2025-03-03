@@ -207,13 +207,14 @@ describe('Onboarding - Mental Health Program', async () => {
                     await Keywords.click(Locatoronboard.initialHere, "Initial Here");
                     await Keywords.verifyElementIsEnabled(Locatoronboard.applyButtonInInitials, "Apply Button")
                     await Keywords.click(Locatoronboard.applyButtonInInitials, "Apply Button");
-                    if (await Locatoronboard.applyButtonInInitials.isDisplayed({ timeout: 45000 })) {
+                    await driver.pause(2500);
+                    if(await Locatoronboard.applyButtonInInitials.isDisplayed({timeout:45000})){
                         await Keywords.click(Locatoronboard.applyButtonInInitials, "Apply Button");
                     }
                     try {
                         await Keywords.verifyElementDisplayed(Locatoronboard.remainingFields(number - 1), `${number - 1} required fields remaining`)
                     } catch (err) {
-
+                        await Keywords.verifyElementDisplayed(Locatoronboard.remainingFields(number - 1), `${number - 1} required fields remaining`)
                     }
                     await Keywords.click(Locatoronboard.nextArrowButton(number - 1), "Next Arrow Button");
                     if (!await Locatoronboard.initialHere.isDisplayed()) {

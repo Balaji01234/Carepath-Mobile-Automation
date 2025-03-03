@@ -259,7 +259,15 @@ export const config = {
     /**
      * Function to be executed before a test (in Mocha/Jasmine) starts.
      */
-    beforeTest: function (test, context) {
+    beforeTest: async function (test, context) {
+        const appState = await driver.queryAppState('com.carepath.app.dev');
+        // Activate the app only if it is not already running
+        if (appState !== 4) {  // 4 means "running in foreground"
+            console.log("App is not running, activating the app...");
+            await driver.activateApp('com.carepath.app.dev');
+        } else {
+            console.log("App is already running.");
+        }
         console.log(`****${test.title} is started****`)
     },
     /**
@@ -306,7 +314,6 @@ export const config = {
                 args: ['com.carepath.app.dev'],
             });
             await driver.terminateApp('com.carepath.app.dev');
-            await driver.activateApp('com.carepath.app.dev');
         }
     },
 
@@ -334,9 +341,24 @@ export const config = {
      * @param {Array.<String>} specs List of spec file paths that ran
      */
     after: async function (result, capabilities, specs) {
-        fs.writeFileSync('./reports/test-results.json', JSON.stringify(testResults, null, 2));
-        await browser.terminateApp('com.carepath.app.dev');
+        try {
+            // Read existing results if the file already exists
+            let existingResults = [];
+            if (fs.existsSync('./reports/test-results.json')) {
+                existingResults = JSON.parse(fs.readFileSync('./reports/test-results.json', 'utf8'));
+            }
+    
+            // Merge existing results with new ones
+            const allResults = existingResults.concat(testResults);
+    
+            // Write back merged results
+            fs.writeFileSync('./reports/test-results.json', JSON.stringify(allResults, null, 2));
+            console.log('Test results saved successfully.');
+        } catch (err) {
+            console.log('Error writing test results:', err);
+        }
     },
+    
 
     /**
      * Gets executed right after terminating the webdriver session.
@@ -366,6 +388,11 @@ export const config = {
             }
         } catch (error) {
             console.error("Error processing report directory:", error);
+        }finally{
+            if (fs.existsSync('./reports/test-results.json')) {
+                fs.unlinkSync('./reports/test-results.json'); 
+                console.log('✅ test-results.json file deleted successfully.');
+            }
         }
     }
 
