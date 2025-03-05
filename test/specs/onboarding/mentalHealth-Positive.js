@@ -58,6 +58,10 @@ describe('Onboarding - Mental Health Program', async () => {
                 const preferredTimeText = await readData1("onboarding", "onboardingMH", "MulipleOptionMH", "PreferredTimeText", `${testCases[i].testId}`)
                 const thankYouText = await readData1("onboarding", "onboardingMH", "MulipleOptionMH", "ThankYouText", `${testCases[i].testId}`)
                 const testDescription = await readData1("onboarding", "onboardingMH", "MulipleOptionMH", "Test Description", `${testCases[i].testId}`)
+                const Role = await readData1("onboarding", "onboardingMH", "MulipleOptionMH", "Role", `${testCases[i].testId}`)
+                const Country = await readData1("onboarding", "onboardingMH", "MulipleOptionMH", "Country", `${testCases[i].testId}`) 
+                const addressname = await readData1("onboarding", "onboardingMH", "MulipleOptionMH", "addressname", `${testCases[i].testId}`) 
+
                 allureReporter.addDescription(testDescription);
                 await Keywords.waitForDisplay(locator.startNow, 60000, "Start Now Button");
                 await Keywords.verifyElementIsEnabled(Locatoronboard.startNow, "Start Now Button");
@@ -133,6 +137,7 @@ describe('Onboarding - Mental Health Program', async () => {
                 await Keywords.click(Locatoronboard.nextButton, "Next Button");
                 await Keywords.AllureInfo("Emergency Contact Screen Completed!!!");
                 await Keywords.waitForDisplay(Locatoronboard.addressInformationScreen, 45000, "Address Information Screen");
+               if(Role =="Employee"){
                 const text1 = [addressText, unitText, cityText, provinceText, postalText];
                 const locators1 = [Locatoronboard.backgroundText('address'), Locatoronboard.backgroundText('unit #'), Locatoronboard.backgroundText('city'), Locatoronboard.backgroundText('province'), Locatoronboard.backgroundText('postal_code')];
                 for (let i = 0; i < text1.length; i++) {
@@ -147,30 +152,47 @@ describe('Onboarding - Mental Health Program', async () => {
                 await Keywords.verifyElementDisplayed(Locatoronboard.completeStatus(28), "28% onboard complete status")
                 if (!await Locatoronboard.nextButton.isDisplayed()) {
                     await browser.hideKeyboard();
-                }
+                }  
                 await Keywords.verifyElementIsEnabled(Locatoronboard.nextButton, "Next button");
                 await Keywords.verifyText(Locatoronboard.nextButtonText, "content-desc", NextButtonText, "Verify Next button text");
+            }else{
+                await Keywords.click(Locatoronboard.addressname, "Countryname Dropdown");
+                await Keywords.click(Locatoronboard.countryName(Country), "countryname");
+            }
                 await Keywords.click(Locatoronboard.nextButton, "Next Button");
                 await Keywords.AllureInfo("Address Information Screen Completed!!!");
+
+            if(Role == "Employee"){
                 await Keywords.waitForDisplay(Locatoronboard.healthCardInformationScreen, 45000, "Health card Information Screen");
                 await Keywords.SetValue(Locatoronboard.healthCardNumberField, healthCardNumber);
                 await Keywords.SetValue(Locatoronboard.healthCardNumberField, healthCardNumber);
+            }
+            
                 const getDob = await Locatoronboard.dobInHealthCard.getText();
                 const formattedGetDob = getDob.replace(/-/g, '');
                 expect(dob).to.be.equal(formattedGetDob);
                 if (!await Locatoronboard.nextButton.isDisplayed()) {
                     await browser.hideKeyboard();
                 }
-                await Keywords.verifyElementDisplayed(Locatoronboard.completeStatus(30), "30% complete status")
+                if(Role == "Employee"){
+                    await Keywords.verifyElementDisplayed(Locatoronboard.completeStatus(30), "30% complete status")
+                }
+                else{
+                    await Keywords.verifyElementDisplayed(Locatoronboard.completeStatus(34), "34% complete status")
+                }
+
                 await Keywords.click(Locatoronboard.nextButton, "Next Button");
                 await Keywords.AllureInfo("Health card Information Screen Completed!!!");
-                await Keywords.waitForDisplay(Locatoronboard.employmentInformationScreen, 45000, "Employment Information Screen");
-                await Keywords.click(Locatoronboard.workStatusDropdown, "Work Status");
-                await Keywords.click(Locatoronboard.fullTime, "Select Fulltime option");
-                await Keywords.verifyElementDisplayed(Locatoronboard.completeStatus(34), "34% complete status")
-                await Keywords.click(Locatoronboard.nextButton, "Next Button");
-                await Keywords.AllureInfo("Employment Information Screen Completed!!!");
-
+                
+                if (Role == "Employee") {
+                    await Keywords.waitForDisplay(Locatoronboard.employmentInformationScreen, 45000, "Employment Information Screen");
+                    await Keywords.click(Locatoronboard.workStatusDropdown, "Work Status");
+                    await Keywords.click(Locatoronboard.fullTime, "Select Fulltime option");
+                    await Keywords.verifyElementDisplayed(Locatoronboard.completeStatus(34), "34% complete status")
+                    await Keywords.click(Locatoronboard.nextButton, "Next Button");
+                    await Keywords.AllureInfo("Employment Information Screen Completed!!!");
+                  } 
+                
                 await Keywords.waitForDisplay(Locatoronboard.termsAndConditionsScreen, 100000, "Terms & Conditions Screen");
                 await Keywords.verifyText(Locatoronboard.acceptTermsAndConditions, "content-desc", termsAndConditions, "Accept Terms & Conditions")
                 await Keywords.click(Locatoronboard.acceptTermsAndConditions, "Accept Terms and Conditions Radio button");
@@ -207,8 +229,7 @@ describe('Onboarding - Mental Health Program', async () => {
                     await Keywords.click(Locatoronboard.initialHere, "Initial Here");
                     await Keywords.verifyElementIsEnabled(Locatoronboard.applyButtonInInitials, "Apply Button")
                     await Keywords.click(Locatoronboard.applyButtonInInitials, "Apply Button");
-                    await driver.pause(2500);
-                    if(await Locatoronboard.applyButtonInInitials.isDisplayed({timeout:45000})){
+                    if (await Locatoronboard.applyButtonInInitials.isDisplayed({ timeout: 45000 })) {
                         await Keywords.click(Locatoronboard.applyButtonInInitials, "Apply Button");
                     }
                     try {

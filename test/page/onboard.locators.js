@@ -1426,4 +1426,12 @@ export class onboardLocators {
         return $('~We collect personal information only for medical purposes required to determine your well-being. Based on that, our clinicians can provide you with faster and better support.')
     }
 
+    get addressname(){
+        return $('//android.widget.ImageView[@resource-id="country_textfield"]')
+    }
+ 
+    countryName(value) {
+        return $(`~${value}`)
+    }
+
 }
