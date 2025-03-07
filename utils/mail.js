@@ -5,7 +5,6 @@ import archiver from 'archiver';
 import nodemailer from 'nodemailer';
 import getValueByComponent from './common.js';
 
-const require = createRequire(import.meta.url); // Allow CommonJS imports in an ES module
 
 const senderEmail = getValueByComponent('Sender');
 const password = getValueByComponent('Password');
@@ -22,7 +21,7 @@ export default class Mail {
                 pass: password
             },
             tls: {
-                rejectUnauthorized: false // Allow self-signed certificates
+                rejectUnauthorized: false
             },
             debug: false,
             logger: false

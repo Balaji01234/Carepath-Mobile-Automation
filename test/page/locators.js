@@ -8,11 +8,11 @@ export class locators {
         return $('~Language_dropdown');
     }
 
-    get lessonContinueBtn(){
+    get lessonContinueBtn() {
         return $('~CONTINUE')
     }
 
-    get lessonStartBtn(){
+    get lessonStartBtn() {
         return $('~START')
     }
 
@@ -395,5 +395,12 @@ export class locators {
         return $(`(//android.view.View[@text="Verify icon Verify your account Here is your verification code for Carepath Digital Health "]//..//..//android.view.View)[3]//android.view.View`);
     }
 
+    get uploadButton() {
+        return $('~upload_button')
+    }
+
+    get selectFile(){
+        return $('(//android.widget.ImageView[@resource-id="com.google.android.providers.media.module:id/icon_thumbnail"])[1]')
+    }
 
 }
