@@ -89,7 +89,8 @@ export const config = {
         "appium:fullReset": false,
         "appium:noReset": false,
         "appium:chromedriverExecutable": "D:/grid/chromedriver.exe",
-        "appium:chromedriverAutodownload": true
+        "appium:chromedriverAutodownload": true,
+        browserName: ""
     }],
 
 
@@ -140,11 +141,22 @@ export const config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: [['appium', {
-        args: {
-            allowInsecure: 'adb_shell',
-        },
-    }],],
+    services: [
+        ['appium', {
+            args: {
+                allowInsecure: 'adb_shell',
+            },
+        }],
+        ['image-comparison']
+    ],
+    imageComparison: {
+        baselineFolder: './baselineScreenshots/',
+        screenshotPath: './screenshots/',
+        autoSaveBaseline: true,
+        savePerInstance: true,
+        blockOutStatusBar: true,
+        blockOutNavigationBar: true,
+    },
 
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -260,15 +272,17 @@ export const config = {
      * Function to be executed before a test (in Mocha/Jasmine) starts.
      */
     beforeTest: async function (test, context) {
-        const appState = await driver.queryAppState('com.carepath.app.dev');
-        // Activate the app only if it is not already running
-        if (appState !== 4) {  // 4 means "running in foreground"
-            console.log("App is not running, activating the app...");
-            await driver.activateApp('com.carepath.app.dev');
-        } else {
-            console.log("App is already running.");
+        if (!test.title.includes("Lesson_")) {
+            const appState = await driver.queryAppState('com.carepath.app.dev');
+            // Activate the app only if it is not already running
+            if (appState !== 4) {  // 4 means "running in foreground"
+                console.log("App is not running, activating the app...");
+                await driver.activateApp('com.carepath.app.dev');
+            } else {
+                console.log("App is already running.");
+            }
+            console.log(`****${test.title} is started****`)
         }
-        console.log(`****${test.title} is started****`)
     },
     /**
      * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
@@ -309,11 +323,13 @@ export const config = {
         } catch (err) {
             console.log(err)
         } finally {
-            await driver.execute('mobile: shell', {
-                command: 'pm clear',
-                args: ['com.carepath.app.dev'],
-            });
-            await driver.terminateApp('com.carepath.app.dev');
+            if (!test.title.includes('Lesson_')) {
+                await driver.execute('mobile: shell', {
+                    command: 'pm clear',
+                    args: ['com.carepath.app.dev'],
+                });
+                await driver.terminateApp('com.carepath.app.dev');
+            }
         }
     },
 
@@ -347,10 +363,10 @@ export const config = {
             if (fs.existsSync('./reports/test-results.json')) {
                 existingResults = JSON.parse(fs.readFileSync('./reports/test-results.json', 'utf8'));
             }
-    
+
             // Merge existing results with new ones
             const allResults = existingResults.concat(testResults);
-    
+
             // Write back merged results
             fs.writeFileSync('./reports/test-results.json', JSON.stringify(allResults, null, 2));
             console.log('Test results saved successfully.');
@@ -358,7 +374,7 @@ export const config = {
             console.log('Error writing test results:', err);
         }
     },
-    
+
 
     /**
      * Gets executed right after terminating the webdriver session.
@@ -377,25 +393,31 @@ export const config = {
      * @param {<Object>} results object containing test results
      */
     onComplete: async function (exitCode, config, capabilities, results) {
-        console.log('Test execution completed, preparing to send email...');
-        try {
-            if (mailTrigger === 'Yes' && HTMLResultsDir) {
-                const mailer = new Mail();
-                console.log("Sending report from path: " + HTMLResultsDir);
-                await mailer.sendMail(HTMLResultsDir,'./signUpData');
-            } else {
-                console.log("Email not triggered, either mailTrigger is 'No' or no report folder was found.");
+        const testResults = JSON.parse(fs.readFileSync('./reports/test-results.json', 'utf-8'));
+        if (testResults.length > 0) {
+            console.log('Test execution completed, preparing to send email...');
+            try {
+                if (mailTrigger === 'Yes' && HTMLResultsDir) {
+                    const mailer = new Mail();
+                    console.log("Sending report from path: " + HTMLResultsDir);
+                    await mailer.sendMail(HTMLResultsDir, './signUpData');
+                } else {
+                    console.log("Email not triggered, either mailTrigger is 'No' or no report folder was found.");
+                }
+            } catch (error) {
+                console.error("Error processing report directory:", error);
+            } finally {
+                if (fs.existsSync('./reports/test-results.json')) {
+                    fs.unlinkSync('./reports/test-results.json');
+                    console.log('✅ test-results.json file deleted successfully.');
+                }
             }
-        } catch (error) {
-            console.error("Error processing report directory:", error);
-        }finally{
+        } else {
             if (fs.existsSync('./reports/test-results.json')) {
-                fs.unlinkSync('./reports/test-results.json'); 
-                console.log('✅ test-results.json file deleted successfully.');
+                fs.unlinkSync('./reports/test-results.json');
             }
         }
     }
-
 
     /**
     * Gets executed when a refresh happens.

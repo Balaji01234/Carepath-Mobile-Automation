@@ -2,7 +2,14 @@ import allureReporter from '@wdio/allure-reporter'
 import { locators } from './locators.js';
 import { onboardLocators } from './onboard.locators.js';
 import { ForgotPasswordLocators } from './ForgotLocator.js';
+import fs from 'fs';
+import path from 'path';
+import pixelmatch from 'pixelmatch';
+import { PNG } from 'pngjs';
+const screenshotDir = './screenshots';
+if (!fs.existsSync(screenshotDir)) fs.mkdirSync(screenshotDir);
 export class keywords {
+
 
     constructor() {
         this.locator = new locators();
@@ -149,7 +156,7 @@ export class keywords {
     async waitForDisplay(locator, timeout, text) {
         allureReporter.startStep("Waiting for element to display: " + text)
         try {
-            await locator.waitForDisplayed({ timeout: timeout});
+            await locator.waitForDisplayed({ timeout: timeout });
             console.log(`${text} is displayed`)
             await this.AllurePass(`${text} is displayed`);
             allureReporter.endStep('passed');
@@ -275,7 +282,7 @@ export class keywords {
         try {
             await browser.pause(2000);
             await locator.waitForExist({ timeout: 90000 })
-            const display = locator.isDisplayed({ timeout: 90000 });
+            const display = await locator.isDisplayed({ timeout: 90000 });
             if (await display) {
                 console.log(`${text} is displayed!!!`);
                 await this.AllurePass(`"${text}" is displayed!!!`);
@@ -372,7 +379,6 @@ export class keywords {
         }
     }
 
-
     async verifyElementIsEnabled(locator, text) {
         allureReporter.startStep(`🔍 **VERIFY**: "${text}" is enabled or not`)
         let enable = false;
@@ -384,6 +390,28 @@ export class keywords {
         } catch (err) {
             allureReporter.endStep('failed');
             console.log(`${text} is not Enabled!!!`)
+        }
+    }
+
+    async verifyElementIsClickable(locator, text) {
+        allureReporter.startStep(`🔍 **VERIFY**: "${text}" is clickable or not`)
+        let enable = false;
+        try {
+            enable = await locator.isClickable();
+            if (enable == false) {
+                console.log(`${text} is clickable!!!`)
+                await this.AllurePass(`${text} is clickable!!!`);
+                allureReporter.endStep('passed');
+            } else {
+                console.log(`${text} is not clickable!!!`)
+                await this.AllureFail(`${text} is not clickable!!!`);
+                allureReporter.endStep('failed');
+                throw new Error(err);
+            }
+        } catch (err) {
+            allureReporter.endStep('failed');
+            console.log(`${text} is not clickable!!!`)
+            throw new Error(err);
         }
     }
 
@@ -410,7 +438,7 @@ export class keywords {
         try {
             await this.waitForDisplay(locator, 60000, logText);
             actualText = await locator.getAttribute(attributeName);
-            if (expectedText === actualText) {
+            if (expectedText.trim() === actualText.trim()) {
                 console.log(`Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
                 await this.AllurePass(`Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
                 allureReporter.endStep('passed');
@@ -559,6 +587,165 @@ export class keywords {
         await browser.pause(8000);
         if (await this.locator.dailyGoalCheck.isDisplayed({ timeout: 90000 })) {
             await this.click(this.locator.remindLater, "Remind Later")
+        }
+    }
+
+    async uploadFile(file) {
+        try {
+            const filePath = file;
+            const fileContent = fs.readFileSync(filePath, { encoding: 'base64' });
+
+            const isEmulator = driver.capabilities.deviceName.includes('emulator');
+
+            const deviceFilePath = isEmulator
+                ? '/sdcard/Download/Image.png'
+                : '/storage/emulated/0/Pictures/Image.png';
+
+            await driver.pushFile(deviceFilePath, fileContent);
+
+            await this.click(this.locator.uploadButton, "Upload Button");
+            await browser.pause(2500);
+            await this.click(this.locator.selectFile, "Select File");
+            this.AllurePass("File Uploaded Successfully")
+        } catch (err) {
+            this.AllureFail("File Upload Un-successful")
+        }
+    }
+
+    /**
+ * Captures a screenshot and saves it with the given name.
+ * @param {import('webdriverio').Browser} driver - The WebdriverIO driver instance.
+ * @param {string} name - The screenshot filename (without extension).
+ */
+    async captureScreenshot(name, folderPath) {
+        const dirPath = path.join(screenshotDir, folderPath);
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath, { recursive: true });
+        }
+
+        const filePath = path.join(dirPath, `${name}.png`);
+        await driver.saveScreenshot(filePath);
+        console.log(`✅ Screenshot saved: ${filePath}`);
+    }
+
+    /**
+ * Compares a saved screenshot with a baseline image.
+ * @param {string} baselineName - Baseline screenshot filename (without extension).
+ * @param {string} actualName - New screenshot filename (without extension).
+ * @returns {Promise<{match: boolean, message: string}>}
+ */
+    async compareScreenshots(baselineName, actualName) {
+        const baselinePath = `${screenshotDir}/baseline/${baselineName}.png`;
+        const actualPath = `${screenshotDir}/actual/${actualName}.png`;
+        const diffDir = path.join(screenshotDir, 'diff');
+        if (!fs.existsSync(diffDir)) {
+            fs.mkdirSync(diffDir, { recursive: true });
+        }
+
+        const diffPath = path.join(diffDir, `${actualName}_diff.png`);
+
+        if (!fs.existsSync(baselinePath)) {
+            console.log(`⚠️ Baseline not found! Saving ${actualName} as new baseline.`);
+            fs.copyFileSync(actualPath, baselinePath);
+            return { match: true, message: `Baseline created for ${actualName}.` };
+        }
+
+        const baselineImg = PNG.sync.read(fs.readFileSync(baselinePath));
+        const actualImg = PNG.sync.read(fs.readFileSync(actualPath));
+
+        const { width, height } = baselineImg;
+        const diff = new PNG({ width, height });
+
+        const numDiffPixels = pixelmatch(
+            baselineImg.data, actualImg.data, diff.data,
+            width, height,
+            { threshold: 0.1 }
+        );
+        console.log("numDiffPixels : " + numDiffPixels)
+        const totalPixels = width * height;
+        const diffRatio = (numDiffPixels / totalPixels) * 100;
+        console.log("diffRatio : " + diffRatio)
+        if (diffRatio > 0.1) {
+            fs.writeFileSync(diffPath, PNG.sync.write(diff));
+            this.AllureFail(`❌ Images differ! Check ${diffPath}`);
+            return { match: false, message: `❌ Images differ! Check ${diffPath}` };
+        }
+        this.AllurePass(`✅ Images match!`);
+        return { match: true, message: '✅ Images match!' };
+    }
+
+    async verifyElementDisplayed2(locator, text) {
+        allureReporter.startStep(`🔍 **VERIFY**: "${text}" is displayed or not`);
+        try {
+            await browser.pause(2000);
+            await locator.waitForExist({ timeout: 90000 })
+            const display = await locator.isDisplayed({ timeout: 90000 });
+            if (await display) {
+                console.log(`${text} is displayed!!!`);
+                await this.AllurePass(`"${await locator.getAttribute('content-desc')}" is displayed!!!`);
+                allureReporter.endStep('passed');
+            } else {
+                console.log(`${text} is not displayed!!!`);
+                await this.AllureFail(`"${text}" is not displayed!!!`);
+                allureReporter.endStep('failed');
+                // throw new Error(`${text} should be displayed, but it is not.`);
+            }
+        } catch (err) {
+            await this.AllureFail(`${text} is not displayed!!!`, err);
+            allureReporter.endStep('failed');
+            console.log(`${text} is not displayed!!!`);
+            throw new Error(err.message || `${text} was not displayed due to an error.`);
+        }
+    }
+
+    async scrollToElement(Attribute, Value) {
+
+        await driver.execute('mobile: scroll', {
+            strategy: Attribute,
+            selector: Value,
+            direction: 'down'
+        });
+    }
+
+    async scrollWithUiScroll(Attribute, Value) {
+        try {
+            await $(`android=new UiScrollable(new UiSelector().scrollable(true))` +
+                `.scrollIntoView(new UiSelector().${Attribute}("${Value}"))`);
+            this.AllurePass("Successfully scroll to the element: " + Value);
+        } catch (err) {
+            this.AllureFail("Scroll to the element: " + Value + " is unsuccessful: " + err);
+            throw new Error(err);
+        }
+    }
+
+
+    /**
+     * 1 → Scrolls in the downward direction (down).,
+     * value → Maximum 3 swipes before stopping.
+     * @param {*} value 
+     */
+    async scrollToEnd(value) {
+        try {
+            $(`android=new UiScrollable(new UiSelector().scrollable(true)).scrollToEnd(1,${value})`)
+            this.AllurePass("Successfully scroll to the end");
+        } catch (err) {
+            this.AllureFail("Scroll to the end is unsuccessful: " + err);
+            throw new Error(err);
+        }
+    }
+
+    /**
+     * 1 → Scrolls in the backward direction (up).
+     * value → Maximum 3 swipes before stopping.
+     * @param {*} value 
+     */
+    async scrollToTop(value) {
+        try {
+            $(`android=new UiScrollable(new UiSelector().scrollable(true)).scrollToBeginning(1,${value})`)
+            this.AllurePass("Successfully scroll to the top");
+        } catch (err) {
+            this.AllureFail("Scroll to the top  is unsuccessful");
+            throw new Error(err);
         }
     }
 
