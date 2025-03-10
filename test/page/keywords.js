@@ -161,8 +161,8 @@ export class keywords {
             await this.AllurePass(`${text} is displayed`);
             allureReporter.endStep('passed');
         } catch (err) {
-            console.log(`${text} is not displayed after waiting for ${90 * 1000}`)
-            await this.AllureFail(`${text} is not displayed after waiting for ${90 * 1000}`, err)
+            console.log(`${text} is not displayed after waiting for ${timeout * 1000}`)
+            await this.AllureFail(`${text} is not displayed after waiting for ${timeout * 1000}`, err)
             allureReporter.endStep('failed');
             console.log(err);
             throw new Error(err);
@@ -291,7 +291,7 @@ export class keywords {
                 console.log(`${text} is not displayed!!!`);
                 await this.AllureFail(`"${text}" is not displayed!!!`);
                 allureReporter.endStep('failed');
-                // throw new Error(`${text} should be displayed, but it is not.`);
+                throw new Error(`${text} should be displayed, but it is not.`);
             }
         } catch (err) {
             await this.AllureFail(`${text} is not displayed!!!`, err);

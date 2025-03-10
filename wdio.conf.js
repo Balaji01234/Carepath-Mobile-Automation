@@ -79,6 +79,7 @@ export const config = {
     //
     capabilities: [{
         "platformName": "android",
+         browserName: "",
         "appium:platformVersion": "15.0",
         "appium:deviceName": "Medium Phone API 35",
         "appium:automationName": "uiAutomator2",
@@ -88,9 +89,9 @@ export const config = {
         "appium:detachSession": true,
         "appium:fullReset": false,
         "appium:noReset": false,
-        "appium:chromedriverExecutable": "D:/grid/chromedriver.exe",
+        // "appium:chromedriverExecutable":  "./chromeDriver/chromedriver.exe",
         "appium:chromedriverAutodownload": true,
-        browserName: ""
+       
     }],
 
 
@@ -243,8 +244,9 @@ export const config = {
      * @param {Array.<String>} specs List of spec file paths that are to be run
      * @param {string} cid worker id (e.g. 0-0)
      */
-    // beforeSession: function (config, capabilities, specs, cid) {
-    // },
+    beforeSession: function (config, capabilities, specs, cid) {
+        // capabilities['appium:chromedriverExecutable'] =  path.resolve(chromedriver.path);
+    },
     /**
      * Gets executed before test execution begins. At this point you can access to all global
      * variables like `browser`. It is the perfect place to define custom commands.
