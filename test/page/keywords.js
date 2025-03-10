@@ -161,8 +161,8 @@ export class keywords {
             await this.AllurePass(`${text} is displayed`);
             allureReporter.endStep('passed');
         } catch (err) {
-            console.log(`${text} is not displayed after waiting for ${timeout * 1000}`)
-            await this.AllureFail(`${text} is not displayed after waiting for ${timeout * 1000}`, err)
+            console.log(`${text} is not displayed after waiting for ${timeout}`)
+            await this.AllureFail(`${text} is not displayed after waiting for ${timeout}`, err)
             allureReporter.endStep('failed');
             console.log(err);
             throw new Error(err);
@@ -177,13 +177,13 @@ export class keywords {
     async getOTPFromMailinator(mail) {
         try {
             await driver.startActivity('com.android.chrome', 'com.google.android.apps.chrome.Main');
-            if (await this.locator.chromeDismissButton.isDisplayed()) {
+            if (await this.locator.chromeDismissButton.isDisplayed({ timeout: 60000 })) {
                 await this.locator.chromeDismissButton.click()
             }
-            if (await this.locator.chromeGotIt.isDisplayed()) {
+            if (await this.locator.chromeGotIt.isDisplayed({ timeout: 60000 })) {
                 await this.locator.chromeGotIt.click()
             }
-            if (await this.locator.chromeEasierPopup.isDisplayed()) {
+            if (await this.locator.chromeEasierPopup.isDisplayed({ timeout: 60000 })) {
                 await this.click(this.locator.noThanks, 'No Thanks')
             }
             await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 60000 });
@@ -218,9 +218,10 @@ export class keywords {
         } catch (error) {
             console.log(error)
         } finally {
-            // await this.click(this.locator.chrome3dots, "Chrome option");
-            // await this.click(this.locator.deleteBrowsingData, "Delete browsing data");
-            // await this.click(this.locator.deleteData, "Delete data");
+            await driver.execute('mobile: shell', {
+                command: 'pm clear',
+                args: ['com.android.chrome'],
+            });
             await browser.pause(3000)
             await driver.terminateApp('com.android.chrome');
         }
@@ -269,9 +270,10 @@ export class keywords {
         } catch (error) {
             console.log(error)
         } finally {
-            // await this.click(this.locator.chrome3dots, "Chrome option");
-            // await this.click(this.locator.deleteBrowsingData, "Delete browsing data");
-            // await this.click(this.locator.deleteData, "Delete data");
+            await driver.execute('mobile: shell', {
+                command: 'pm clear',
+                args: ['com.android.chrome'],
+            });
             await browser.pause(3000)
             await driver.terminateApp('com.android.chrome');
         }
