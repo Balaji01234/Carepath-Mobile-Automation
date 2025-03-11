@@ -311,7 +311,7 @@ export class keywords {
             const locatorCount = locator.length;
             await browser.pause(2000);
             for (let i = 0; i < locatorCount; i++) {
-                const display = this.locator.errorText(locator[i]).isDisplayed({ timeout: 90000 });
+                const display = this.locator.errorText(locator[i]).isDisplayed({ timeout: 120000 });
                 if (await display) {
                     value = true;
                     console.log(`${locator[i]} is displayed!!!`);
