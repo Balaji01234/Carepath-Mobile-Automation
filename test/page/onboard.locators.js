@@ -305,7 +305,7 @@ export class onboardLocators {
     }
 
     get allowNotificationButton() {
-        return $('//android.widget.Button[@content-desc="ok_button"]/android.widget.Button/android.view.View')
+        return $('//android.widget.Button[@text="Allow"]')
     }
 
     get backDefaultNotification() {

@@ -251,16 +251,23 @@ export class lessonsLocators {
         return $('//android.view.View[@content-desc="Lesson 1: Anxiety, Depression & Emotions"]')
 
     }
+
     get lessononeVal() {
         return $(`//android.view.View[@resource-id="lesson 1: anxiety, depression & emotions_text"]`)
     }
-    get reviwe() {
-        // return $('(//android.view.View[@content-desc="review_text"])[1]')
-        return $('(//android.view.View[@content-desc="REVIEW"])[1]')
+
+    review(value) {
+        return $(`//*[contains(@content-desc,'Lesson ${value}')]//..//*[@content-desc='REVIEW']`)
     }
+
+    startButton(value){
+        return $(`//*[contains(@content-desc,'Lesson ${value}')]//..//*[@content-desc='START']`)
+    }
+
     get lessonIntro() {
         return $('~Lesson Introduction')
     }
+
     get lesson1() {
         return $('~Welcome to the Mind Zone Course!\nWe are pleased you have decided to participate.\nThis course is designed to help people who are troubled by low mood or anxiety, which are common problems for many people. We hope you find it helpful!')
     }
@@ -330,7 +337,7 @@ export class lessonsLocators {
         return $('~9 / 56')
     }
     get lesson10() {
-        return $(`~Before we begin the first lesson, we invite you to think about what you hope will be different in your life as a result of taking this course.\nFor example, it might be "I will be more relaxed and enjoying life more." Or, "When I get upset, I will have some tools to help me feel better."\nIt's OK if your statement is not too specific at this point.\nGO TO MY GOALS`)
+        return $(`~Before we begin the first lesson, we invite you to think about what you hope will be different in your life as a result of taking this course.\nFor example, it might be "I will be more relaxed and enjoying life more." Or, "When I get upset, I will have some tools to help me feel better."\nIt's OK if your statement is not too specific at this point.`)
     }
     get page10() {
         return $('~10 / 56')
@@ -845,7 +852,7 @@ export class lessonsLocators {
         return $(`(//android.view.View[@content-desc="REVIEW"])[2]`)
     }
     get lessontwo1() {
-        return $(`~Welcome to Lesson 2 of the Mind Zone Course!\nLesson 1 provided you with some information about how behaviour is connected to feelings, emotions, and overall mood. We hope the homework elements helped you to think about your own emotions on a day-to-day basis.\nYou've also had an opportunity to set some personal goals, including some goals about physical activity.`)
+        return $(`//android.view.View[contains(@content-desc,"Welcome to Lesson 2 of the Mind Zone Course!")]`)
     }
     get lessontowval() {
         return $(`//android.view.View[@resource-id="lesson 2: behavioural strategies for anxiety and low mood_text"]`)
@@ -854,18 +861,23 @@ export class lessonsLocators {
     get lessontwo2() {
         return $('~Let`s check in with Matt and Susan')
     }
+
     get lessontwo3() {
         return $('~Susan')
     }
+
     get lessontwo4() {
         return $(`~In Lesson 2, we continue to focus on the relationship between behaviours and mood.\nThere are several kinds of activity that affect mood. Last week we talked about physical activity. Other kinds of activities include:\nAchievement oriented activities. These are activities that give us a sense of satisfaction or mastery\nSocial activities\nHobbies\nAttention restoration activities (nature, music, daylight, time "unplugged")\nRelaxation/meditation\nLet's talk about each of these.`)
     }
+
     get lessontwo5() {
         return $(`~Achievement oriented activities are those that often require skill and are productive in some way. We will focus on "work" as one example, though it is not the only one.\nWhen we feel well, we work with energy. We feel good about what we have done and this contributes to feeling good about ourselves. We experience a sense of satisfaction or mastery.`)
     }
+
     get lessontwo6() {
         return $(`~Take a moment to think about a time when you were performing a skill well.\nBring it to mind as fully as you can:\nWhen was it?\nWhere were you?\nHow did it feel to you?\nSometimes there is recognition from other people that goes with our successes - perhaps this was the case for you.`)
     }
+
     get lessontwo7() {
         return $(`~Hobbies are another activity that can contribute to achievement or sense of mastery.\nThings like...\nSports\nThe arts (music, dance, painting)\nGardening\nWoodworking\nand many others\nExperiencing a sense of achievement in our lives is important to good mental health. Hobbies can provide us with a sense of self-esteem and pleasure. They can be fun, playful, or spontaneous which add to our sense of wellbeing.`)
     }
@@ -912,7 +924,7 @@ export class lessonsLocators {
         return $(`~Step 2: Notice when you are no longer thinking about what you are doing and gently bring your mind back to your senses. You will need to do this many times, just like exercising a muscle.\nStep 3: Be gentle with yourself. The directed attention training is likely a new skill that takes practice. It will not remove your worries or low mood, but will over time allow you to let those be, while you attend to other things.`)
     }
     get lessontwo23() {
-        return $(`~Remember that the wandering mind is not a mistake or a failure. When your mind wanders it is like everyone else's!\nAttention training is designed to help you:\nRecognize what your mind is doing, without judging or criticizing.\n1.\nPausing to name what is happening (e.g. future, past, thinking).\n2.\nLet go of thinking.\n3.\nBring your attention back.\n4.\nHere is a 5-minute guided exercise for focusing on the present moment. You can also access this recording in the Soothe Zone of the course site.\nLISTEN TO BREATH MEDITATION`)
+        return $(`~Remember that the wandering mind is not a mistake or a failure. When your mind wanders it is like everyone else's!\nAttention training is designed to help you:\nRecognize what your mind is doing, without judging or criticizing.\n1.\nPausing to name what is happening (e.g. future, past, thinking).\n2.\nLet go of thinking.\n3.\nBring your attention back.\n4.\nHere is a 5-minute guided exercise for focusing on the present moment. You can also access this recording in the Soothe Zone of the course site.`)
     }
     get lessontwo24() {
         return $(`~Another activity that research has shown to be very helpful for mood is relaxation. There are many ways to engage in relaxation. Think for a moment about the things you find relaxing.\nThese might be things like:\nreading a book\ntaking a walk\nwatching a movie\npreparing food`)
@@ -1330,7 +1342,7 @@ export class lessonsLocators {
         return $(`~37 / 42`)
     }
     get lessonThree38() {
-        return $(`~Similes compare two things by saying one is "like" or "as" the other.\nAn example simile: My emotions are like a boat on the ocean. Sometimes the sailing is smooth, sometimes the waves are rough and rocky.\nSometimes the sailing is smooth, sometimes the waves are rough and rocky.\nWe would like you to develop your own metaphor or simile for your emotions that will help you to see it a bit differently.\nADD YOUR METAPHOR/SIMILE`)
+        return $(`~Similes compare two things by saying one is "like" or "as" the other.\nAn example simile: My emotions are like a boat on the ocean. Sometimes the sailing is smooth, sometimes the waves are rough and rocky.\nSometimes the sailing is smooth, sometimes the waves are rough and rocky.\nWe would like you to develop your own metaphor or simile for your emotions that will help you to see it a bit differently.`)
     }
     get pagelessonThree38() {
         return $(`~38 / 42`)
@@ -1771,7 +1783,7 @@ export class lessonsLocators {
         return $(`~Identify the feelings that you had in response (emotional/ physical) and rate each feeling out of 10.\n3.\nIdentify what you did and how that impacted the situation.\n4.\nIdentify all the facts you can think of that support the distressing thought.\n5.\nIdentify all the facts you can think of that challenge the distressing thought.\n6.\nConsidering both #5 and #6, write a statement that addresses both but that is more balanced or realistic.\n7.`)
     }
     get lessonSix55() {
-        return $(`~Consider your original feelings identified in step 3; re-rate those feelings considering the more balanced thought. If the more balanced thought is a good one, it will be believable and result in lower levels of distressing feelings.\n8.\nThe thought record is an effective tool, and most people benefit from using it. It takes time and practice. Patience and gentleness with yourself are important!\n7.\nCongratulations! You have finished the Lesson 6 Course content`)
+        return $(`~Consider your original feelings identified in step 3; re-rate those feelings considering the more balanced thought. If the more balanced thought is a good one, it will be believable and result in lower levels of distressing feelings.\n8.\nThe thought record is an effective tool, and most people benefit from using it. It takes time and practice. Patience and gentleness with yourself are important!\n7.\nCongratulations! You have finished the Lesson 6 Course content.`)
     }
     get lessonSeven1() {
         return $(`~Little interest or pleasure in doing things`)
@@ -1985,7 +1997,7 @@ export class lessonsLocators {
         return $(`~Cultivate a wide circle. One or two relationships are never enough to meet all our social needs.\n3.\nIf you want to make some new connections, join a club or a group activity that you are interested in. Try volunteering or attend events in your community. And remember to unplug! If you are buried in an iPad or your phone, you will appear less available.\nRelationships typically grow out of shared interests. Even if no close friends come out of a certain activity at least you will have found a group to do things with, which meets some of our social needs.`)
     }
     get lessonSevenpage12() {
-        return $(`~If you are more introverted, shy, or anxious about connecting with people, try to put yourself out there more socially. This may be part of your fear ladder already or you might construct one for this area if it is really tough for you to do this.\n4.\nVIEW FEAR LADDER\nMost people are uncomfortable in social situations when they don't know people very well but some basic skills can go a long way. Try to listen carefully to what the other person is saying and remember some of the details - this communicates interest in them.\nMost of all, be yourself. People who are genuine are generally seen as more likable.`)
+        return $(`~If you are more introverted, shy, or anxious about connecting with people, try to put yourself out there more socially. This may be part of your fear ladder already or you might construct one for this area if it is really tough for you to do this.\n4.\nMost people are uncomfortable in social situations when they don't know people very well but some basic skills can go a long way. Try to listen carefully to what the other person is saying and remember some of the details - this communicates interest in them.\nMost of all, be yourself. People who are genuine are generally seen as more likable.`)
     }
     get lessonSevenpage13() {
         return $(`~Consider the people in your social network who are acquaintances but that you would like to get to know better. Invite one of them out for coffee, to your house for a meal (even if its take-out!), or to a movie. Sometimes it's easier to try out activities with someone new if there is a small group.\n5.`)
@@ -1994,10 +2006,10 @@ export class lessonsLocators {
         return $(`~Barriers to building relationships. There are a number of things that can get in the way of our relationships.\n6.\nBeing too busy. Maintaining relationships takes time. Scheduling get-togethers can help. So can multi-tasking. Like doing something you want to do anyway with someone else. Things like going to the gym, walking the dog, or shopping are examples.`)
     }
     get lessonSevenpage15() {
-        return $(`~Fear of reaching out - you may have some anxiety about being rejected. If someone doesn't respond to your attempts to connect, it doesn't mean they don't like you. They may be busy, distracted, or anxious themselves.\nYou might find imagining a scenario where someone does not respond and doing a thought record about that to find a balanced way to manage your fear.\nVIEW THOUGHT RECORD`)
+        return $(`~Fear of reaching out - you may have some anxiety about being rejected. If someone doesn't respond to your attempts to connect, it doesn't mean they don't like you. They may be busy, distracted, or anxious themselves.\nYou might find imagining a scenario where someone does not respond and doing a thought record about that to find a balanced way to manage your fear.`)
     }
     get lessonSevenpage16() {
-        return $(`~Being critical or judgemental of others. Recognize that difference is the spice of life. We all think and do things a little differently than others. If you express criticism a lot, people will not want to be around you much. Try to be kind, tolerant, and forgiving with other people.\n❌`)
+        return $(`~Being critical or judgemental of others. Recognize that difference is the spice of life. We all think and do things a little differently than others. If you express criticism a lot, people will not want to be around you much. Try to be kind, tolerant, and forgiving with other people.`)
     }
     get lessonSevenpage17() {
         return $(`~Think about how your relationships feel to you. Not all relationships are healthy. A good friend will:\nListen without judging or attempting to get you to feel or think differently about something. They don't change the subject abruptly when you are talking about something important to you.\nShow interest in you and in what is going on in your life.\nAccept you as you are.\nShare things about themselves.`)
@@ -2112,12 +2124,1070 @@ export class lessonsLocators {
         return $('~EXIT LESSON')
     }
 
-    get youAreAboutToLeave(){
+    get youAreAboutToLeave() {
         return $('~You are about to leave the course')
     }
 
-    get yesButton(){
+    get yesButton() {
         return $('~yes_button')
     }
 
+    get imageUpload() {
+        return $('~Upload a picture')
+    }
+
+    get writeMyZones() {
+        return $('~write_card_action')
+    }
+
+    get myZonesCard() {
+        return $('~My Zones')
+    }
+    get clickMyZonesCard() {
+        return $('~My Zones_action')
+    }
+
+    get myZonesTitle() {
+        return $('~My Zones')
+    }
+
+    get sootheMyZones() {
+        return $('~soothe_card_action')
+    }
+
+    get writeMyZones() {
+        return $('~write_card_action')
+    }
+
+    get thinkMyZones() {
+        return $('~think_card_action')
+    }
+
+    get infoIconMyZones() {
+        return $('android=new UiSelector().className("android.widget.ImageView").instance(2)')
+    }
+
+    get infoMyZones() {
+        return $('~My Zones')
+    }
+
+    get infoMyZonesDescription() {
+        return $('~If you worry a lot, schedule worry time. Choose a time of day that you want to devote to worrying. Schedule no more than 15 minutes for this activity. Ideally choose the same time and place each time. Write your worries below without editing or thinking about them too much.')
+    }
+
+    get closeInfoIcon() {
+        return $('~dialog_close_action')
+    }
+
+    get sootheZoneTitle() {
+        return $('~Soothe Zone')
+    }
+
+    get infoIconSoothe() {
+        return $('~info_icon_action')
+    }
+
+    get lessonStartBtn() {
+        return $('~START')
+    }
+
+    get dailyGoalCheck() {
+        return $('~Daily Goal Check-In')
+    }
+
+    get remindLater() {
+        return $('~Remind me later')
+    }
+
+    get mindzoneCourse() {
+        return $('~Mind Zone Course')
+    }
+
+    get lesson4Cared() {
+        return $(`//android.view.View[@content-desc="Lesson 4: Managing Worry and Problem Solving"]`)
+    }
+
+    get firstScreenContent() {
+        return $(`~Welcome to Lesson 4. We hope that you have found the exercises last week helpful.\nWe know it's not easy to keep practicing. We hope you have found some activities that help, whether these are social, playful, or physical!\nPerhaps you are also practicing some of the meditation or relaxation activities.\nResearch has shown that the benefits of these skills build over time. If you have been working on these regularly you will probably be starting to notice some improvement in your mood.`)
+    }
+
+    get checkFirstScreen() {
+        return $('~1 / 53')
+    }
+
+    get checkSecScreen() {
+        return $('~2 / 53')
+    }
+
+    get secScreenContent() {
+        return $(`~You may also be noticing some improvement in physical symptoms if these were an issue for you - more energy, sleeping better, perhaps less muscle tension.\nLast week we talked about distress tolerance and intolerance. We suggested some activities that are often helpful in building distress tolerance: observing feelings and responses to these (approaching or facing feelings versus avoiding feelings) and things like "Dropping and Anchor"\nLet's check in with Matt and Susan.`)
+    }
+
+    get contantPage3() {
+        return $(`~I've been thinking a lot about unpleasant emotions. I would not have said I was "distress intolerant" at all. But after tracking my emotions I realize that I use a lot of behaviours to avoid or numb the difficult ones.\nFor example, zoning out in front of the TV or avoiding people who might ask too many questions.`)
+    }
+
+    get contantPage4() {
+        return $(`~I haven't been all that keen to try the meditation activities but I did try the "working with difficulties" one this week.\nI don't think I will ever be a meditator but I could get the idea observing feelings rather than being caught in them.\nThe metaphor that made sense to me was the idea of being on the bank of a river. I got the idea of observing emotions, like they were currents and eddies, rather than being in the water.`)
+    }
+
+    get checkScreen4() {
+        return $('~4 / 53')
+    }
+
+    get contantPage5() {
+        return $(`~I have found anxiety really unpleasant and do a lot to try and avoid it. I'm starting to get a sense of how unhelpful that is and how much energy it consumes. I lose out on a lot of things because of it.\nMy main avoidance behaviour is around people and places. Sometimes I feel overwhelmed and just have to get away from the place.\nI try to prevent anxious feelings by avoiding situations. But then I worry about not being a part of things.`)
+    }
+
+    get checkScreen5() {
+        return $('~5 / 53')
+    }
+
+    get contantPage6() {
+        return $(`~I've been conscious of using soothing or calming self-talk along with deep breathing when I am in situations that cause me anxiety.\nI also like the meditation on "working with difficulties" and the idea of the "side-long glance". Unpleasant feelings can be there, they aren't going to kill me. If I just continue to breathe and observe them, along with observing other things, they seem to lessen.`)
+    }
+
+    get checkScreen6() {
+        return $('~6 / 53')
+    }
+
+    get contantPage7() {
+        return $(`~Matt and Susan are becoming aware of their avoidance behaviours and some of the potential benefits of shifting these behaviours.\nIncreasing our ability to tolerate unpleasant emotions without becoming caught up in them has many benefits, including:\nDecreased tension, stress\nDecreased physical symptoms of stress, like headaches or problems sleeping\nIncreased confidence and self-esteem\nGreater capacity to enjoy life`)
+    }
+
+    get checkScreen7() {
+        return $('~7 / 53')
+    }
+
+    get contantPage8() {
+        return $(`~The meditation activities that you have been practicing - whether formal or informally being focused on the moment are designed to help you:\nObserve emotions\nLabel emotions\nDwell with emotions with kindness and non-judgement\nRecognize thoughts and feelings as separate from our selves; part of our mind but not of our true self\nThese core skills are at the heart of developing distress tolerance, and have been found to increase comfort in the face of unpleasant emotions.`)
+    }
+
+    get checkScreen8() {
+        return $('~8 / 53')
+    }
+
+    get contantPage9() {
+        return $(`~We also introduced the idea that the beliefs that we hold have an impact on how you manage distress.\nIf you tell yourself that you "can't cope" or worry that you are "going crazy," you are likely to feel worse.\nOn the other hand, if you tell yourself "everyone experiences unpleasant emotions; I can manage these," or "emotions are like the weather - they come and go" you are likely to feel better.`)
+    }
+
+    get checkScreen9() {
+        return $('~9 / 53')
+    }
+
+    get contantPage10() {
+        return $(`~Learning to dwell with distress by paying attention to it, rather than trying to avoid it, is the first step.\nHowever, managing distress is aided also by two broad categories of activities:\nActivating\nSoothing`)
+    }
+
+    get checkScreen10() {
+        return $('~10 / 53')
+    }
+
+    get contantPage11() {
+        return $(`~Activating activities are those positive, productive actions to feel better. They include things like:\nVisiting a friend\nGoing for a walk or to the gym\nVolunteering\nDoing housework or gardening\nReading a book or magazine\nWatching a favourite movie`)
+    }
+
+    get checkScreen11() {
+        return $('~11 / 53')
+    }
+
+    get contantPage12() {
+        return $(`~Soothing activities are those that are comforting, nurturing or healing in some way. They include things like:\nBeing in nature\nListening to music\nPraying or meditating\nDeep breathing\nTaking a bath`)
+    }
+
+    get checkScreen12() {
+        return $('~12 / 53')
+    }
+
+    get contantPage13() {
+        return $(`~While acceptance and activating or soothing activities are all helpful, sometimes we need to take a different kind of action.\nIn this week's lesson we focus on two other areas:\nProblem solving\n1.\nManaging worry\n2.`)
+    }
+
+    get checkScreen13() {
+        return $('~13 / 53')
+    }
+
+    get contantPage14() {
+        return $(`~Distressing emotions sometimes arise from a situation or problem that we need to address. Simply learning to accept the emotions that arise does not solve the problem.`)
+    }
+
+    get checkScreen14() {
+        return $('~14 / 53')
+    }
+
+    get contantPage15() {
+        return $(`~Deliberately going through a structured problem solving process can add benefit to our usual way of doing things. Here are the steps:`)
+    }
+
+    get checkScreen15() {
+        return $('~15 / 53')
+    }
+
+    get contantPage16() {
+        return $(`~Identify the problem, being as specific as possible. For example, you may have a problem with a relationship:\nMatt had a problem with a co-worker that was not helping his concerns about doing a good job.\nA vague problem statement might be:\nMy co-worker is really irritating me.\nA good problem statement might be:\nMy co-worker often stops by to chat when I am really concentrating on something. The interruption makes it hard to get back to what I was doing.\nIn the second instance, the problem is clear and concrete, which makes it more possible to take effective action.`)
+    }
+
+    get checkScreen16() {
+        return $('~16 / 53')
+    }
+
+    get contantPage17() {
+        return $(`~Another kind of problem might be financial:\nSusan was especially worried about money. Her initial, vague problem statement was: We are always tight financially - I don't know what to do about it.\nShe clarified the problem statement and came up with this: Our credit card bills are always too high. We need to get them down so we can pay them off each month.`)
+    }
+
+    get checkScreen17() {
+        return $('~17 / 53')
+    }
+
+    get contantPage18() {
+        return $(`~Write as many ideas as we can think of without evaluating them.\nExample: Matt's possible solutions for co­ worker problem:\nShut my office door.\n1.\nPut a "do not disturb" sign on my door.\n2.\nAsk my manager to intervene.\n3.\nTell her she is interrupting me.\n4.\nIgnore her when she enters the office.\n5.\nSend her an email explaining the problem.\n6.`)
+    }
+
+    get checkScreen18() {
+        return $('~18 / 53')
+    }
+
+    get contantPage19() {
+        return $(`~Example: Susan's possible solutions to financial stress:\nTrack credit card charges in a notebook to see where money is going.\n1.\nStop all non-essential charges for 2 months evaluate.\n2.\nAsk husband for ideas\n3.\nCancel credit cards.\n4.\nNo restaurant eating until bills come in alignment with ability to pay each month.\n5.\nPack lunches.\n6.`)
+    }
+
+    get checkScreen19() {
+        return $('~19 / 53')
+    }
+
+    get contantPage20() {
+        return $(`~Evaluate several of the solutions that were listed in step 2. Choose at least 3 preferred solutions to evaluate further.\nCo-worker Problem\nMatt quickly eliminated several solutions. Three preferred solutions were chosen, and 3 eliminated.\nHe thought talking to the boss could be experienced negatively by his co-worker. Putting a "do not disturb" sign on his door also did not seem like it would go over well with his colleagues and ignoring his co-worker just seemed rude.`)
+    }
+
+    get checkScreen20() {
+        return $('~20 / 53')
+    }
+
+    get contantPage21() {
+        return $(`~He decided to evaluate the other 3 options:\nTalk to her and let her know she is interrupting.\n1.\nSend an email.\n2.\nShut his door.\n3.`)
+    }
+
+    get checkScreen21() {
+        return $('~21 / 53')
+    }
+
+    get contantPage22() {
+        return $(`~Susan also selected 3 potential solutions and eliminated 3.\nCancelling the credit card was not realistic. She already packed lunches quite a bit so this would not really impact the problem. Eliminating "non-essential" charges also seemed challenging as she was not sure what these were.\nShe decided to consider the other 3:\nTrack charges in a notebook to see where money is going.\n1.\nAsk husband for ideas\n2.\nNo restaurant eating for now.\n3.`)
+    }
+
+    get checkScreen22() {
+        return $('~22 / 53')
+    }
+
+    get contantPage23() {
+        return $(`~In this step we evaluate each solution and choose 1 or 2.\nMatt's co-worker problem\n1. Talk to co-worker and let her know she is interrupting.\nPros:\nDirect approach and clear.\nLikely to help.`)
+    }
+
+    get checkScreen23() {
+        return $('~23 / 53')
+    }
+
+    get contantPage24() {
+        return $(`~Cons:\nTalking to his co-worker was uncomfortable and anxiety producing for Matt.\nMatt found it difficult to speak clearly when he was anxious and sometimes came across too bluntly.\nMay negatively affect the relationship.`)
+    }
+
+    get checkScreen24() {
+        return $('~24 / 53')
+    }
+
+    get contantPage25() {
+        return $(`~2. Send an email\nPros:\nWould allow Matt to construct his thoughts carefully.\nIf it was written out, he could get someone else's input.\nA direct approach but not face to face.\nCons:\nEmails are sometimes not received well.\nIt's difficult to get the right tone in an email.`)
+    }
+
+    get checkScreen25() {
+        return $('~25 / 53')
+    }
+
+    get contantPage26() {
+        return $(`~3. Shut his door\nPros:\nSends a message that he does not want to be disturbed.\nAvoids the direct confrontation, which is more comfortable than the other options.\nCons:\nThe closed door sends a message but the meaning may not be clear.\nClosed doors are not common in Matt's workplace and may be misunderstood.\nMatt could feel cut off from his co-workers, which was not the intent.`)
+    }
+
+    get checkScreen26() {
+        return $('~26 / 53')
+    }
+
+    get contantPage27() {
+        return $(`~After thinking it through, Matt decided to send an email.\nHe thought talking to his co-worker was actually the better option. But he didn't think he could deliver the message well and thinking about it was very anxiety provoking.`)
+    }
+
+    get checkScreen27() {
+        return $('~27 / 53')
+    }
+
+    get contantPage28() {
+        return $(`~Susan's Financial Problem\n1. Track charges in a notebook to see where money is going.\nPros:\nSince Susan really didn't know where she might cut back or what exactly was contributing to the high credit card bills, tracking seemed a good idea.\nOnce the bills were tracked more carefully, other solutions may present themselves.`)
+    }
+
+    get checkScreen28() {
+        return $('~28 / 53')
+    }
+
+    get contantPage29() {
+        return $(`~Cons:\nTracking in a notebook required a certain amount of discipline.\nSusan's husband might not agree to this, which would decrease the effectiveness of this option.`)
+    }
+
+    get checkScreen29() {
+        return $('~29 / 53')
+    }
+
+    get contantPage30() {
+        return $(`~2. Ask husband for ideas.\nPros:\nSusan's husband was also concerned about not paying off the credit card each month.\nTalking it over together often generating ideas that she had not thought about.\nTackling the problem together was likely to be most effective.\nCons:\nSometimes they launched into a "blaming game" focusing on how the other was more at fault.\nApproaching the financial issue directly caused Susan some anxiety, especially when she considered that they might get into a conflict.`)
+    }
+
+    get checkScreen30() {
+        return $('~30 / 53')
+    }
+
+    get contantPage31() {
+        return $(`~3. No restaurant eating for now.\nPros:\nEating out was something they did at least once or twice a week so was likely to help the problem.\nSusan actually preferred to eat her own cooking most of the time, unless it was a very expensive restaurant.\nEating at home is often more healthy.`)
+    }
+
+    get checkScreen31() {
+        return $('~31 / 53')
+    }
+
+    get contantPage32() {
+        return $(`~Cons:\nBoth Susan and her husband enjoyed the time they spent together in restaurants, even if the food sometimes was not as good as at home.\nNot cooking was great when energy was low after work.\nThere was no clean-up if you ate out, something neither Susan nor her husband enjoyed. After thinking it over, Susan decided to talk with her husband as a first step. She thought tracking was a good idea too and felt she could start this on her own, even if her husband decided he didn't want to.`)
+    }
+
+    get checkScreen32() {
+        return $('~32 / 53')
+    }
+
+    get contantPage33() {
+        return $(`~Making a specific plan is helpful in taking action. In addition to spelling out the specifics, it also provides an opportunity to consider things that might get in the way.\nMatt's Plan\nWhat I plan to do:\nWrite an email to my colleague. I will word it in the future in terms of what I would like (rather than what I don't want).\nWhen I plan to do it:\nToday.\nWho I might get to help:\nAfter the email is drafted, I will ask my wife and a colleague to read it for feedback.`)
+    }
+
+    get checkScreen33() {
+        return $('~33 / 53')
+    }
+
+    get contantPage34() {
+        return $(`~What might get in the way:\nI feel anxious about how this might be received. I'd rather simply avoid the discussion. If I review this with others before I do it that may help me to feel more confident.\nSAMPLE EMAIL\n"Dear___, I appreciate our working relationship and enjoy the chats we have. I'm struggling lately to stay focused during the day though. I wonder if you could help me by ignoring my office in the mornings. That's when I am immersed in work and interruptions are tough. I hope you understand."`)
+    }
+
+    get checkScreen34() {
+        return $('~34 / 53')
+    }
+
+    get contantPage35() {
+        return $(`~Susan's Plan\nWhat I plan to do:\nTalk to my husband about solutions to the financial stress, especially related to the credit card bills.\nWhen I plan to do it:\nTonight will be a good opportunity- after dinner.\nWho I might get to help:\nJust my husband. He may have some good ideas also.\nWhat might get in the way:\nIf we get into blaming each other it will derail the discussion. I will tell him there is no blame -just need to focus on what to do. If we get into blaming I will ask for a time out.`)
+    }
+
+    get checkScreen35() {
+        return $('~35 / 53')
+    }
+
+    get contantPage36() {
+        return $('~Matt and Susan both implemented their plans.\nMatt ended up circling back on advice from his colleague and wife and decided to talk with his co-worker directly. Having written the email and practiced a bit he felt able to talk with her.\nShe was very understanding, apologized and there have been far fewer interruptions.')
+    }
+
+    get checkScreen36() {
+        return $('~36 / 53')
+    }
+
+    get contantPage37() {
+        return $('~Likewise, Susan and her husband came to an agreement to track expenses and to decrease eating out for the time being.\nThey plan to talk again when the next credit card bill comes.\nWhile we all engage in problem solving, using a structured process, and writing down each step can improve the planning and the outcomes.')
+    }
+
+    get checkScreen37() {
+        return $('~37 / 53')
+    }
+
+    get contantPage38() {
+        return $('~One barrier to solving problems, as well as a source of stress, is worry.\nWhile worrying is very common, affecting all of us from time to time, sometimes worry takes over more of our life than we want.\nLearning to contain worry can be helpful.')
+    }
+
+    get checkScreen38() {
+        return $('~38 / 53')
+    }
+
+    get contantPage39() {
+        return $('~Scheduling Worry Time\nOne strategy that is often helpful is to schedule worry time. To do this, simply choose a time of day that you want to devote to worrying. Schedule no more than 15 minutes for this activity. Ideally choose the same place each time.')
+    }
+
+    get checkScreen39() {
+        return $('~39 / 53')
+    }
+
+    get contantPage40() {
+        return $('~After you have written your list, go back to the beginning and begin to think about each one. Ask yourself two questions:\nIs this worry something that I can do anything about?\n1.\nIf yes, what is one thing I might do?\n2.\nIf the answer is no, the recommended action is to move to acceptance of the worry and learning to dwell with it.\nTo do this, we recommend using a meditation activity like the one from lesson 3 on working with difficulties. Any of the other meditation or relaxation exercises would be helpful too.')
+    }
+
+    get checkScreen40() {
+        return $('~40 / 53')
+    }
+
+    get contantPage41() {
+        return $('~Sometimes anxiety and worry are associated with certain activities.\nWe might wish to avoid those activities and in the short term that works. Our anxiety does decrease. Over time however, the avoided activity can become more and more difficult to face, resulting in increased anxiety. This is what Susan has found.\nLearning to approach our fears directly and cope with them is a powerful way of decreasing anxiety for the long term.\nApproaching fears is called exposure. Over time exposure increases our confidence and decreases anxiety. The trick is to increase your exposure slowly, gradually, and repeatedly.')
+    }
+
+    get checkScreen41() {
+        return $('~41 / 53')
+    }
+
+    get contantPage42() {
+        return $(`~One tool that can help is called a "Fear Ladder." A fear ladder is a list of situations, people, or events that you fear.\nWe place the one that causes less fear at the bottom and the most at the top.\nStated differently, the bottom rung of the ladder is something that creates a little bit of fear, the next a bit more and so on up the ladder. At the top rung we place the thing that causes the most fear.`)
+    }
+
+    get checkScreen42() {
+        return $('~42 / 53')
+    }
+
+    get contantPage43() {
+        return $(`~The idea with "exposure" is that you will plan to do the first thing that causes the least amount of fear.\nThen, practice with that one thing repeatedly until it becomes comfortable. Over time you move up the ladder.`)
+    }
+
+    get checkScreen43() {
+        return $('~43 / 53')
+    }
+
+    get contantPage44() {
+        return $(`~Matt: Public Speaking\nMatt found speaking in groups very anxiety provoking. He did not often have to make presentations.\nSometimes though he was asked to present some aspect of a project he was working on in a staff meeting. He usually found a way to avoid doing the presentation. Once he even called in sick but he did not feel good about that.\nWhile doing a presentation was the worst, he even found it difficult to share his thoughts with co-workers. He just didn't think he was very interesting to listen to and felt he was boring people.`)
+    }
+
+    get checkScreen44() {
+        return $('~44 / 53')
+    }
+
+    get contantPage45() {
+        return $('~Fear Ladder')
+    }
+
+    get checkScreen45() {
+        return $('~45 / 53')
+    }
+
+    get contantPage46() {
+        return $('~Matt decided to begin with the first rung on the ladder. To prepare, he used many of the strategies he had been using so far in the course, including using relaxation, problem solving, worry time, and practice.\nHe would think about what he might share at work and look for chances to talk to one or two people at a time while staying calm and relaxed.\nOnce he had practiced that for a few weeks, he used the same techniques to prepare for staff meetings. Over a period of a number of weeks, he gradually began to feel more comfortable with the idea of presenting.')
+    }
+
+    get checkScreen46() {
+        return $('~46 / 53')
+    }
+
+    get contantPage47() {
+        return $(`~Susan: Conflict\nSusan found conflict very anxiety provoking. She was so afraid of offending others that she often did not state what she thought or even what she liked.\nFor example, in social events when deciding on a restaurant, Susan would often say "I don't mind - wherever you all want to go is fine."\nAt work, she sometimes felt taken advantage of and often found herself doing more than her fair share. She also avoided going out sometimes because she worried about having anxiety.`)
+    }
+
+    get checkScreen47() {
+        return $('~47 / 53')
+    }
+
+    get contantPage48() {
+        return $('~Susan constructed her Fear Ladder like this:')
+    }
+
+    get checkScreen48() {
+        return $('~48 / 53')
+    }
+
+    get contantPage49() {
+        return $('~Like Matt, Susan decided to begin with the first rung on the ladder.\nTo prepare, she used deep breathing and visualization - imagining stating her preferences.\nOnce she had practiced that for a few weeks, she prepared in the same way for the next rung on the ladder.')
+    }
+
+    get checkScreen49() {
+        return $('~49 / 53')
+    }
+
+    get contantPage50() {
+        return $(`~While we will hear from Matt and Susan in future lessons, working on a fear ladder is not easy.\nAfter all, learning to avoid situations like these takes a long time and learning to overcome them takes patience and steady practice. It can take a few months or even many months to get to the top of the ladder.\nSome people find it very difficult and may even experience an increase in symptoms when they begin to work on this.\nTry to be very patient and gentle with yourself. Don't push too hard - but push yourself a little. Over time your confidence will grow. If this is a particularly difficult area for you, get additional assistance from your counsellor.`)
+    }
+
+    get checkScreen50() {
+        return $('~50 / 53')
+    }
+
+    get contantPage51() {
+        return $(`~We have introduced a lot of important information. Let's review the key points:\nThe benefits of social, playful, and physical activities build up over time. If you are continuing to work on them they will help your mood.\n1.\nBuilding distress tolerance is beneficial for:\n2.\nDecreased tension\nDecreased physical symptoms of stress\nIncreased confidence and self esteem\nIncreasing capacity to enjoy life`)
+    }
+
+    get checkScreen51() {
+        return $('~51 / 53')
+    }
+
+    get contantPage52() {
+        return $('~Observing, labelling, and dwelling with emotions with kindness and non-judgement are the key skills of developing distress tolerance.\n3.\nThe beliefs we hold impact how we manage distress. Positive self-talk is helpful in coping with unpleasant emotions.\n4.\nActivating and soothing activities are helpful in managing distress.\n5.\nStructured problem solving processes can add to our ability to cope with distressing emotions.\n6.')
+    }
+
+    get checkScreen52() {
+        return $('~52 / 53')
+    }
+
+    get contantPage53() {
+        return $('~Worry is very common and affects us all from time to time. However, sometimes worry can take over and it is helpful to learn how to contain it. Scheduling worry time can help.\n7.\nLearning to approach our fears directly and cope with them is a powerful way of decreasing anxiety.\n8.\nThe fear ladder is a useful tool to increase our confidence in dealing with situations that cause anxiety.\n9.\nCongratulations! You have finished the Lesson 4 Course content.')
+    }
+
+    get checkScreen53() {
+        return $('~53 / 53')
+    }
+
+    get checkScreen3_L5() {
+        return $('~3 / 39')
+    }
+
+    get checkScreen3() {
+        return $('~3 / 53')
+    }
+
+    get lesson5Cared() {
+        return $(`//android.view.View[@resource-id="lesson 5: working with thoughts_text"]`)
+    }
+
+    get Page1_L5() {
+        return $('~Welcome to Lesson 5. Over the past week you have been focusing on behaviours that are likely to improve mood, including activating and soothing activities, problem solving, the worry tree, and graded exposure.\nNot all of these tools will be useful to every person. But knowing about them will allow you to try the ones that are useful to you.')
+    }
+
+    get Page2_L5() {
+        return $('~Perhaps you have found time to try the problem-solving exercise or the worry tree. Or maybe you worked on your fear ladder.\nRemember that all of these activities take time and patience. Many people find it challenging to keep at it. We promise that over a number of weeks you are likely to find your efforts pay off.')
+    }
+
+    get Page3_L5() {
+        return $('~You may recall that at the beginning of the course we discussed the idea that thoughts, feelings, and behaviours are linked. Our thoughts and behaviours have a big impact on how we feel and our overall mood.')
+    }
+
+    get Page4_L5() {
+        return $(`~Thoughts, feelings, and behaviours are linked in a circle, with each affecting the other.\nIt is sometimes hard to directly change how we feel. Over time though, learning to change behaviour and thoughts can have a huge impact on feelings.\nWe have spent the last few lessons focused on behaviours. Over the next few we will focus more on thoughts. You will learn to notice and label thoughts and then to challenge them.\nLet's take an example from Matt and Susan of how thoughts can affect feelings.`)
+    }
+
+    get Page5_L5() {
+        return $(`~Yesterday in a meeting with my manager, I was filling everyone in about my project. My manager was looking down the whole time and seemed totally uninterested in what I was saying.\nI remember thinking - he's not happy with my progress - and the same old thought came up... I just can't cut it. I'm not presenting myself well. I felt very anxious and pretty low about my performance.`)
+    }
+
+    get Page6_L5() {
+        return $(`~Yesterday when I came into the office my colleague Anne completely ignored me. I really noticed it.\nI was pretty sure she was upset with me for disagreeing with her yesterday. I just shouldn't have said anything and kept my thoughts to myself I still feel upset and anxious about it. I felt guilty about it too.`)
+    }
+
+    get Page7_L5() {
+        return $(`~Now let's look at some other possibilities for understanding these two situations.\nMatt didn't mention it but the meeting was right after lunch. Many of the other people were also looking drowsy and not very attentive.\nHe might have concluded "this is the after lunch doldrums and nothing to do with me." Had he asked his manager if he was concerned about his progress he would have learned that his manager was very distracted. He had received a text from his wife just before the meeting that her mother was in emergency with chest pain. In fact, rather than being concerned about Matt's performance, he was watching his phone for updates.`)
+    }
+
+    get Page8_L5() {
+        return $(`~In both of these situations, the assumptions we make about the meaning of a situation is what creates difficult emotions.\nOne common mistake is to believe the thoughts as though they were facts without checking them out with the person(s) involved.\nThat is the first important point: thoughts are not facts. In reality, we cannot know why Anne did not say hello unless we ask her. That would require some mindreading. The conclusions that Matt and Susan came to might be correct - or not.`)
+    }
+
+    get Page9_L5() {
+        return $(`~We all interpret situations around us. Something happens, we say something to ourselves about it, we have a response (a feeling or a behaviour).\nMost of the time we are likely to be accurate in our interpretation. That's good, because the interpretation and the response happen very quickly and automatically.\nSometimes however we are a bit off base in our interpretations. Most of the time it is at least a possibility that the way we have interpreted a situation is not fully accurate.`)
+    }
+
+    get Page10_L5() {
+        return $(`~This would not be a problem, except how we interpret things often has a big effect on how we feel - contributing to low mood and anxiety. AND, it's actually not the situation that is the problem, but rather how we interpret the situation.\nThis is particularly the case for people who struggle with low mood and anxiety. Their interpretations are often negative and directed toward a believed failure on their part.`)
+    }
+
+    get Page11_L5() {
+        return $(`~Here are a few examples:\nYour friend cancels a date with you for the second time in 2 weeks:\nPossible interpretation:\nHe's got better things to do than hang out with me.\nResponse:\nFeel upset, put down, angry at being "blown off".\nAlternate interpretation:\nThis is not like him - something must be going on. He'll tell me about when he is ready.\nResponse:\nFeels some concern for friend.`)
+    }
+
+    get Page12_L5() {
+        return $(`~Your manager brushes past you looking irritable.\nPossible interpretation:\nShe is unhappy with how my work is going. I think she is going to fire me.\nResponse:\nFeel anxious, restless, unable to think about anything except what will happen when the manager fires you. Spend the afternoon worrying rather than working.\nAlternate interpretation:\nI wonder what's going on for her today. Looks like a not very good day for sure.\nResponse:\nFeels curious. Decides it's not the best day to start a conversation about the project that is running into snags.`)
+    }
+
+    get Page13_L5() {
+        return $(`~In these examples, it becomes clear that the situation itself is not the problem. Rather, it's the interpretation of the situation that is the problem.\nHow we think about it contributes to low mood or anxiety. If we think distressing thoughts a lot, over time our thinking has a big impact on how we feel and behave.`)
+    }
+
+    get Page14_L5() {
+        return $('~question_mindzone.5.14.1_textfield')
+    }
+
+    get Page15_L5() {
+        return $('~Learning to pay attention to your emotional and physical responses and your thinking in upsetting situations is an important first step in learning to influence your thinking for the better.')
+    }
+
+    get Page16_L5() {
+        return $('~We all develop beliefs about ourselves, others, and the world around us.\nSome beliefs - both helpful and unhelpful - are long standing and arise out of childhood experience.\nOther beliefs can arise out of traumatic or difficult experiences. Some beliefs may be newer.')
+    }
+
+    get Page17_L5() {
+        return $('~Sometimes beliefs arise because we focused on some aspects of the event while ignoring others.\nFor example, I might notice (and remember) the person who does not seem interested in talking with me at a party. But, I ignore the fact that several other people were interested.\nOr, I might over-prepare for everything, whether a presentation or a trip, because things "always go wrong". Forgetting that many times things go right.')
+    }
+
+    get Page18_L5() {
+        return $(`~How we choose to interpret an event sometimes has little to do with facts and a lot more to do with habits.\nWe can fall into habitual ways of thinking about things. These can be destructive to our wellbeing and on top of that, sometimes aren't even very accurate. We call these "unhelpful thinking patterns."`)
+    }
+
+    get Page19_L5() {
+        return $('~Unhelpful thinking patterns are patterns of thought that can contribute to low mood or anxiety. Oftentimes, these thinking patterns are distortions of the facts. Not necessarily completely wrong, just not as balanced as they might be, taking into account all of the facts. These habitual ways of thinking are often not conscious.\nBelow we describe some of the common patterns that can be problematic. As you are going through them, think about which ones are your favourites.\nMost of us have a few. You may recognize the kind of thought you wrote down in the exercise earlier.')
+    }
+
+    get Page20_L5() {
+        return $('~Black and White Thinking (BWT) - BWT involves thinking in extremes... always, never, no one, everyone, etc.\nWhen we engage in BWT, our thinking is extreme and unbalanced. We do not admit the possibility of shades of grey, even though there are a lot of shades of grey in life!\nExample: My partner never helps out around the house but leaves it all to me.\nIf I go to the party, no one will want to talk to me and I will spend the entire time sitting by myself.')
+    }
+
+    get Page21_L5() {
+        return $(`~Focusing on the Negative:\nWhen we focus on the negative, we notice only the bad in the situation. By focusing on it, we can magnify it to the point that the good elements are completely hidden. Most situations have potential good in them, as well as the bad.\nExample: I really wanted to work on the project that my manager just gave to my colleague. Now that he is doing it, my manager won't notice what I can do. I bet I won't stand a chance at the next promotion that comes up now.`)
+    }
+
+    get Page22_L5() {
+        return $('~Fortune Telling:\nWhen we engage in fortune telling we behave as though we have a crystal ball and can predict the future. The future is seen as completely black and we predict the worst possible outcome to a situation.\nExample: I know my husband has recovered well from his heart attack but I also know that he is going to die young. I have always known that. His father and grandfather as well as a couple of uncles all died in their 50s and early 60s from heart disease.')
+    }
+
+    get Page23_L5() {
+        return $(`~Mind Reading:\nBelieving that you know what others are thinking and feeling, even though they haven't told you.\nExample: When I told my friend I was helping my adult son move and get his house on the market she just said "wow. I'm not that kind of mother."\nI know she was being critical and thought I was interfering or needed to get my own life. I felt bad, like I was doing something wrong, and angry with her.`)
+    }
+
+    get Page24_L5() {
+        return $(`~Thinking with Your Feelings:\nIf I feel stupid or awkward, I must be stupid or awkward. A version of "I feel it, so it must be true."\nExample: Whenever I am at a social event I feel so self-conscious. Everyone can see I just don't fit in, that I'm a little weird and very awkward.`)
+    }
+
+    get Page25_L5() {
+        return $(`~Should/Must Thinking:\nInvolves using words like should, must, ought, often. It sets expectations of oneself and others. Expectations that are often disappointed because they are stated in extremes (like black & white thinking). "Everyone should do things my way." "I ought to be able to control my feelings better."\nExample: He should have dinner started by the time I get home (every time); I have to manage my emotions at work - no one can see that I am upset or anxious about things.`)
+    }
+
+    get Page26_L5() {
+        return $(`~Self-Labeling:\nGeneralizing one or two qualities into a negative global judgment about you. You don't achieve your goal for two weeks in a row and say to yourself, "I'm a failure."\nExample: I wasn't very supportive to my friend when her mother died. I'm not a goodfriend.`)
+    }
+
+    get Page27_L5() {
+        return $(`~Personalizing:\nInvolves believing that events have some personal meaning - that what others do or say is some kind of a reaction toward you. This was one of the patterns that we saw in Matt and Susan's examples earlier.\nExample: My colleague criticized my presentation. He doesn't like me and thinks I'm stupid.`)
+    }
+
+    get Page28_L5() {
+        return $(`~Blaming:\nEither blaming someone else for your own pain/problems or blaming yourself for everyone else's problems.\nExample: If he had explained it better, I would have been able to do a better job.`)
+    }
+
+    get Page29_L5() {
+        return $(`~Over-Generalizing:\nComing to a general conclusion based upon a single event or incident. Thinking that when one bad thing happens it is going to happen over and over again.\nExample: I couldn't complete my relaxation or meditation exercises last week. I am never going to be able to get those into my day-to-day life.`)
+    }
+
+    get Page30_L5() {
+        return $(`~Catastrophizing:\nExpecting disaster, or the worst possible outcome.\nExample: If you have that surgery, you're likely to have a stroke or die on the table.`)
+    }
+
+    get Page31_L5() {
+        return $(`~Control Fallacies:\nIf you feel externally controlled, you see yourself as a helpless victim of fate. If you feel internally controlled, you see yourself as responsible for the pain and happiness of everyone around you.\nExample (external control): My boss just has favourites - nothing I can do that will get him to notice me or think of me for that new project that's coming up.`)
+    }
+
+    get Page32_L5() {
+        return $(`~Fallacy of Fairness:\nYou decide what is fair and feel resentful when other people don't agree with you. The fallacy is believing that "things" in life are, or should be, fair and you get to decide what is fair.\nExample: If I cook some nights, you should cook the other nights.`)
+    }
+
+    get Page33_L5() {
+        return $('~Fallacy of Change:\nYou expect that others will change to suit you if you could just pressure them enough. You need to change others because it seems that your hope for happiness depends entirely on them.\nExample: If I can persuade him to take some trips with me I know he will learn to like travel.')
+    }
+
+    get Page34_L5() {
+        return $(`~Beginning to notice your habitual ways of thinking about situations is an important step in managing your mood. Because these are often automatic thoughts, we may not be completely aware of them.\nThe first step then is beginning to pay attention to our thought life... particularly noticing patterns of thinking and those thoughts that cause us distress ("hot" thoughts).`)
+    }
+
+    get Page35_L5() {
+        return $(`~After reviewing the unhelpful thought list, I could see there were a number that I do a lot. I sure have a tendency to catastrophize... always expecting the worst possible outcome.\nAnd I could see some mind-reading in the meeting I talked about earlier. I assumed my manager was not interested or pleased with what I was doing, when it had nothing to do with me. I guess that is personalizing it too.`)
+    }
+
+    get Page36_L5() {
+        return $(`~I could see some of those patterns in myself. Personalizing and mindreading for sure. I think I also believe something is true because I feel it.\nWith Anne, I was sure her ignoring me had to do with disagreeing with her, because I felt so bad about it. The shoulds / oughts are there too - as in, I shouldn't say what I think but keep my opinions to myself.\nI can imagine that tuning into my thoughts and challenging them might be helpful.`)
+    }
+
+    get Page37_L5() {
+        return $(`~We have introduced a lot of important information. Let's review the key points:\nThoughts, feelings and behaviours are linked in a circle with each having an impact on the other. If we want to improve mood, understanding how each of these work in our own lives is an important set of skills.\n1.\nWhat we think has a major impact on how we feel and behave. Fortunately, learning a series of skills for influencing our thoughts is very effective in helping us to feel better.\n2.`)
+    }
+
+    get Page38_L5() {
+        return $(`~There are many possible interpretations of each situation we encounter in our lives but often we notice only one. How we interpret situations impacts how we feel. Generally speaking, it is not the situation but rather what we think about the situation that causes us distress.\n3.\nWhat we think is grounded in what we believe. Beliefs about ourselves and the world around us, both helpful and unhelpful, arise out of childhood and life events. Sometimes the beliefs we hold arise because we have focused on only one aspect of our experience while ignoring others.\n4.`)
+    }
+
+    get Page39_L5() {
+        return $(`~In order for thoughts/beliefs to be balanced, inclusive of all the facts at hand, we need to think about thinking. That is, become conscious of our thought habits.\n5.\nUnhelpful thinking patterns are common habits of thoughts that are known to cause distress, including anxiety and low mood. These are also known as "distortions" because they are not balanced, over-focusing on some facts, while ignoring others.\n6.\nCongratulations! You have finished the Lesson 5 Course content.`)
+    }
+
+    get checkScreen1_L5() {
+        return $('~1 / 39')
+    }
+
+    get checkScreen2_L5() {
+        return $('~2 / 39')
+    }
+
+    get checkScreen3_L5() {
+        return $('~3 / 39')
+    }
+
+    get checkScreen4_L5() {
+        return $('~4 / 39')
+    }
+
+    get checkScreen5_L5() {
+        return $('~5 / 39')
+    }
+
+    get checkScreen6_L5() {
+        return $('~6 / 39')
+    }
+
+    get checkScreen7_L5() {
+        return $('~7 / 39')
+    }
+
+    get checkScreen8_L5() {
+        return $('~8 / 39')
+    }
+
+    get checkScreen9_L5() {
+        return $('~9 / 39')
+    }
+
+    get checkScreen10_L5() {
+        return $('~10 / 39')
+    }
+
+    get checkScreen11_L5() {
+        return $('~11 / 39')
+    }
+
+    get checkScreen12_L5() {
+        return $('~12 / 39')
+    }
+
+    get checkScreen13_L5() {
+        return $('~13 / 39')
+    }
+
+    get checkScreen14_L5() {
+        return $('~14 / 39')
+    }
+
+    get checkScreen15_L5() {
+        return $('~15 / 39')
+    }
+
+    get checkScreen16_L5() {
+        return $('~16 / 39')
+    }
+
+    get checkScreen17_L5() {
+        return $('~17 / 39')
+    }
+
+    get checkScreen18_L5() {
+        return $('~18 / 39')
+    }
+
+    get checkScreen19_L5() {
+        return $('~19 / 39')
+    }
+
+    get checkScreen20_L5() {
+        return $('~20 / 39')
+    }
+
+    get checkScreen21_L5() {
+        return $('~21 / 39')
+    }
+
+    get checkScreen22_L5() {
+        return $('~22 / 39')
+    }
+
+    get checkScreen23_L5() {
+        return $('~23 / 39')
+    }
+
+    get checkScreen24_L5() {
+        return $('~24 / 39')
+    }
+
+    get checkScreen25_L5() {
+        return $('~25 / 39')
+    }
+
+    get checkScreen26_L5() {
+        return $('~26 / 39')
+    }
+
+    get checkScreen27_L5() {
+        return $('~27 / 39')
+    }
+
+    get checkScreen28_L5() {
+        return $('~28 / 39')
+    }
+
+    get checkScreen29_L5() {
+        return $('~29 / 39')
+    }
+
+    get checkScreen30_L5() {
+        return $('~30 / 39')
+    }
+
+    get checkScreen31_L5() {
+        return $('~31 / 39')
+    }
+
+    get checkScreen32_L5() {
+        return $('~32 / 39')
+    }
+
+    get checkScreen33_L5() {
+        return $('~33 / 39')
+    }
+
+    get checkScreen34_L5() {
+        return $('~34 / 39')
+    }
+
+    get checkScreen35_L5() {
+        return $('~35 / 39')
+    }
+
+    get checkScreen36_L5() {
+        return $('~36 / 39')
+    }
+
+    get checkScreen37_L5() {
+        return $('~37 / 39')
+    }
+
+    get checkScreen38_L5() {
+        return $('~38 / 39')
+    }
+
+    get checkScreen39_L5() {
+        return $('~39 / 39')
+    }
+
+    get continueButton() {
+        return $('~CONTINUE')
+    }
+
+    get lessoneight1Radio1() {
+        return $(`~radio_action_mindzone.8.1.1.1`)
+    }
+    get lessoneight2Radio1() {
+        return $(`~radio_action_mindzone.8.1.2.2`)
+    }
+    get lessoneight3Radio1() {
+        return $(`~radio_action_mindzone.8.1.3.1`)
+    }
+
+    get pagelessoneight1() {
+        return $(`~1 / 42`)
+    }
+    get pagelessoneight2() {
+        return $(`~2 / 42`)
+    }
+    get pagelessoneight3() {
+        return $(`~3 / 42`)
+    }
+    get pagelessoneight4() {
+        return $(`~4 / 42`)
+    }
+    get pagelessoneight5() {
+        return $(`~5 / 42`)
+    }
+    get lessoneight1() {
+        return $(`~Little interest or pleasure in doing things`)
+    }
+    get lessoneight2() {
+        return $(`~Welcome to Lesson 8 and the final lesson of the course!\nAt this point in the course you may be feeling a variety of emotions. Perhaps your mood or anxiety has improved and you are feeling confident about the new skills you have learned. Perhaps you are hopeful about the future.\nMaybe things have not improved so much and you feel more uncertain. Often people feel worried about the end of a course and the potential for things to worsen again in future.`)
+    }
+    get lessoneight3() {
+        return $(`~In Lesson 8 we will address these thoughts and feelings. We also focus on how you can build on what you have learned so far and what to do if your mood or anxiety should be more of a problem down the road.\nBefore we move into our topics for this week though, let's check back with Matt and Susan to see what they have been thinking about.`)
+    }
+    get lessoneight4() {
+        return $(`~I can't believe how quickly the course has gone by. I feel like I have learned a lot but that I have lots more to learn too. I am feeling much better than I was, but I still have down days. Increasing activity has been the thing that's worked the most I think. But a lot of the other skills have been helpful too.\nThe lesson last week was a bit of an eye opener. I was really interested in the assertiveness piece. I would have said I was pretty assertive but going through the material I realized that I have been more passive in some situations. Especially at work. I am inclined to keep my thoughts to myself there.`)
+    }
+    get lessoneight5() {
+        return $(`~I have been watching and thinking about that a lot this past week. I started looking for opportunities to be more assertive - really just saying more of what I think when I can. There have been a couple of instances when I spoke up more. This is something I am going to continue to work on.`)
+    }
+    get pagelessoneight5() {
+        return $(`~5 / 42`)
+    }
+    get pagelessoneight6() {
+        return $(`~6 / 42`)
+    }
+    get lessoneight6() {
+        return $(`~I am feeling a lot better. I've learned lots of new skills. Some were familiar to me from before - like relaxation and deep breathing - but before the program I was not using them as much as I needed to. I'm using self-talk more deliberately too. Things I say to myself more often now are "you can get through this," "anxiety is uncomfortable but it isn't life-threatening," "just wait a few minutes and this feeling will pass." Meditation is newer to me and I find I like it a lot.`)
+    }
+    get lessoneight7() {
+        return $(`~I have continued to use the worry tree and thought record. These seem helpful too but I need to practice more with them before I really get it.\nThis past week I have been thinking about my social network and that I don't have enough relationships in my life. I do have friends but I don't keep up with them very well. I am pushing myself to go out more often and I do see my anxiety is better. When I get a little further along, my next step will be to try reaching out a bit more and plan activities with people I want to have a relationship with.`)
+    }
+    get pagelessoneight7() {
+        return $(`~7 / 42`)
+    }
+    get lessoneight8() {
+        return $(`~While most people are helped by a course such as this one, generally the skills learned here need ongoing practice. We can hear that from Matt and Susan.\nResearch suggests practice will allow the benefits to continue to increase for months if not years. After all, it takes a long time for low mood and anxiety to develop and it takes time for new skills to become a part of your life.`)
+    }
+    get pagelessoneight8() {
+        return $(`~8 / 42`)
+    }
+    get lessoneight9() {
+        return $(`~You might be able to relate this to other experiences in your life. For example, think of a time when you have had to learn complex skills or tasks - driving a car is one example you might relate to. You may remember that it took time and lots of practice. Even after getting your license, you likely continued to improve with experience.\nWhile we always hope that we will perform better every single day, the truth is when we are learning it's typically two steps forward and one back!`)
+    }
+    get pagelessoneight9() {
+        return $(`~9 / 42`)
+    }
+    get lessoneight10() {
+        return $(`~You may have already experienced this - days where your symptoms are better, followed by days when you feel like you are slipping back. This is a common experience. We call these steps backward "lapses" and they are a part of learning anything new. Learning to manage the step back or lapse is an essential part of emotional self-care.\nIn Lesson 8, we will review the skills that have been presented in the course and ask you to identify which of them have seemed most useful. We review also how to develop a self-care plan to build on the work you have started. Part of that self-care plan will be about managing lapses.`)
+    }
+    get pagelessoneight10() {
+        return $(`~10 / 42`)
+    }
+    get lessoneight11() {
+        return $(`~There has been a range of skills that were presented in this course, including skills directed at behaviour, feelings, and thoughts.\nAs you read through the lists of these below, check off those that seemed particularly helpful.`)
+    }
+    get pagelessoneight11() {
+        return $(`~11 / 42`)
+    }
+    get lessoneight11Radio1() {
+        return $(`~radio_action_mindzone.8.12.1.1`)
+    }
+    get lessoneight12Radio1() {
+        return $(`~radio_action_mindzone.8.12.1.2`)
+    }
+    get lessoneight13Radio1() {
+        return $(`~radio_action_mindzone.8.12.1.3`)
+    }
+    get pagelessoneight12() {
+        return $(`~12 / 42`)
+    }
+
+    get pagelessoneight13() {
+        return $(`~13 / 42`)
+    }
+    get lessoneight13() {
+        return $(`~Feelings`)
+    }
+    get pagelessoneight14() {
+        return $(`~14 / 42`)
+    }
+    get lessoneight14() {
+        return $(`~Thoughts`)
+    }
+    get lessoneight14Radio1() {
+        return $(`~radio_action_mindzone.8.14.1.1`)
+    }
+    get lessoneight15() {
+        return $(`~Now that you have identified your most useful skills, write 1 or 2 goal statements.\nFor example, a goal statement might be "I will maintain regular activity through walking 30 minutes each day" or "I will take a few minutes whenever I feel upset to notice what I am thinking and to come up with more balanced or realistic statements."\nMy Moving Forward Goal statement`)
+    }
+    get pagelessoneight15() {
+        return $(`~15 / 42`)
+    }
+    get lessoneight16() {
+        return $(`~Now that you have started to think about which activities you want to continue, let's talk about managing lapses (sometimes called 'relapse').\nResearch suggests that there are several factors that contribute to the risk of a relapse including:\nIncreased stress\nLife events like illness or a loss\nNot using the skills you have learned (that is, not taking time for self-care)`)
+    }
+    get pagelessoneight16() {
+        return $(`~16 / 42`)
+    }
+    get lessoneight17() {
+        return $(`~Learning to manage relapses, or to actually prevent some of them (relapse prevention), requires that we think about situations that are likely to put us at risk for a lapse, watch for warning signs of a lapse, and develop a plan to manage increased symptoms.`)
+    }
+    get pagelessoneight17() {
+        return $(`~17 / 42`)
+    }
+    get lessoneight18() {
+        return $(`~Planning for a relapse involves\nUnderstanding situations that are likely to arise that might cause a relapse.\nRecognizing the early signs or symptoms that a relapse is occurring.\nIdentifying the skills you have learned that can help.\nPlanning what you will actually do about your symptoms.\nLet's look at Matt and Susan's plan for relapse prevention and management:`)
+    }
+    get pagelessoneight18() {
+        return $(`~18 / 42`)
+    }
+    get lessoneight19() {
+        return $(`~Matt\nRisk situation:\nThere are still some things that can cause my mood to start spiralling down. There are two main things for me. If things are not going well at work and I think my manager is unhappy about what I am doing I can still obsess about that for a while. That always makes me feel worse.\nThe other is thinking about being a father, especially if it gets me thinking about my own father. Also, I know that when the baby comes it could be a tough time for me. So when that time gets closer I may want to spend a bit more time reviewing the lessons. Or I may need to talk to someone - I will keep that in mind for later.`)
+    }
+    get pagelessoneight19() {
+        return $(`~19 / 42`)
+    }
+    get lessoneight20() {
+        return $(`~Matt\nSigns of a lapse:\nIf I start feeling down, I usually get quiet and spend too much time on my laptop or in front of the TV. I may start avoiding people and conversations and I can get really cranky. Sarah usually notices that first. And my sleep is more disrupted if I have a lot on my mind that's bothering me.\nPlan:\nI guess what I have learned is the first thing I need to do is tune into the upsetting thoughts—really nail down what I am thinking about. And I need to do that right away. I can use a thought record as one tool. The problem solving is another good one sometimes.`)
+    }
+    get pagelessoneight20() {
+        return $(`~20 / 42`)
+    }
+
+    get lesson8Page21Text() {
+        return $(`~Matt\nThe other thing I need to do is schedule time with other people and time for physical activity so that I don't start withdrawing again. Those are more of a maintenance thing. So my plan looks like this:\nMatt Goal 1:\nCheck in with myself every day and ask myself what I am thinking and feeling.\nWhen:\nAt lunch time and on my way home from work.\nWhere:\nOffice and in the car.\nWith whom:\nI'll let Sarah know my plan and maybe some of it will be to talk things over with her when I get home.\nWhat might prevent me:\nGetting busy or feeling low enough that I get stuck and can't think clearly.`)
+    }
+
+    lesson8PageNumber(number) {
+        return $(`~${number} / 42`)
+    }
+
+    get lesson8Page22Text() {
+        return $(`~Matt\nSolutions:\nSchedule the time, especially at lunch time. Planning just 5 or 10 minutes to breathe and mentally check in with myself I feel stuck, I can talk to Sarah. Or maybe review one of the lessons again - actually do the problem solving exercise or write out a thought record. I can ask Sarah to talk to me if she is noticing that I am getting cranky again.`)
+    }
+
+    get lesson8Page23Text() {
+        return $(`~Matt\nMatt Goal 2:\nA few weeks ago I started back at the gym. I know it's helping. I need to keep doing that at least 3 times a week. Tim often goes too so it's a chance to check in with him - two birds with one stone as they say. And I need to do something else active each week. Going for a walk with Sarah, bike, throw a football or yard work on the weekends would do it I think.\nWhen:\nMondays, Wednesdays, Fridays I will schedule gym time before work. Saturdays and Sundays I will plan some activity with friends or Sarah.\nWhere:\nGym, home, or withfriends.\nWith whom:\nAlone, with friends (once a week); with Sarah (once a week.)`)
+    }
+
+    get lesson8Page24Text() {
+        return $(`~Matt\nWhat might prevent me:\nJust not scheduling it; after the baby comes I probably will need to rethink. That will be another time that I think will be stressful.\nSolution:\nTake some time on Sunday to look at the week ahead and plan. Talk to Sarah about my plan and the need to re-think after the baby comes. I know she will help me stay on track.`)
+    }
+
+    get lesson8Page25Text(){
+        return $(`~Susan\nRisk situation:\nI am inclined to be anxious for sure. But what makes it worse is high stress. Managing Mom and her health is a big piece. That sometimes gets in the way of looking after myself Plus, I have always struggled with putting myself out there - being a bit assertive and not taking things so personally.\nSo the main risk going forward is not taking enough time for myself and standing up to my unhelpful thoughts and my fears when they turn up for a visit.`)
+    }
+
+    get lesson8Page26Text(){
+        return $(`~Susan\nSigns of a lapse:\nI know things are getting out of whack if I start having a lot of anxiety and avoiding events or activities.\nPlan:\nI need to check in with myself pretty regularly. I liked doing the meditation and I am doing some most days. Either just a breathing meditation or the body scan. Both of these help me to be aware of what is going on in my body and mind. If my mind is really racing, I know my anxiety is up. If that is the case, I can use the worry tree and the thought record.\nThe other piece I want to keep working on is my fear ladder. It's tough going but I am on the 3rd rung now! So I am setting myself 2 goals.`)
+    }
+
+    get lesson8Page27Text(){
+        return $(`~Susan\nSusan Goal 1:\nMeditate daily for at least 15-20 minutes.\nWhen:\nMornings are best; as soon after I get up as possible so that I don't get distracted.\nWhere:\nIn my bedroom.\nWith whom:\nBy myself\nWhat might prevent me:\nFeeling time pressure for something that day. Waking up too late so there is no time before work.`)
+    }
+
+    get lesson8Page28Text(){
+        return $(`~Susan\nSolutions:\nI guess just being very committed to taking that time. Waking up late is not too often a problem. I try to go to bed at exactly the same time and get up at the same time as a way of managing sleep. So I may miss sometimes - especially something is going on late in the evening - but most of the time I think I can manage to get up in time.`)
+    }
+
+    get lesson8Page29Text(){
+        return $(`~Susan\nSusan Goal 2:\nI want to keep working on my fear ladder. I can see working on that is helping me to feel more and more confident. If I can keep going, I think it will protect me from high anxiety in future.\nWhen:\nI need specific time to plan activities to progress up the ladder. So, on Saturdays after my meditation I will take 30 minutes to journal about what I did that week, how it went, and what I want to do next week. I'm pushing myself a little but not hard - it's taking time for sure to progress from one rung to the other.\nWhere:\nIn my bedroom.\nWith whom:\nBy myself\nWhat might prevent me:\nJust not protecting the time.`)
+    }
+
+    get lesson8Page30Text(){
+        return $(`~Susan\nSolutions:\nI've already explained to my husband what I am doing. He has been very supportive and already knows I am meditating in the mornings. I'll ask him to help me protect the time on Saturdays too.`)
+    }
+
+    get lesson8Page31Text(){
+        return $(`~Let's take a few minutes now to develop your own relapse prevention plan.`)
+    }
+
+    get lesson8Page32Text(){
+        return $(`~Thinking ahead to anticipate possible situations that can cause a relapse and developing a plan like Matt and Susan's can help a lot.\nOf course you will not always anticipate times when symptoms might increase. So in addition to planning specific activities each week, it can be very helpful to plan for some general emotional self­ care time each week. Even 15 minutes can help.\nOn the next pages are questions you might ask during an emotional self-care appointment with yourself.`)
+    }
+
+    get lesson8Page33Text(){
+        return $(`~Think of a time that you could take 15-20 minutes to do an emotional "check-in."\nWrite a goal for that (be specific):`)
+    }
+
+    get lesson8Page34Text(){
+        return $(`~Writing a relapse prevention plan and creating specific time for emotional self-care may seem like quite simple steps. But research shows that having a written plan can improve the way that people manage relapses and actually prevent them.\nYou may find initially that you have a number of relapses. Over time most people find that these become less and less frequent and that they are better at managing those symptoms that do arise.`)
+    }
+
+    get lesson8Page35Text(){
+        return $(`~Most people will have gained some confidence about managing their symptoms by the end of this course.\nHowever, no one is expected to be an expert at this point. These are new and, in some cases, complex skills that will take time to work into your daily life. While you understand the skills, mastering them takes consistent practice.`)
+    }
+
+    get lesson8Page36Text(){
+        return $(`~Managing expectations is part of the ongoing effort needed to feel well. Some people hold unrealistic expectations about how they should be doing at this point and in the future. Expectations like "I should be perfectly well by now" or "I should never struggle again in future."\nMore realistic expectations are that more practice will be needed with the skills that help you to feel well. And to expect that you will struggle with symptoms in the future. The key is that you now know some ways that can help with those symptoms.\nRemember too that everyone struggles with symptoms from time to time. Try to be kind and gentle with yourself, as you would with someone else!`)
+    }
+
+    get lesson8Page37Text(){
+        return $(`~We hope that you have found the program helpful. You will be able to return to the course for review.\nYour facilitator will be in touch by phone to review how you are feeling now that the course has ended. Before that, we ask you to revisit your Overall Course Goal for taking the course.`)
+    }
+
+    get lesson8Page38Text(){
+        return $(`~Most people will not get to a 10 in just 8 weeks, which would imply perfection! Think about what is an acceptable level for you - maybe 8 or 9? It would be common to need more time to get to where you want to be. Consider if there are specific skills or tools you need to practice to keep going.\nThere may be some that you did not use during the program that you want to re-focus on over the next number of weeks.`)
+    }
+
+    get lesson8Page39Text(){
+        return $(`~We have introduced a lot of important information. Let's review the key points:\nResearch suggests that the benefits of a CBT course like this can continue to increase for months and even years after if we continue to use the skills learned. It takes practice and commitment though.\n1.\nBackward lapses are an inevitable part of learning anything new. Learning how to manage the 'step back' is an essential part of emotional self-care.\n2.\nThe course has presented a range of skills, including those directed at behavior, feelings, and thoughts.\n3.`);
+    }
+
+    get lesson8Page40Text(){
+        return $(`~Consider these, it is important to identify and write out a few goal statements for each.\n4.\nResearch suggests there are several key factors that contribute to relapses (backward steps):\n5.\nIncreased stress\nLife events like illness or loss\nNot using the skills you have learned\nNot taking time for self-care`)
+    }
+
+    get lesson8Page41Text(){
+        return $(`~Planning for a relapse involves:\n6.\nUnderstanding situations that are likely to arise that might cause a relapse\nRecognizing the early signs or symptoms that a relapse is occurring\nIdentifying the skills you have learned that can help\nPlanning what you can do about your symptoms\nResearch suggests writing a relapse plan and creating specific time for emotional self-care can improve how you manage relapses and actually prevent them.\n7.`)
+    }
+
+    get lesson8Page42Text(){
+        return $(`~Managing expectations is part of the ongoing effort needed to feel well. It is realistic to expect that you will need to practice the learned skills and that you will at times struggle with symptoms in the future. Remember that everyone struggles from time to time - be kind and gentle with yourself.\n8.\nCongratulations! You have finished the Lesson 8 Course content.`)
+    }
 }

@@ -183,8 +183,8 @@ describe('Onboarding - Chronic Program', () => {
                 await Keywords.SetValue(Locatoronboard.enterInitials, sign);
                 await Keywords.verifyElementIsEnabled(Locatoronboard.applyButtonInInitials, "Apply Button")
                 await Keywords.click(Locatoronboard.applyButtonInInitials, "Apply Button");
-                await Keywords.verifyElementDisplayed(Locatoronboard.remainingFields(11), "11 required fields remaining")
                 await Keywords.click(Locatoronboard.nextArrowButton(11), "Next Arrow Button");
+                await Keywords.verifyElementDisplayed(Locatoronboard.remainingFields(11), "11 required fields remaining");
                 let number = 11
                 while (true) {
                     await Keywords.click(Locatoronboard.initialHere, "Initial Here");
@@ -194,13 +194,8 @@ describe('Onboarding - Chronic Program', () => {
                     if(await Locatoronboard.applyButtonInInitials.isDisplayed({timeout:45000})){
                         await Keywords.click(Locatoronboard.applyButtonInInitials, "Apply Button");
                     }
-                    await driver.pause(2500);
-                    try {
-                        await Keywords.verifyElementDisplayed(Locatoronboard.remainingFields(number - 1), `${number - 1} required fields remaining`)
-                    } catch (err) {
-                        await Keywords.verifyElementDisplayed(Locatoronboard.remainingFields(number - 1), `${number - 1} required fields remaining`)
-                    }
                     await Keywords.click(Locatoronboard.nextArrowButton(number - 1), "Next Arrow Button");
+                    await Keywords.verifyElementDisplayed(Locatoronboard.remainingFields(number - 1), `${number - 1} required fields remaining`);
                     if (!await Locatoronboard.initialHere.isDisplayed()) {
                         break;
                     }
