@@ -28,7 +28,7 @@ for (let i = 0; i < testCases.length; i++) {
                 await browser.hideKeyboard();
             }
             await Keywords.verifyElementIsEnabled(locator.loginButton, "Login button")
-            await Keywords.click(locator.loginButton,"Login button")
+            await Keywords.click(locator.loginButton, "Login button")
             await Keywords.waitForDisplay(commonLocator.allowButton, 60000, "Get notified dialog box")
             await Keywords.click(commonLocator.allowButton, "Allow button");
             await Keywords.waitForDisplay(commonLocator.allowNotificationButton, 60000, "Allow notification")
@@ -1626,12 +1626,20 @@ for (let i = 0; i < testCases.length; i++) {
             await Keywords.verifyElementDisplayed2(locator.mindzoneCourse, "Mind Zone Course Title")
         });
 
-        it('Lesson_8', async () => {
+        it.only('Lesson_8', async () => {
             const description = await readData1("MindZoneLessons", "Lessons", "Mindzone", "Lesson Eight", `${testCases[i].testId}`);
             allureReporter.addDescription(description);
             await browser.pause(2000);
-            await Keywords.scrollToEnd(3);
-            if (await locator.lessonStartBtn.isDisplayed({ timeout: 60000 })) {
+            await Keywords.scrollWithUiScroll("resourceId", "lesson 8: moving forward_text");
+            while (true) {
+                await Keywords.scrollToEnd(3);
+                if (await locator.startButton(8).isDisplayed({ timeout: 80000 })) {
+                    break;
+                } else if (await locator.review(8).isDisplayed({ timeout: 80000 })) {
+                    break;
+                }
+            }
+            if (await locator.startButton(8).isDisplayed({ timeout: 80000 })) {
                 await Keywords.click(locator.startButton(8), "Start Button");
             } else {
                 await Keywords.click(locator.review(8), "Review Button");
