@@ -387,5 +387,9 @@ export class locators {
         return $(`(//android.view.View[@text="Verify icon Verify your account Here is your verification code for Carepath Digital Health "]//..//..//android.view.View)[3]//android.view.View`);
     }
 
+    errorText(value) {
+        return $(`~${value}`)
+    }
+
 
 }
