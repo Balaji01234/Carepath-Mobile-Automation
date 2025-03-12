@@ -92,6 +92,10 @@ export class onboardLocators {
         return $('~next_button')
     }
 
+    get nextButtonForEnableCheck(){
+        return $('//android.widget.Button[@content-desc="next_button"]/android.widget.Button');
+    }
+
     completeStatus(value) {
         return $(`~${value}% Complete`)
     }
@@ -1424,6 +1428,14 @@ export class onboardLocators {
 
     get checkListScreenElderCare() {
         return $('~We collect personal information only for medical purposes required to determine your well-being. Based on that, our clinicians can provide you with faster and better support.')
+    }
+
+    get previousArrowButton() {
+        return $('//android.view.View[@resource-id="mobile-modal-iframe"]/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.widget.TextView[1]')
+    }
+
+    get requiredfielderrmsg() {
+        return $(`(//android.widget.TextView[@text="Required Field"])[1]`)
     }
 
 }
