@@ -33,7 +33,8 @@ for (let i = 0; i < testCases.length; i++) {
             await Keywords.click(commonLocator.allowButton, "Allow button");
             await Keywords.waitForDisplay(commonLocator.allowNotificationButton, 60000, "Allow notification")
             await Keywords.click(commonLocator.allowNotificationButton, "Allow notification button");
-            if (await commonLocator.allowButton.isDisplayed({ timeout: 60000 })) {
+            await browser.pause(2000);
+            if (await commonLocator.allowButton.isDisplayed({ timeout: 90000 })) {
                 await Keywords.click(commonLocator.allowButton, "allow button");
                 if (await commonLocator.backDefaultNotification.isDisplayed({ timeout: 90000 })) {
                     await Keywords.click(commonLocator.backDefaultNotification, "Back arrow for Default notification button");
