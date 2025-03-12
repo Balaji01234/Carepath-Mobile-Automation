@@ -306,9 +306,13 @@ export class keywords {
     async verifyElementDisplayed2(locators, text) {
         allureReporter.startStep(`🔍 **VERIFY**: "${text}" is displayed or not`);
         let value = false;
+        let locator = [locators];
         try {
-            let locator = locators.split(';');
+            if(locators.includes(';')){
+                 locator = locators.split(';');
+            }
             const locatorCount = locator.length;
+            console.log("locator count: "+locatorCount);
             await browser.pause(2000);
             for (let i = 0; i < locatorCount; i++) {
                 const display = this.locator.errorText(locator[i]).isDisplayed({ timeout: 120000 });
@@ -696,30 +700,6 @@ export class keywords {
         }
         this.AllurePass(`✅ Images match!`);
         return { match: true, message: '✅ Images match!' };
-    }
-
-    async verifyElementDisplayed2(locator, text) {
-        allureReporter.startStep(`🔍 **VERIFY**: "${text}" is displayed or not`);
-        try {
-            await browser.pause(2000);
-            await locator.waitForExist({ timeout: 90000 })
-            const display = await locator.isDisplayed({ timeout: 90000 });
-            if (await display) {
-                console.log(`${text} is displayed!!!`);
-                await this.AllurePass(`"${await locator.getAttribute('content-desc')}" is displayed!!!`);
-                allureReporter.endStep('passed');
-            } else {
-                console.log(`${text} is not displayed!!!`);
-                await this.AllureFail(`"${text}" is not displayed!!!`);
-                allureReporter.endStep('failed');
-                // throw new Error(`${text} should be displayed, but it is not.`);
-            }
-        } catch (err) {
-            await this.AllureFail(`${text} is not displayed!!!`, err);
-            allureReporter.endStep('failed');
-            console.log(`${text} is not displayed!!!`);
-            throw new Error(err.message || `${text} was not displayed due to an error.`);
-        }
     }
 
     async scrollToElement(Attribute, Value) {
