@@ -218,13 +218,26 @@ describe('Sign-Up Negative', async () => {
                             await Keywords.verifyElementDisplayed(locator.errorText(dobErrortext[0].trim()), dobErrortext[0].trim());
                         } else {
                             await Keywords.SetValue(locator.dob, invalidDOBbelow18);
-                            await Keywords.waitForDisplay(locator.errorPopup, 60000, "Error Popup")
-                            if (role === 'Employee') {
-                                await Keywords.verifyText(locator.yearsOldText, "content-desc", dobErrortext[1].trim(), dobErrortext[1].trim());
-                            } else {
-                                await Keywords.verifyText(locator.yearsOldText1, "content-desc", studentDobErrorText.trim(), studentDobErrorText.trim());
+                            if(/^[0-9]+$/.test(invalidDOBbelow18)){
+                                await Keywords.waitForDisplay(locator.errorPopup, 60000, "Error Popup")
                             }
-                            await Keywords.click(locator.okButton, "Ok Button");
+                            if (role === 'Employee') {
+                                if(!(/^[0-9]+$/.test(invalidDOBbelow18))){
+                                    await Keywords.verifyElementDisplayed(locator.errorText(dobErrortext[0].trim()), dobErrortext[0].trim());
+                                }else{
+                                    await Keywords.verifyText(locator.yearsOldText, "content-desc", dobErrortext[1].trim(), dobErrortext[1].trim());
+                                    await Keywords.click(locator.okButton, "Ok Button");
+                                }
+                                
+                            } else {
+                                if(!(/^[0-9]+$/.test(invalidDOBbelow18))){
+                                    await Keywords.click(locator.signUpButton, "Signup button");
+                                    await Keywords.verifyElementDisplayed(locator.errorText(dobErrortext[0].trim()), dobErrortext[0].trim());
+                                }else{
+                                    await Keywords.verifyText(locator.yearsOldText1, "content-desc", studentDobErrorText.trim(), studentDobErrorText.trim());
+                                    await Keywords.click(locator.okButton, "Ok Button");
+                                }
+                            }
                         }
                         if (invalidDOB === 'Empty') {
                             await Keywords.SetValue(locator.dob, "");
@@ -232,9 +245,15 @@ describe('Sign-Up Negative', async () => {
                             await Keywords.verifyElementDisplayed(locator.errorText(dobErrortext[0].trim()), dobErrortext[0].trim());
                         } else {
                             await Keywords.SetValue(locator.dob, invalidDOB);
-                            await Keywords.waitForDisplay(locator.errorPopup, 60000, "Error Popup")
-                            await Keywords.verifyText(locator.pleaseEnterValidDateText, "content-desc", dobErrortext[2].trim(), dobErrortext[2].trim());
-                            await Keywords.click(locator.okButton, "Ok Button");
+                            if(/^[0-9]+$/.test(invalidDOBbelow18)){
+                                await Keywords.waitForDisplay(locator.errorPopup, 60000, "Error Popup")
+                            }
+                            if(!(/^[0-9]+$/.test(invalidDOBbelow18))){
+                                await Keywords.verifyElementDisplayed(locator.errorText(dobErrortext[0].trim()), dobErrortext[0].trim());
+                            }else{
+                                await Keywords.verifyText(locator.pleaseEnterValidDateText, "content-desc", dobErrortext[2].trim(), dobErrortext[2].trim());
+                                await Keywords.click(locator.okButton, "Ok Button");
+                            }
                         }
                         await Keywords.SetValue(locator.dob, dob);
                     } else {
