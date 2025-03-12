@@ -282,7 +282,7 @@ describe('Onboarding - Mental Health Program', async () => {
                 await Keywords.verifyElementNotDisplayed(Locatoronboard.healthCardInformationScreen, "healthCardInformationScreen")
                 await Keywords.SetValue(Locatoronboard.addressField, address);
                 await Keywords.SetValue(Locatoronboard.unitField, unit);
-                if (invalidcity.toLowerCase() === "empty") {
+                if ((invalidcity.toLowerCase()).trim() === "empty") {
                     await Keywords.SetValue(Locatoronboard.cityField, "");
                 }
                 else {
@@ -323,6 +323,7 @@ describe('Onboarding - Mental Health Program', async () => {
                     await Keywords.verifyElementNotDisplayed(Locatoronboard.employmentInformationScreen, "employmentInformationScreen")
                 }
                 else {
+                    await Keywords.click(Locatoronboard.nextButton, "Next Button");
                     await Keywords.verifyElementDisplayed2(invalidhealthCardNumberText, "invalidhealthCardNumberText");
                 }
                 await Keywords.SetValue(Locatoronboard.healthCardNumberField, healthCardNumber);
@@ -358,9 +359,11 @@ describe('Onboarding - Mental Health Program', async () => {
                 await Keywords.verifyElementIsEnabled(Locatoronboard.startButton, "Start Button");
                 await Keywords.click(Locatoronboard.startButton, "Start Button");
                 await Keywords.waitForDisplay(Locatoronboard.previousArrowButton, 90000, "previous Arrow Button")
-                await Keywords.click(Locatoronboard.previousArrowButton, "previous Arrow Button")
+                await Keywords.click(Locatoronboard.previousArrowButton, "previous Arrow Button");
                 while (true) {
-                    await Keywords.click(Locatoronboard.previousArrowButton, "previous Arrow Button")
+                    await Keywords.click(Locatoronboard.previousArrowButton, "previous Arrow Button");
+                    await Keywords.click(Locatoronboard.nextArrowButton(1), "Next Arrow Button");
+                    await Keywords.click(Locatoronboard.previousArrowButton, "previous Arrow Button");
                     await Keywords.verifyElementDisplayed(Locatoronboard.requiredfielderrmsg, "required field err msg")
                     if (await Locatoronboard.nameFieldInAdobe.isDisplayed({ timeout: 60000 })) {
                         await Keywords.verifyElementDisplayed(Locatoronboard.requiredfielderrmsg, "required field err msg")
