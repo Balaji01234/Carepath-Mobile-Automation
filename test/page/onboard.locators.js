@@ -1426,4 +1426,12 @@ export class onboardLocators {
         return $('~We collect personal information only for medical purposes required to determine your well-being. Based on that, our clinicians can provide you with faster and better support.')
     }
 
+    get previousArrowButton() {
+        return $('//android.view.View[@resource-id="mobile-modal-iframe"]/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.widget.TextView[1]')
+    }
+
+    get requiredfielderrmsg() {
+        return $(`(//android.widget.TextView[@text="Required Field"])[1]`)
+    }
+
 }
