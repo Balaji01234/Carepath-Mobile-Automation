@@ -454,6 +454,7 @@ export class keywords {
                 allureReporter.endStep('passed');
             };
         } catch (err) {
+            await this.AllureFail(`${text} is enabled!!!`);
             allureReporter.endStep('failed');
             console.log(`${text} is Enabled!!!`)
             throw new Error(`${text} is Enabled!!!`);
