@@ -385,6 +385,28 @@ export class keywords {
         }
     }
 
+    async verifyElementIsClickable(locator, text) {
+        allureReporter.startStep(`🔍 **VERIFY**: "${text}" is clickable or not`)
+        let enable = false;
+        try {
+            enable = await locator.isClickable();
+            if(enable == false){
+            console.log(`${text} is clickable!!!`)
+            await this.AllurePass(`${text} is clickable!!!`);
+            allureReporter.endStep('passed');
+            }else{
+                console.log(`${text} is not clickable!!!`)
+                await this.AllureFail(`${text} is not clickable!!!`);
+                allureReporter.endStep('failed');
+                throw new Error(err);
+            }
+        } catch (err) {
+            allureReporter.endStep('failed');
+            console.log(`${text} is not clickable!!!`)
+            throw new Error(err);
+        }
+    }
+    
     async verifyElementIsEnabled(locator, text) {
         allureReporter.startStep(`🔍 **VERIFY**: "${text}" is enabled or not`)
         let enable = false;
@@ -432,6 +454,7 @@ export class keywords {
                 allureReporter.endStep('passed');
             };
         } catch (err) {
+            await this.AllureFail(`${text} is enabled!!!`);
             allureReporter.endStep('failed');
             console.log(`${text} is Enabled!!!`)
             throw new Error(`${text} is Enabled!!!`);

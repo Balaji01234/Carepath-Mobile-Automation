@@ -92,6 +92,10 @@ export class onboardLocators {
         return $('~next_button')
     }
 
+    get nextButtonForEnableCheck(){
+        return $('//android.widget.Button[@content-desc="next_button"]/android.widget.Button');
+    }
+
     completeStatus(value) {
         return $(`~${value}% Complete`)
     }

@@ -402,5 +402,9 @@ export class locators {
     get selectFile(){
         return $('(//android.widget.ImageView[@resource-id="com.google.android.providers.media.module:id/icon_thumbnail"])[1]')
     }
+    errorText(value) {
+        return $(`~${value}`)
+    }
+
 
 }
