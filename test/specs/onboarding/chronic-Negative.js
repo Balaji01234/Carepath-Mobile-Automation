@@ -16,7 +16,6 @@ describe('Onboarding - Chronic Program', () => {
     for (let i = 0; i < testCases.length; i++) {
         it(`${testCases[i].testId} - ${testCases[i].testDescription}`, async () => {
             try {
-
                 const userName = await readData1("onboarding", "onboardingChronic - Negative", "chronic-Negative", "Email", `${testCases[i].testId}`);
                 const password = await readData1("onboarding", "onboardingChronic - Negative", "chronic-Negative", "Password", `${testCases[i].testId}`);
                 const welcomeOnboardText = await readData1("onboarding", "onboardingChronic - Negative", "chronic-Negative", "WelcomeOnboarding", `${testCases[i].testId}`);
@@ -386,7 +385,8 @@ describe('Onboarding - Chronic Program', () => {
 
                 while (true) {
                     await Keywords.click(Locatoronboard.previousArrowButton, "previous Arrow Button")
-                    await Keywords.click(Locatoronboard.previousArrowButton, "previous Arrow Button")
+                    await Keywords.click(Locatoronboard.nextArrowButton(1), "Next Arrow Button");
+                    await Keywords.click(Locatoronboard.previousArrowButton, "previous Arrow Button");
                     await Keywords.verifyElementDisplayed(Locatoronboard.requiredfielderrmsg, "required field err msg")
                     if (await Locatoronboard.nameFieldInAdobe.isDisplayed({ timeout: 60000 })) {
                         await Keywords.verifyElementDisplayed(Locatoronboard.requiredfielderrmsg, "required field err msg")
@@ -425,12 +425,9 @@ describe('Onboarding - Chronic Program', () => {
                         await Keywords.click(Locatoronboard.applyButtonInInitials, "Apply Button");
                     }
                     await driver.pause(2500);
-                    try {
-                        await Keywords.verifyElementDisplayed(Locatoronboard.remainingFields(number - 1), `${number - 1} required fields remaining`)
-                    } catch (err) {
-                        await Keywords.verifyElementDisplayed(Locatoronboard.remainingFields(number - 1), `${number - 1} required fields remaining`)
-                    }
+        
                     await Keywords.click(Locatoronboard.nextArrowButton(number - 1), "Next Arrow Button");
+                    await Keywords.verifyElementDisplayed(Locatoronboard.remainingFields(number - 1), `${number - 1} required fields remaining`);
                     if (!await Locatoronboard.initialHere.isDisplayed()) {
                         break;
                     }
