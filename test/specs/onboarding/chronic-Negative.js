@@ -4,7 +4,6 @@ import { keywords } from '../../page/keywords.js';
 import { readData1, getFilteredTests } from '../../../utils/common.js';
 import allureReporter from '@wdio/allure-reporter'
 import { expect } from 'chai';
-import { onboardLocators } from '../../page/onboard.locators.js';
 
 describe('Onboarding - Chronic Program', () => {
 
@@ -94,9 +93,6 @@ describe('Onboarding - Chronic Program', () => {
                 await Keywords.verifyElementDisplayed(Locatoronboard.pickADifferentProgram, "Pick a different program button");
                 await Keywords.verifyElementIsEnabled(Locatoronboard.continueButton, "Continue Button");
                 await Keywords.click(Locatoronboard.continueButton, "Continue Button");
-
-
-
                 await Keywords.verifyText(Locatoronboard.welcomeTextOnboarding, "content-desc", welcomeOnboardText, "Welcome Onboarding")
                 await Keywords.click(Locatoronboard.openChecklist, "Open Checklist Button");
                 await Keywords.verifyElementDisplayed(Locatoronboard.requiredInformation, "Required Information");
@@ -104,23 +100,21 @@ describe('Onboarding - Chronic Program', () => {
                 await Keywords.verifyElementIsEnabled(Locatoronboard.startOnboardingButton, "Start Onboarding button");
                 await Keywords.click(Locatoronboard.startOnboardingButton, "Start Onboarding Button");
                 await Keywords.AllureInfo("Required Information Screen Completed!!!");
-
                 await Keywords.verifyElementDisplayed(Locatoronboard.contactInformation, "Contact Information Screen");
                 await Keywords.verifyText(Locatoronboard.homeNumberText, "content-desc", homePhoneNumberText, "Home Number")
                 await Keywords.verifyText(Locatoronboard.cellNumberText, "content-desc", cellNumberText, "Cell Number")
-
                 await Keywords.SetValue(Locatoronboard.homePhoneNumber, invalidhomePhoneNumber);
                 if (!await Locatoronboard.nextButton.isDisplayed()) {
                     await browser.hideKeyboard();
                 }
                 await Keywords.verifyElementIsEnabled(Locatoronboard.nextButton, "Next button");
                 await Keywords.click(Locatoronboard.nextButton, "Next button");
-                if (/^(?=.*[a-zA-Z])(?=.*\d).+$/.test(invalidhomePhoneNumber)) {
+                if (/^(?=.*[a-zA-Z])(?=.*\d).+$/.test(invalidhomePhoneNumber) || /^\d+$/.test(invalidhomePhoneNumber) || invalidhomePhoneNumber.toLowerCase() == "empty") {
 
                     await Keywords.verifyElementIsDisabled(Locatoronboard.nextButton, "next button");
                     await Keywords.click(Locatoronboard.nextButton, "Next Button");
                     await Keywords.verifyElementNotDisplayed(Locatoronboard.addressInformationScreen, "Contact Information Screen")
-                }
+                 }
                 else if (/^[\W_]+$/.test(invalidhomePhoneNumber)) {
                     await Keywords.verifyElementIsDisabled(Locatoronboard.nextButton, "next button");
                     await Keywords.click(Locatoronboard.nextButton, "Next Button");
@@ -134,7 +128,7 @@ describe('Onboarding - Chronic Program', () => {
                 }
                 await Keywords.verifyElementIsEnabled(Locatoronboard.nextButton, "Next button");
                 await Keywords.click(Locatoronboard.nextButton, "Next button");
-                if (/^(?=.*[a-zA-Z])(?=.*\d).+$/.test(invalidCellNumber)) {
+                if (/^(?=.*[a-zA-Z])(?=.*\d).+$/.test(invalidCellNumber) || /^\d+$/.test(invalidCellNumber) || invalidCellNumber.toLowerCase() == "empty") {
                     await Keywords.verifyElementIsDisabled(Locatoronboard.nextButton, "next button");
                     await Keywords.click(Locatoronboard.nextButton, "Next Button");
                     await Keywords.verifyElementNotDisplayed(Locatoronboard.addressInformationScreen, "Contact Information Screen")
@@ -157,7 +151,6 @@ describe('Onboarding - Chronic Program', () => {
                 await Keywords.verifyText(Locatoronboard.nextButtonText, "content-desc", NextButtonText, "Next button");
                 await Keywords.click(Locatoronboard.nextButton, "Next Button");
                 await Keywords.AllureInfo("Contact Information Screen Completed!!!");
-
                 await Keywords.verifyElementDisplayed(Locatoronboard.completeStatus(20), "20% onboard complete status")
                 await Keywords.waitForDisplay(Locatoronboard.emergencyContactScreen, 45000, "Emergency Contact Screen");
                 const text = [firstNameText, lastNameText, relationText, cellPhoneText];
@@ -165,30 +158,61 @@ describe('Onboarding - Chronic Program', () => {
                 for (let i = 0; i < text.length; i++) {
                     await Keywords.verifyText(locators[i], "content-desc", text[i], `${text[i]} in Emergency Contact screen`);
                 }
-
-                await Keywords.SetValue(Locatoronboard.firstName, invalidFirstName);
+                if (invalidFirstName.toLowerCase() === "empty") {
+                    await Keywords.SetValue(Locatoronboard.firstName, "");
+                } else {
+                    await Keywords.SetValue(Locatoronboard.firstName, invalidFirstName);
+                }
                 await Keywords.SetValue(Locatoronboard.lastName, lastName);
                 await Keywords.SetValue(Locatoronboard.relation, relation);
                 await Keywords.SetValue(Locatoronboard.relationCellPhone, relationCellNumber)
                 if (!await Locatoronboard.nextButton.isDisplayed()) {
                     await browser.hideKeyboard();
                 }
-                await Keywords.verifyElementIsEnabled(Locatoronboard.nextButton, "Next button");
-                await Keywords.verifyText(Locatoronboard.nextButtonText, "content-desc", NextButtonText, "Next button");
-                await Keywords.click(Locatoronboard.nextButton, "Next Button");
-                await Keywords.verifyElementDisplayed2(invalidFirstNametext, "invalidFirstNametext");
+                if (/^(?=.*[a-zA-Z])(?=.*\d).+$/.test(invalidFirstName)) {
+                    await Keywords.verifyElementIsDisabled(Locatoronboard.nextButton, "next button");
+                    await Keywords.click(Locatoronboard.nextButton, "Next Button");
+                    await Keywords.verifyElementNotDisplayed(Locatoronboard.addressInformationScreen, "addressInformationScreen")
+                }
+                else if ((invalidFirstName.toLowerCase()) === "empty") {
+                    await Keywords.verifyElementIsDisabled(Locatoronboard.nextButton, "next button");
+                    await Keywords.click(Locatoronboard.nextButton, "Next Button");
+                    await Keywords.verifyElementNotDisplayed(Locatoronboard.addressInformationScreen, "addressInformationScreen")
+                }
+                else {
+                    await Keywords.verifyElementIsEnabled(Locatoronboard.nextButton, "Next button");
+                    await Keywords.verifyText(Locatoronboard.nextButtonText, "content-desc", NextButtonText, "Next button");
+                    await Keywords.click(Locatoronboard.nextButton, "Next Button");
+                    await Keywords.verifyElementDisplayed2(invalidFirstNametext, "invalidFirstNametext");
+                }
                 await Keywords.SetValue(Locatoronboard.firstName, firstName);
-                await Keywords.SetValue(Locatoronboard.lastName, invalidLastName);
+                if (invalidLastName.toLowerCase() === "empty") {
+                    await Keywords.SetValue(Locatoronboard.lastName, "");
+                } else {
+                    await Keywords.SetValue(Locatoronboard.lastName, invalidLastName);
+                }
                 await Keywords.SetValue(Locatoronboard.relation, relation);
                 await Keywords.SetValue(Locatoronboard.relationCellPhone, relationCellNumber)
                 if (!await Locatoronboard.nextButton.isDisplayed()) {
                     await browser.hideKeyboard();
                 }
-                await Keywords.verifyElementIsEnabled(Locatoronboard.nextButton, "Next button");
-                await Keywords.verifyText(Locatoronboard.nextButtonText, "content-desc", NextButtonText, "Next button");
-                await Keywords.click(Locatoronboard.nextButton, "Next Button");
-                await Keywords.verifyElementDisplayed2(invalidLastNameText, "invalidLastNameText");
+                if (/^(?=.*[a-zA-Z])(?=.*\d).+$/.test(invalidLastName) || (invalidLastName.toLowerCase()).trim() == "empty") {
+                    await Keywords.verifyElementIsDisabled(Locatoronboard.nextButton, "next button");
+                    await Keywords.click(Locatoronboard.nextButton, "Next Button");
+                    await Keywords.verifyElementNotDisplayed(Locatoronboard.addressInformationScreen, "addressInformationScreen")
+                }
+                else if ((invalidLastName.toLowerCase()) === "empty") {
 
+                    await Keywords.verifyElementIsDisabled(Locatoronboard.nextButton, "next button");
+                    await Keywords.click(Locatoronboard.nextButton, "Next Button");
+                    await Keywords.verifyElementNotDisplayed(Locatoronboard.addressInformationScreen, "addressInformationScreen")
+                }
+                else {
+                    await Keywords.verifyElementIsEnabled(Locatoronboard.nextButton, "Next button");
+                    await Keywords.verifyText(Locatoronboard.nextButtonText, "content-desc", NextButtonText, "Next button");
+                    await Keywords.click(Locatoronboard.nextButton, "Next Button");
+                    await Keywords.verifyElementDisplayed2(invalidLastNameText, "invalidLastNameText");
+                }
                 await Keywords.SetValue(Locatoronboard.firstName, firstName);
                 await Keywords.SetValue(Locatoronboard.lastName, lastName);
 
@@ -209,14 +233,26 @@ describe('Onboarding - Chronic Program', () => {
                 await Keywords.SetValue(Locatoronboard.firstName, firstName);
                 await Keywords.SetValue(Locatoronboard.lastName, lastName);
                 await Keywords.SetValue(Locatoronboard.relation, relation);
-                await Keywords.SetValue(Locatoronboard.relationCellPhone, invalidrelationCellNumber)
+
+                if (invalidrelationCellNumber.toLowerCase() === "empty") {
+                    await Keywords.SetValue(Locatoronboard.relationCellPhone, "")
+                }
+                else {
+                    await Keywords.SetValue(Locatoronboard.relationCellPhone, invalidrelationCellNumber)
+                }
+
                 if (!await Locatoronboard.nextButton.isDisplayed()) {
                     await browser.hideKeyboard();
                 }
                 await Keywords.verifyElementIsEnabled(Locatoronboard.nextButton, "Next button");
                 await Keywords.verifyText(Locatoronboard.nextButtonText, "content-desc", NextButtonText, "Next button");
                 await Keywords.click(Locatoronboard.nextButton, "Next Button");
-                await Keywords.verifyElementDisplayed2(invalidrelationCellNumberText, "invalidrelationCellNumberText");
+
+                if (invalidrelationCellNumber.toLowerCase() === "empty") {
+                    await Keywords.verifyElementNotDisplayed(Locatoronboard.addressInformationScreen, "addressInformationScreen");
+                } else {
+                    await Keywords.verifyElementDisplayed2(invalidrelationCellNumberText, "invalidrelationCellNumberText");
+                }
 
                 await Keywords.SetValue(Locatoronboard.firstName, firstName);
                 await Keywords.SetValue(Locatoronboard.lastName, lastName);
@@ -252,8 +288,9 @@ describe('Onboarding - Chronic Program', () => {
 
                 await Keywords.SetValue(Locatoronboard.addressField, address);
                 await Keywords.SetValue(Locatoronboard.unitField, unit);
-                if (invalidcity.toLowerCase() === "empty") {
+                if ((invalidcity.toLowerCase()).trim() === "empty") {
                     await Keywords.SetValue(Locatoronboard.cityField, "");
+
                 }
                 else {
                     await Keywords.SetValue(Locatoronboard.cityField, invalidcity);
@@ -264,7 +301,7 @@ describe('Onboarding - Chronic Program', () => {
                 if (!await Locatoronboard.nextButton.isDisplayed()) {
                     await browser.hideKeyboard();
                 }
-                await Keywords.verifyElementIsDisabled(Locatoronboard.nextButton, "Next button");
+                await Keywords.verifyElementIsDisabled(Locatoronboard.nextButtonForEnableCheck, "Next button");
                 await Keywords.click(Locatoronboard.nextButton, "Next Button");
                 await Keywords.verifyElementNotDisplayed(Locatoronboard.healthCardInformationScreen, "healthCardInformationScreen")
 
@@ -279,23 +316,36 @@ describe('Onboarding - Chronic Program', () => {
                 if (!await Locatoronboard.nextButton.isDisplayed()) {
                     await browser.hideKeyboard();
                 }
+
                 await Keywords.verifyElementIsEnabled(Locatoronboard.nextButton, "Next button");
                 await Keywords.verifyText(Locatoronboard.nextButtonText, "content-desc", NextButtonText, "Verify Next button text");
                 await Keywords.click(Locatoronboard.nextButton, "Next Button");
                 await Keywords.AllureInfo("Address Information Screen Completed!!!");
                 await Keywords.waitForDisplay(Locatoronboard.healthCardInformationScreen, 45000, "Health card Information Screen");
 
-                await Keywords.SetValue(Locatoronboard.healthCardNumberField, invalidhealthCardNumber);
-                await Keywords.SetValue(Locatoronboard.healthCardNumberField, invalidhealthCardNumber);
+                if ((invalidhealthCardNumber.toLowerCase()).trim() === "empty") {
+                    await Keywords.SetValue(Locatoronboard.healthCardNumberField, "");
+                } else {
+                    await Keywords.SetValue(Locatoronboard.healthCardNumberField, invalidhealthCardNumber);
+                }
+                if (/^(?=.*[a-zA-Z])(?=.*\d).+$/.test(invalidhealthCardNumber) || /^\d+$/.test(invalidhealthCardNumber)|| (invalidhealthCardNumber.toLowerCase()).trim() == "empty") {
+                    await Keywords.verifyElementIsDisabled(Locatoronboard.nextButton, "next button");
+                    await Keywords.click(Locatoronboard.nextButton, "Next Button");
+                    await Keywords.verifyElementNotDisplayed(Locatoronboard.employmentInformationScreen, "employmentInformationScreen")
+                }
+
+                else if (/^[\W_]+$/.test(invalidhealthCardNumber)) {
+                    await Keywords.verifyElementIsDisabled(Locatoronboard.nextButton, "next button");
+                    await Keywords.click(Locatoronboard.nextButton, "Next Button");
+                    await Keywords.verifyElementNotDisplayed(Locatoronboard.employmentInformationScreen, "employmentInformationScreen")
+                }
+
+                else {
+                    await Keywords.verifyElementDisplayed2(invalidhealthCardNumberText, "invalidhealthCardNumberText");
+                }
                 if (!await Locatoronboard.nextButton.isDisplayed()) {
                     await browser.hideKeyboard();
                 }
-                
-                await Keywords.AllureInfo("Health card Information Screen Completed!!!");
-                await Keywords.click(Locatoronboard.nextButton, "Next Button");
-                await Keywords.verifyElementDisplayed2(invalidhealthCardNumberText, "invalidhealthCardNumberText");
-
-
                 await Keywords.SetValue(Locatoronboard.healthCardNumberField, healthCardNumber);
                 await Keywords.SetValue(Locatoronboard.healthCardNumberField, healthCardNumber);
                 const getDob = await Locatoronboard.dobInHealthCard.getText();
@@ -332,8 +382,10 @@ describe('Onboarding - Chronic Program', () => {
                 await Keywords.click(Locatoronboard.startButton, "Start Button");
                 await Keywords.waitForDisplay(Locatoronboard.previousArrowButton, 90000, "previous Arrow Button")
                 await Keywords.click(Locatoronboard.previousArrowButton, "previous Arrow Button")
+                await Keywords.click(Locatoronboard.previousArrowButton, "previous Arrow Button")
 
                 while (true) {
+                    await Keywords.click(Locatoronboard.previousArrowButton, "previous Arrow Button")
                     await Keywords.click(Locatoronboard.previousArrowButton, "previous Arrow Button")
                     await Keywords.verifyElementDisplayed(Locatoronboard.requiredfielderrmsg, "required field err msg")
                     if (await Locatoronboard.nameFieldInAdobe.isDisplayed({ timeout: 60000 })) {
