@@ -1426,6 +1426,10 @@ export class onboardLocators {
         return $('~Elder\nCare')
     }
 
+    get nextButtonForEnableCheck(){
+        return $('//android.widget.Button[@content-desc="next_button"]/android.widget.Button');
+    }
+
     get checkListScreenElderCare() {
         return $('~We collect personal information only for medical purposes required to determine your well-being. Based on that, our clinicians can provide you with faster and better support.')
     }
