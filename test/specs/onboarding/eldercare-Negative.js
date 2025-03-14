@@ -41,7 +41,7 @@ describe('Onboarding - Elder Care Program', async () => {
                 const relation = await readData1("onboarding", "onboardingElderCare - Negative", "ElderCareNegative", "Relation", `${testCases[i].testId}`)
                 const invalidrelationCellNumber = await readData1("onboarding", "onboardingElderCare - Negative", "ElderCareNegative", "InvalidRelationCellNumber", `${testCases[i].testId}`)
                 const invalidrelationCellNumberText = await readData1("onboarding", "onboardingElderCare - Negative", "ElderCareNegative", "InvalidCellPhoneNumberText", `${testCases[i].testId}`)
-                const relationCellNumber = await readData1("onboarding", "onboardingElderCare - Negative", "ElderCareNegative", "RelationCellNumber", `${testCases[i].testId}`)     
+                const relationCellNumber = await readData1("onboarding", "onboardingElderCare - Negative", "ElderCareNegative", "RelationCellNumber", `${testCases[i].testId}`)
                 const address = await readData1("onboarding", "onboardingElderCare - Negative", "ElderCareNegative", "Address", `${testCases[i].testId}`)
                 const unit = await readData1("onboarding", "onboardingElderCare - Negative", "ElderCareNegative", "Unit", `${testCases[i].testId}`)
                 const province = await readData1("onboarding", "onboardingElderCare - Negative", "ElderCareNegative", "Province", `${testCases[i].testId}`)
@@ -137,7 +137,7 @@ describe('Onboarding - Elder Care Program', async () => {
                     await Keywords.click(Locatoronboard.nextButton, "Next Button");
                     await Keywords.verifyElementNotDisplayed(Locatoronboard.addressInformationScreen, "Contact Information Screen")
                 }
-                else if (/^(?=.*[a-zA-Z])(?=.*\d).+$/.test(invalidCellNumber)) { 
+                else if (/^(?=.*[a-zA-Z])(?=.*\d).+$/.test(invalidCellNumber)) {
                     await Keywords.verifyElementIsDisabled(Locatoronboard.nextButtonForEnableCheck, "next button");
                     await Keywords.click(Locatoronboard.nextButton, "Next Button");
                     await Keywords.verifyElementNotDisplayed(Locatoronboard.addressInformationScreen, "Contact Information Screen")
@@ -335,7 +335,9 @@ describe('Onboarding - Elder Care Program', async () => {
                 await Keywords.waitForDisplay(Locatoronboard.previousArrowButton, 90000, "previous Arrow Button")
                 await Keywords.click(Locatoronboard.previousArrowButton, "previous Arrow Button")
                 while (true) {
-                    await Keywords.click(Locatoronboard.previousArrowButton, "previous Arrow Button")
+                    await Keywords.click(Locatoronboard.previousArrowButton, "previous Arrow Button");
+                    await Keywords.click(Locatoronboard.nextArrowButton(1), "Next Arrow Button");
+                    await Keywords.click(Locatoronboard.previousArrowButton, "previous Arrow Button");
                     await Keywords.verifyElementDisplayed(Locatoronboard.requiredfielderrmsg, "required field err msg")
                     if (await Locatoronboard.nameFieldInAdobe.isDisplayed({ timeout: 60000 })) {
                         await Keywords.verifyElementDisplayed(Locatoronboard.requiredfielderrmsg, "required field err msg")

@@ -31,6 +31,7 @@
     "test:onboarding-chronic-positive": "npx wdio wdio.conf.js --spec ./test/specs/onboarding/chronic-Positive.js",
     "test:onboarding-chronic-negative": "npx wdio wdio.conf.js --spec ./test/specs/onboarding/chronic-Negative.js",
     "test:onboarding-eldercare-positive": "npx wdio wdio.conf.js --spec ./test/specs/onboarding/eldercare-Positive.js",
+    "test:onboarding-eldercare-negative": "npx wdio wdio.conf.js --spec ./test/specs/onboarding/eldercare-Negative.js",
     "test:signup": "npx wdio wdio.conf.js --spec ./test/specs/signup/SignUp-Positive.js --spec ./test/specs/signup/SignUp-Negative.js",
     "test:forgotPassword": "npx wdio wdio.conf.js --spec ./test/specs/forgotPassword/forgotPassword-Positive.js --spec ./test/specs/forgotPassword/forgotPassword-Negative.js",
     "test:onboarding": "npx wdio wdio.conf.js --spec ./test/specs/onboarding/mentalHealth-Positive.js --spec ./test/specs/onboarding/cancer-Positive.js --spec ./test/specs/onboarding/chronic-Positive.js --spec ./test/specs/onboarding/eldercare-Positive.js",
