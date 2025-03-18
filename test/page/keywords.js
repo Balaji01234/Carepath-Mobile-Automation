@@ -2,6 +2,13 @@ import allureReporter from '@wdio/allure-reporter'
 import { locators } from './locators.js';
 import { onboardLocators } from './onboard.locators.js';
 import { ForgotPasswordLocators } from './ForgotLocator.js';
+import fs from 'fs';
+import path from 'path';
+import pixelmatch from 'pixelmatch';
+import { PNG } from 'pngjs';
+const screenshotDir = './screenshots';
+
+if (!fs.existsSync(screenshotDir)) fs.mkdirSync(screenshotDir);
 export class keywords {
 
     constructor() {
@@ -520,6 +527,59 @@ export class keywords {
             console.log(`Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
             throw new Error(error.message || `Not Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);
         }
+    }
+
+    async captureScreenshot(name, folderPath) {
+        const dirPath = path.join(screenshotDir, folderPath);
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath, { recursive: true });
+        }
+
+        const filePath = path.join(dirPath, `${name}.png`);
+        await driver.saveScreenshot(filePath);
+        console.log(`✅ Screenshot saved: ${filePath}`);
+    }
+
+
+
+async compareScreenshots(baselineName, actualName) {
+        const baselinePath = `${screenshotDir}/baseline/${baselineName}.png`;
+        const actualPath = `${screenshotDir}/actual/${actualName}.png`;
+        const diffDir = path.join(screenshotDir, 'diff');
+        if (!fs.existsSync(diffDir)) {
+            fs.mkdirSync(diffDir, { recursive: true });
+        }
+
+        const diffPath = path.join(diffDir, `${actualName}_diff.png`);
+
+        if (!fs.existsSync(baselinePath)) {
+            console.log(`⚠️ Baseline not found! Saving ${actualName} as new baseline.`);
+            fs.copyFileSync(actualPath, baselinePath);
+            return { match: true, message: `Baseline created for ${actualName}.` };
+        }
+
+        const baselineImg = PNG.sync.read(fs.readFileSync(baselinePath));
+        const actualImg = PNG.sync.read(fs.readFileSync(actualPath));
+
+        const { width, height } = baselineImg;
+        const diff = new PNG({ width, height });
+
+        const numDiffPixels = pixelmatch(
+            baselineImg.data, actualImg.data, diff.data,
+            width, height,
+            { threshold: 0.1 }
+        );
+        console.log("numDiffPixels : " + numDiffPixels)
+        const totalPixels = width * height;
+        const diffRatio = (numDiffPixels / totalPixels) * 100;
+        console.log("diffRatio : " + diffRatio)
+        if (diffRatio > 0.1) {
+            fs.writeFileSync(diffPath, PNG.sync.write(diff));
+            this.AllureFail(`❌ Images differ! Check ${diffPath}`);
+            return { match: false, message: `❌ Images differ! Check ${diffPath}` };
+        }
+        this.AllurePass(`✅ Images match!`);
+        return { match: true, message: '✅ Images match!' };
     }
 
     async logOut() {

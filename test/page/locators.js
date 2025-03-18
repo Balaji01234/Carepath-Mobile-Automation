@@ -28,6 +28,22 @@ export class locators {
         return $('android=new UiSelector().resourceId("login_email_textfield")');
     }
 
+    get continueButton() {
+        return $('android=new UiSelector().resourceId("continue_text")')
+    }
+    
+    get pickADifferentProgram() {
+        return $('android=new UiSelector().resourceId("pick_a_different_program_text")')
+    }
+
+    get mentalHealthText() {
+        return $('android=new UiSelector().resourceId("mental_health_text")')
+    }
+    
+    get mentalHealthCard() {
+        return $('~Mental\nHealth')
+    }
+
     get password() {
         return $('android=new UiSelector().resourceId("login_password_textfield")');
     }
@@ -3926,6 +3942,14 @@ export class locators {
                 return $('~My Zones')
             }
 
+            get resourcesCardTitle(){
+                return $('~Resources')
+            }
+
+            get resourcesCard(){
+                return $('~Resources_action')
+            }
+
             get myZonesTitle(){
                 return $('~My Zones')
             }
@@ -4015,7 +4039,7 @@ export class locators {
             }
 
             get initialPlayDuration(){
-                return $('~00:03')
+                return $('~00:15')
             }
 
             get endPlayDuration(){
@@ -4027,11 +4051,19 @@ export class locators {
             }
 
             get afterPlayLastDuration(){
-                return $('~00:00')
+                return $('~05:08')
             }
 
             get voicePlayPercentage(){
                 return $('//android.widget.SeekBar[@content-desc="100%"]')
+            }
+
+            get voicePlayPercentage15(){
+                return $('//android.widget.SeekBar[@content-desc="15%"]')
+            }
+
+            get voicePlayPercentage5(){
+                return $('//android.widget.SeekBar[@content-desc="5%"]')
             }
 
             get progressiveMuscleRelaxation(){
@@ -4049,5 +4081,372 @@ export class locators {
             get workingWithDifficulty(){
                 return $('~Working with difficulty')
             }
+
+            get nextPlayButtonAfter(){
+                return $('//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.widget.ImageView[5]')
+            }
+
+            get previousPlayButtonAfter(){
+                return $('//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.widget.ImageView[3]')
+            }
+
+            get momentsofPleasureTitle(){
+                return $('~Moments of Pleasure')
+            }
+
+            get newEntryTitle(){
+                return $('~New Entry')
+            }
+
+            get momentsofPleasureP1(){
+                return $('~Happiness research suggests that many of us fail to notice pleasurable events and experiences as much as we might. Noticing these more can train our brain toward positive experiences, increasing our sense of wellbeing over time.')
+            }
+
+            get momentsofPleasureP2(){
+                return $('~To practice this, begin to look for small moments of pleasure that you encounter day to day. These are likely quite brief but when you notice them, allow your attention to rest there for several seconds before moving on.')
+            }
+
+            get momentsofPleasureP3(){
+                return $('~Examples of these include:')
+            }
+
+            get momentsofPleasureP4(){
+                return $('~•\nThe sky, cloud formations\n•\nA tree\n•\nA flower\n•\nThe sound of a bird or a child playing\n•\nThe smell of favourite foods\n•\nThe feel of something soft\n•\nThe sound of laughter')
+            }
+
+            get momentsofPleasureP5(){
+                return $('~Think of a few things like this - Sunset; the moon; the water; birds, that you find pleasurable')
+            }
+
+            get momentsofPleasureP6(){
+                return $('~This week begin to notice some of these - I noticed the birds when I was walking. Aim for noticing something several times this week and record them here')
+            }
+
+            get buttonSAVE(){
+                return $('~SAVE')
+            }
+
+            get myEntrieAction(){
+                return $('~my_entries_action')
+            }
+
+            get exitMomentsofPleasure(){
+                return $('~EXIT MOMENTS OF PLEASURE')
+            }
+
+            get myEntriesTitle(){
+                return $('~New Entry')
+            }
+
+            get emptyEntries(){
+                return $('~You don’t have any entry. Start writing!')
+            }
             
+            get newEntrieAction(){
+                return $('~new_entry_action')
+            }
+
+            get newEntriePopupTitle(){
+                return $('~New entry')
+            }
+
+            get newEntriePopupDescription(){
+                return $('~You made some new entry, would you like to save it before exiting?')
+            }
+
+            get newEntriePopupSave(){
+                return $('~SAVE AND CLOSE')
+            }
+
+            get newEntriePopupClose(){
+                return $('~close_button')
+            }
+
+            get attentionRestorationTitle(){
+                return $('~Attention Restoration')
+            }
+
+            get attentionRestorationP1(){
+                return $('~Attention restoration is a healing activity. These are the aimless, often in nature, kinds of things that are restorative.')
+            }
+
+            get attentionRestorationP2(){
+                return $('~Consider things you do now, things you did in the past but no longer do, or things that you would like to do in the future. Some examples:')
+            }
+
+            get attentionRestorationP3(){
+                return $('~•\nGazing at clouds\n•\nWatching a sunset or sunrise\n•\nListening to a babbling brook\n•\nWatching the leaves on a tree\n•\nWatching waves crash at a shoreline\n•\nWatching a hummingbird')
+            }
+
+            get attentionRestorationP4(){
+                return $('~Record a few attention restoration activities:')
+            }
+
+            get eXITATTENTIONRESTORATION(){
+                return $('~EXIT ATTENTION RESTORATION')
+            }
+
+            get workingonAcceptanceTitle(){
+                return $('~Working on Acceptance')
+            }
+
+            get descriptionTitle(){
+                return $('~Positive self talk statements')
+            }
+
+            get descriptionTitle(){
+                return $('~Positive self talk statements')
+            }
+
+            get homeTab(){
+                return $('~Home\nTab 2 of 3')
+            }
+
+            get writeZoneTitle(){
+                return $('~Write Zone')
+            }
+
+            get writeZoneInfoIcon(){
+                return $('~info_icon_action')
+            }
+
+            get writeZoneInfoDes1(){
+                return $('~Welcome to your journaling experience!')
+            }
+
+            get writeZoneInfoDes2(){
+                return $('~Remember, there is no right or wrong way to keep a journal, here are a few helpful tips from us to get you started.')
+            }
+
+            get writeZoneInfoDes3(){
+                return $('~Commit to writing in your journal on a daily basis.')
+            }
+
+            get writeZoneInfoDes4(){
+                return $('~Find a quiet time and place to journal that will allow you to reflect on your day.')
+            }
+
+            get writeZoneInfoDes5(){
+                return $('~Don’t critique your journal entries, be open to exploring.')
+            }
+
+            get writeZoneInfoDes6(){
+                return $('~Let your creativity guide you!')
+            }
+
+            get writeZoneInfoDescription(){
+                return $('If you worry a lot and are comfortable with writing, schedule write time. Choose a time of day that you want to devote to writing. Schedule no more than 15 minutes for this activity. Ideally choose the same time and place each time. Write your worries below without editing or thinking about them too much')
+            }
+
+            get NewEntryInfoDescription(){
+                return $('~If you worry a lot and are comfortable with writing, schedule write time. Choose a time of day that you want to devote to writing. Schedule no more than 15 minutes for this activity. Ideally choose the same time and place each time. Write your worries below without editing or thinking about them too much')
+            }
+
+            get NewEntryTextField1(){
+                return $('//android.view.View[@content-desc="zone_title_textfield"]')
+            }
+
+            get NewEntryTextBox1(){
+                return $('android=new UiSelector().resourceId("zone_title_textfield")')
+            }
+
+            get NewEntryTextField2(){
+                return $('//android.view.View[@content-desc="zone_text_textfield"]')
+            }
+            
+            get NewEntryTextBox2(){
+                return $('android=new UiSelector().resourceId("zone_text_textfield")')
+            }
+
+            playPercentage(value) {
+                return $(`~${value}%`)
+            }
+
+            get imageUpload(){
+                return $('~Upload a picture')
+            }
+
+            get saveEntryButton(){
+                return $('~SAVE')
+            }
+
+            get worryTree(){
+                return $('~zone_sound_action_worry-tree')
+            }
+
+            get fearLadder(){
+                return $('~zone_sound_action_fear-ladder')
+            }
+
+            get turningTowardsAway(){
+                return $('~zone_sound_action_turning-towards-away')
+            }
+
+            get relapsePreventionPlan(){
+                return $('~zone_sound_action_relapse-prevention-plan')
+            }
+
+            get abcExercise(){
+                return $('~zone_sound_action_abc-exercise')
+            }
+
+            get thoughtRecord(){
+                return $('~zone_sound_action_thought-record')
+            }
+
+            get assertiveCommunication(){
+                return $('~zone_sound_action_assertive-communication')
+            }
+
+            get selfCarePlan(){
+                return $('~zone_sound_action_emotional-self-care-plan')
+            }
+
+            get metaphorSimile(){
+                return $('~zone_sound_action_metaphor-simile')
+            }
+
+            get problemSolving(){
+                return $('~zone_sound_action_problem-solving')
+            }
+
+            get thinkZoneTitle(){
+                return $('~Think Zone')
+            }
+
+            get thinkZoneInfoIcon(){
+                return $('~info_icon_action')
+            }
+
+            get thinkZoneInfoDescription(){
+                return $('~Choose a time of day that you want to devote and schedule no more than 15 minutes for this activity. Ideally choose the same time and place each time. Perform the exercises without editing or thinking about them too much.')
+            }
+
+            get worryTreeTitle(){
+                return $('~Worry Tree')
+            }
+
+            get resouceAnxiety(){
+                return $('~Anxiety')
+            }
+
+            get resouceFeelBetter(){
+                return $('~Approaches to Feel Better')
+            }
+
+            get resouceEatingDisorders(){
+                return $('~Body Image and Eating Disorders')
+            }
+
+            get resouceDepression(){
+                return $('~Depression')
+            }
+            
+            get resouceHealthyRelationships(){
+                return $('~Healthy Relationships')
+            }
+
+            get resouceTraumaandViolence(){
+                return $('~Interpersonal Trauma and Violence')
+            }
+
+            get resouceAttentionDifficulties(){
+                return $('~Learning and Attention Difficulties')
+            }
+
+            get resouceLoneliness(){
+                return $('~Loneliness')
+            }
+
+            get resouceLowSelfEsteem(){
+                return $('~Low Self-Esteem')
+            }
+            
+            get resouceDistressingEmotions(){
+                return $('~Managing Distressing Emotions')
+            }
+
+            get resouceSleepProblems(){
+                return $('~Sleep Problems')
+            }
+
+            get resouceStress(){
+                return $('~Stress')
+            }
+
+            get resouceAddictions(){
+                return $('~Substance Abuse and Addictions')
+            }
+
+            get resouceSuicidePrevention(){
+                return $('~Suicide Prevention')
+            }
+
+            get resouceTrauma(){
+                return $('~Trauma')
+            }
+
+            get readMoreResource(){
+                return $('~Read more')
+            }
+
+            get readMoreAnxiety(){
+                return $('~If anxiety is a problem for you, you might want to explore the “Mind Zone” course offered through Carepath Digital Health. There you will find lots of good information and, over the course of 8 chapters or lessons, you will learn some simple strategies to help. There are some short documents here and other links that provide some information about different kinds of anxiety. Don’t forget to contact a counsellor if you need some more direction – they can help!')
+            }
+
+            get video1Des(){
+                return $('~Video: Generalized Anxiety Disorder – Causes, Symptoms and Treatment')
+            }
+
+            get video1Link(){
+                return $('~www.youtube.com/watch?v=9mPwQTiMSj8')
+            }
+
+            get videoBy1(){
+                return $('~By: Osmosis')
+            }
+
+            get video2Des(){
+                return $('~Video: How to Stop Struggling with Anxiety and Intense Emotions')
+            }
+
+            get video2Link(){
+                return $('~www.youtube.com/watch?v=CwVN5e1YavM')
+            }
+
+            get videoBy2(){
+                return $('~By: Therapy in a Nutshells')
+            }
+
+            get video3Des(){
+                return $('~Video: TEDx Talk - Social Anxiety in the Modern World')
+            }
+
+            get video3Link(){
+                return $('~www.youtube.com/watch?v=EFhP4wP1TzU')
+            }
+
+            get videoBy3(){
+                return $('~By: Dr. Fallon Goodman')
+            }
+
+            get video4Des(){
+                return $('~Guide: Facing Your Fears - Exposure')
+            }
+
+            get video4Link(){
+                return $('~www.anxietycanada.com/sites/default/files/FacingFears_Exposure.pdf')
+            }
+
+            get videoBy4(){
+                return $('~By: Anxiety Canada')
+            }
+
+            anxietyResourcesTexts(field){
+                return $(`//android.view.View[@content-desc="${field}"`)
+            }
+
+            anxietyResourcesVideos(field){
+                return $(`//android.view.View[@content-desc="${field}"`)
+            }
         }
