@@ -218,10 +218,10 @@ export class keywords {
         } catch (error) {
             console.log(error)
         } finally {
-            await driver.execute('mobile: shell', {
-                command: 'pm clear',
-                args: ['com.android.chrome'],
-            });
+            // await driver.execute('mobile: shell', {
+            //     command: 'pm clear',
+            //     args: ['com.android.chrome'],
+            // });
             await browser.pause(3000)
             await driver.terminateApp('com.android.chrome');
         }
