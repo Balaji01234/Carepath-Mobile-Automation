@@ -399,12 +399,210 @@ export class locators {
         return $('~upload_button')
     }
 
-    get selectFile(){
+    get selectFile() {
         return $('(//android.widget.ImageView[@resource-id="com.google.android.providers.media.module:id/icon_thumbnail"])[1]')
     }
     errorText(value) {
         return $(`~${value}`)
     }
 
+    get backDefaultNotification() {
+        return $('android=new UiSelector().description("Navigate up")')
+    }
+
+    get hamburgerMenu() {
+        return $('~hamburger_action')
+    }
+
+    get myProfile() {
+        return $('~My Profile')
+    }
+
+    editInformationIcon(value) {
+        return $(`//android.view.View[@content-desc="${value}"]//..//android.widget.Button[@content-desc="edit_button"]`)
+    }
+
+    get editFirstName() {
+        return $('//android.widget.EditText[@resource-id="first_name_textfield"]');
+    }
+
+    get editLastName() {
+        return $('//android.widget.EditText[@resource-id="last_name_textfield"]');
+    }
+
+    get userNameField() {
+        return $('~Username')
+    }
+
+    get userNameHintText() {
+        return $('~You can use letters, numbers or symbols')
+    }
+
+    get userNameInput() {
+        return $('//android.widget.EditText[@resource-id="user_name_textfield"]')
+    }
+
+    get continueButton() {
+        return $('android=new UiSelector().resourceId("continue_text")')
+    }
+
+    get completeYourProfilePopup() {
+        return $('~Complete Your Profile')
+    }
+
+    get completeYourProfileText() {
+        return $('~Please take some time to complete your profile by adding Personal information.\n\nWe collect information for the medical purposes. Based on that, our clinicians can provide you with faster and better support.')
+    }
+
+    get completeNowButton() {
+        return $('~COMPLETE NOW')
+    }
+
+    get personalInformationPage() {
+        return $('~Personal Information')
+    }
+
+    get howDoYouIdentify() {
+        return $('~How do you identify?')
+    }
+
+    selectOptionInPersonalInformation(value) {
+        return $(`~${value}`)
+    }
+
+    get preferredLanguage() {
+        return $('~What is your preferred language?')
+    }
+
+    get maritalStatus() {
+        return $('~What is your marital status?')
+    }
+
+    get doYouHaveChildren() {
+        return $('~Do you have any children?')
+    }
+
+    get primaryReasonText(){
+        return $('~Primary reason for accessing our services:')
+    }
+
+    get reasonForSeekingText(){
+        return $('~Reason for seeking care (include signs and symptoms)')
+    }
+
+    get reasonForSeekingCare(){
+        return $('//android.widget.EditText[@resource-id="primary_reason_textfield"]')
+    }
+
+    get upcomingTreatments(){
+        return $('~Do you have any upcoming medical appointments/treatments?')
+    }
+
+    get OKButton(){
+        return $('~OK')
+    }
+
+    get datePicker(){
+        return $('~date_picker_action')
+    }
+
+    
+    accessibilityLocator(id) {
+        return $(`~${id}`)
+    }
+
+    get profileComplete(){
+        return $('~Profile Complete!')
+    }
+
+    get close(){
+        return $('~CLOSE')
+    }
+
+    get googleSignIn(){
+        return $('//android.widget.TextView[@text="Sign in"]')
+    }
+
+    get googleMail(){
+        return $('//android.widget.EditText[@resource-id="identifierId"]')
+    }
+
+    get googleSavePasswordPopup(){
+        return $('//android.widget.TextView[@text="Use saved password?"]')
+    }
+
+    get googleNextButton(){
+        return $('//android.widget.Button[@text="Next"]')
+    }
+
+    get googleWelcomeScreen(){
+        return $('//android.widget.TextView[@text="Welcome"]')
+    }
+
+    get googlePasswordInput(){
+        return $('//*[@hint="Enter your password"]')
+    }
+
+    get googleApps(){
+        return $('//android.widget.Button[@text="Google apps"]')
+    }
+
+    get gmailOption(){
+        return $('~Gmail, row 3 of 6 and column 1 of 3 in the first section (opens a new tab)')
+    }
+
+    get useWebVersion(){
+        return $('//android.widget.TextView[@text="Use the web version"]')
+    }
+
+    get searchMail(){
+        return $('//android.widget.EditText[@hint="Search"]')
+    }
+
+    get approveMsg(){
+        return $('(//android.widget.Button[contains(@text,"Prabhakaran Zoft")])[1]')
+    }
+
+     mailId(mail){
+        return $(`//android.widget.TextView[@text="${mail}."]`)
+    }
+
+    get approveButton(){
+        return $('//android.widget.TextView[@text="APPROVE"]')
+    }
+
+    get okResponse(){
+        return $('//android.widget.TextView[@text="OK"]')
+    }
+
+    get linkForApproval(){
+        return $('//android.widget.TextView[@text="Link"]')
+    }
+
+    get onboardingToTheAppText(){
+        return $('//android.widget.TextView[@text="A new patient request for onboarding to the Carepath app. Please find the information below:"]')
+    }
+
+    get sigInWithId(){
+        return $('//android.widget.Button[@resource-id="com.android.chrome:id/touch_to_fill_button_title"]')
+    }
+
+    get confirmButton(){
+        return $('~CONFIRM USERNAME')
+    }
+
+    get confirmNewUserText(){
+        return $('//android.view.View[@resource-id="please_confirm_new_username_text"]')
+    }
+
+    get successMsgOnSettingUserName(){
+        return $('//android.view.View[@resource-id="you_have_successfully_updated_username_text"]')
+    }
+
+    get contactInformation(){
+        return $('~Contact Information')
+    }
+
+    
 
 }
