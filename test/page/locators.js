@@ -482,127 +482,213 @@ export class locators {
         return $('~Do you have any children?')
     }
 
-    get primaryReasonText(){
+    get primaryReasonText() {
         return $('~Primary reason for accessing our services:')
     }
 
-    get reasonForSeekingText(){
+    get reasonForSeekingText() {
         return $('~Reason for seeking care (include signs and symptoms)')
     }
 
-    get reasonForSeekingCare(){
+    get reasonForSeekingCare() {
         return $('//android.widget.EditText[@resource-id="primary_reason_textfield"]')
     }
 
-    get upcomingTreatments(){
+    get upcomingTreatments() {
         return $('~Do you have any upcoming medical appointments/treatments?')
     }
 
-    get OKButton(){
+    get OKButton() {
         return $('~OK')
     }
 
-    get datePicker(){
+    get datePicker() {
         return $('~date_picker_action')
     }
 
-    
+
     accessibilityLocator(id) {
         return $(`~${id}`)
     }
 
-    get profileComplete(){
+    get profileComplete() {
         return $('~Profile Complete!')
     }
 
-    get close(){
+    get close() {
         return $('~CLOSE')
     }
 
-    get googleSignIn(){
+    get googleSignIn() {
         return $('//android.widget.TextView[@text="Sign in"]')
     }
 
-    get googleMail(){
+    get googleMail() {
         return $('//android.widget.EditText[@resource-id="identifierId"]')
     }
 
-    get googleSavePasswordPopup(){
+    get googleSavePasswordPopup() {
         return $('//android.widget.TextView[@text="Use saved password?"]')
     }
 
-    get googleNextButton(){
+    get googleNextButton() {
         return $('//android.widget.Button[@text="Next"]')
     }
 
-    get googleWelcomeScreen(){
+    get googleWelcomeScreen() {
         return $('//android.widget.TextView[@text="Welcome"]')
     }
 
-    get googlePasswordInput(){
+    get googlePasswordInput() {
         return $('//*[@hint="Enter your password"]')
     }
 
-    get googleApps(){
+    get googleApps() {
         return $('//android.widget.Button[@text="Google apps"]')
     }
 
-    get gmailOption(){
+    get gmailOption() {
         return $('~Gmail, row 3 of 6 and column 1 of 3 in the first section (opens a new tab)')
     }
 
-    get useWebVersion(){
+    get useWebVersion() {
         return $('//android.widget.TextView[@text="Use the web version"]')
     }
 
-    get searchMail(){
+    get searchMail() {
         return $('//android.widget.EditText[@hint="Search"]')
     }
 
-    get approveMsg(){
+    get approveMsg() {
         return $('(//android.widget.Button[contains(@text,"Prabhakaran Zoft")])[1]')
     }
 
-     mailId(mail){
+    mailId(mail) {
         return $(`//android.widget.TextView[@text="${mail}."]`)
     }
 
-    get approveButton(){
+    get approveButton() {
         return $('//android.widget.TextView[@text="APPROVE"]')
     }
 
-    get okResponse(){
+    get okResponse() {
         return $('//android.widget.TextView[@text="OK"]')
     }
 
-    get linkForApproval(){
+    get linkForApproval() {
         return $('//android.widget.TextView[@text="Link"]')
     }
 
-    get onboardingToTheAppText(){
+    get onboardingToTheAppText() {
         return $('//android.widget.TextView[@text="A new patient request for onboarding to the Carepath app. Please find the information below:"]')
     }
 
-    get sigInWithId(){
+    get sigInWithId() {
         return $('//android.widget.Button[@resource-id="com.android.chrome:id/touch_to_fill_button_title"]')
     }
 
-    get confirmButton(){
+    get confirmButton() {
         return $('~CONFIRM USERNAME')
     }
 
-    get confirmNewUserText(){
+    get confirmNewUserText() {
         return $('//android.view.View[@resource-id="please_confirm_new_username_text"]')
     }
 
-    get successMsgOnSettingUserName(){
+    get successMsgOnSettingUserName() {
         return $('//android.view.View[@resource-id="you_have_successfully_updated_username_text"]')
     }
 
-    get contactInformation(){
+    get contactInformation() {
         return $('~Contact Information')
     }
 
-    
+    get welcomeBackScreen() {
+        return $('//android.widget.TextView[@text="Welcome Back"]')
+    }
+
+    get adminUserName() {
+        return $('//android.widget.EditText[@resource-id="username"]')
+    }
+
+    get adminPassword() {
+        return $('//android.widget.EditText[@resource-id="password"]')
+    }
+
+    get submitButton() {
+        return $('//android.widget.Button[@resource-id="submit"]')
+    }
+
+    programInAdmin(programName) {
+        return $(`//android.widget.TextView[@text="${programName}"]`)
+    }
+
+    get addNewButton() {
+        return $('//android.widget.Button[@text="ADD NEW"]')
+    }
+
+    get createPopup() {
+        return $('//android.widget.TextView[@text="What would you like to create?"]')
+    }
+
+    get createGroupButton() {
+        return $('//android.widget.TextView[@text="Create a new Group"]')
+    }
+
+    get createEventButton() {
+        return $('//android.widget.TextView[@text="Create a new Event"]')
+    }
+
+    get communityEventPage() {
+        return $('//android.widget.TextView[@text="New Community Event"]')
+    }
+
+    get eventName() {
+        return $('//android.widget.EditText[@resource-id="name"]')
+    }
+
+    get eventDescription() {
+        return $('//android.view.View[@text="Description:"]')
+    }
+
+    get descriptionInput() {
+        return $('//android.widget.EditText[@resource-id="description"]')
+    }
+
+    selectDateForEvent(date) {
+        return $(`(//android.widget.TextView[@text="${date}"])[1]`)
+    }
+
+    get nextMonth() {
+        return $('android=new UiSelector().className("android.widget.Button").instance(3)')
+    }
+
+    get publishEvent(){
+        return $('//android.widget.Button[@text="PUBLISH EVENT"]')
+    }
+
+    createdEventName(eventName){
+        return $(`//android.widget.TextView[@text="${eventName}"]`)
+    }
+
+    get eventTime(){
+        return $('(//android.view.View//android.widget.Button[@resource-id="dropdown-btn"])[1]')
+    }
+
+    get accountDropdown(){
+        return $('//android.widget.Image[@text="down-arrow-icon"]')
+    }
+
+    get adminLogout(){
+        return $('//android.widget.Button[@text="Log Out"]')
+    }
+
+    get autoFill(){
+        return $('//android.widget.TextView[@resource-id="com.android.chrome:id/touch_to_fill_sheet_title"]')
+    }
+
+    get signInButtonInAutofill(){
+        return $('//*[@text="Sign in"]')
+    }
 
 }

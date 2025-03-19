@@ -77,7 +77,7 @@ describe('My Profile Positive', async () => {
         });
     }
 
-    it.skip("Gmail", async () => {
-        await Keywords.programApprove("prabhaAutoANDG9842@mailinator.com");
+    it.only("admin", async () => {
+        await Keywords.eventCreationInAdminPortal("AutomationTest","Test Event");
     })
 });
