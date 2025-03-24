@@ -7,7 +7,7 @@ import path from 'path';
 import { glob } from "glob";
 
 let testDataFilePath = null;
-
+const usedEmails = new Set();
 /**
   *
   * To generate Random Numbers
@@ -139,6 +139,59 @@ export const readData1 = async (folder, file, sheetName, headerName, rowName) =>
         return undefined;
     }
 };
+
+export const getUniqueEmailByProgramRoleAndScenario = async (folder, file, sheetName, programName, roleName, scenario) => {
+    try {
+        const filePath = `./dataFiles/${folder}/${file}.xlsx`;
+        const workbook = new ExcelJS.Workbook();
+
+        await workbook.xlsx.readFile(filePath);
+        const sheet = workbook.getWorksheet(sheetName);
+        if (!sheet) throw new Error(`Sheet "${sheetName}" not found.`);
+
+        const headers = sheet.getRow(1).values;
+        const conditionIndex = headers.indexOf("Condition");
+        const roleIndex = headers.indexOf("Role");
+        const programIndex = headers.indexOf("Program");
+        const emailIndex = headers.indexOf("Email");
+        const approveStatusIndex = headers.indexOf("Approve Status");
+        const scenarioIndex = headers.indexOf("Onboarding Scenario");
+
+        if ([conditionIndex, roleIndex, programIndex, emailIndex, approveStatusIndex, scenarioIndex].includes(-1)) {
+            throw new Error("Missing required columns.");
+        }
+
+        for (let i = 2; i <= sheet.rowCount; i++) {
+            const row = sheet.getRow(i);
+            const condition = row.getCell(conditionIndex).value?.toString().trim().toLowerCase();
+            const role = row.getCell(roleIndex).value?.toString().trim().toLowerCase();
+            const program = row.getCell(programIndex).value?.toString().trim().toLowerCase();
+            const approveStatus = row.getCell(approveStatusIndex).value?.toString().trim().toLowerCase();
+            const onboardingScenario = row.getCell(scenarioIndex).value?.toString().trim().toLowerCase();
+            const email = row.getCell(emailIndex).value?.toString().trim();
+
+            if (
+                condition === "yes" &&
+                role === roleName.toLowerCase() &&
+                program === programName.toLowerCase() &&
+                approveStatus === "approved" &&
+                onboardingScenario === scenario.toLowerCase() &&
+                !usedEmails.has(email) // Ensure email hasn't been used
+            ) {
+                usedEmails.add(email); // Mark this email as used
+                return email;
+            }
+        }
+
+        return undefined; // No new email found
+    } catch (error) {
+        console.error("Error fetching unique email:", error.message);
+        return undefined;
+    }
+};
+
+
+
 
 export const readTestcase = async (folder, file, sheetName, headerName, rowName) => {
     try {

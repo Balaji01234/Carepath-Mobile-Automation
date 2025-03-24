@@ -1,7 +1,7 @@
 import { locators } from '../../page/locators.js';
 import { keywords } from '../../page/keywords.js';
 import allureReporter from '@wdio/allure-reporter'
-import { readData1, getFilteredTests } from '../../../utils/common.js';
+import { readData1, getFilteredTests,getUniqueEmailByProgramRoleAndScenario } from '../../../utils/common.js';
 import { expect } from 'chai';
 import { onboardLocators } from '../../page/onboard.locators.js';
 
@@ -16,7 +16,9 @@ describe('Onboarding - Mental Health Program', async () => {
     for (let i = 0; i < testCases.length; i++) {
         it(`${testCases[i].testId} - ${testCases[i].testDescription}`, async () => {
             try {
-                const userName = await readData1("onboarding", "onboardingMH - Negative", "MulipleOptionMH", "Email", `${testCases[i].testId}`);
+                const userName = await getUniqueEmailByProgramRoleAndScenario("signup", "SignUp-withApproval", "TC_01", "Mental Health", "Employee", "Negative");
+                if(userName === 'undefined'){
+                await writeExcelData1("onboarding", "onboardingMH - Negative", "MulipleOptionMH", `${testCases[i].testId}`, "Email", userName);
                 const password = await readData1("onboarding", "onboardingMH - Negative", "MulipleOptionMH", "Password", `${testCases[i].testId}`);
                 const welcomeOnboardText = await readData1("onboarding", "onboardingMH - Negative", "MulipleOptionMH", "WelcomeOnboarding", `${testCases[i].testId}`);
                 const accessApproveText = await readData1("onboarding", "onboardingMH - Negative", "MulipleOptionMH", "AccessApprovedText", `${testCases[i].testId}`);
@@ -504,6 +506,9 @@ describe('Onboarding - Mental Health Program', async () => {
                 await Keywords.click(Locatoronboard.goToProgramSelection, "Go to program selection button");
                 await Keywords.waitForDisplay(locator.homePage, 45000, "Home Page");
                 await Keywords.AllureInfo("Onboard Flow Completed!!!");
+            }else{
+                throw new Error("Please Check Program is Approved or not, since username was: " + userName);
+            }
             }
             catch (err) {
                 throw new Error(err);

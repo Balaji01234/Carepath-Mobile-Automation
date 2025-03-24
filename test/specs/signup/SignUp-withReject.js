@@ -4,13 +4,13 @@ import { getRandomString, saveTestDataToJson, readData1, generateRandomNumber, w
 import allureReporter from '@wdio/allure-reporter'
 import { expect } from 'chai';
 
-describe('Sign-Up Positive', async () => {
+describe('Sign-Up - with Reject - Positive', async () => {
 
     const locator = new locators();
     const Keywords = new keywords(locator);
     const timeout = process.env.DISPLAY_TIMEOUT
     let testName = '';
-    const testCases = getFilteredTests("signup", "Signup-Positive", "TC_01");
+    const testCases = getFilteredTests("signup", "SignUp-withReject", "TC_01");
 
 
     beforeEach(async function () {
@@ -26,30 +26,30 @@ describe('Sign-Up Positive', async () => {
     for (let i = 0; i < testCases.length; i++) {
         it(`${testCases[i].testId} - ${testCases[i].testDescription}`, async () => {
             try {
-                const role = await readData1("signup", "Signup-Positive", "TC_01", "Role", `${testCases[i].testId}`);
-                const description = await readData1("signup", "Signup-Positive", "TC_01", "Test Description", `${testCases[i].testId}`);
+                const role = await readData1("signup", "SignUp-withReject", "TC_01", "Role", `${testCases[i].testId}`);
+                const description = await readData1("signup", "SignUp-withReject", "TC_01", "Test Description", `${testCases[i].testId}`);
                 allureReporter.addDescription(description)
                 console.log(`Role: ${role}`)
-                const employeeText = await readData1("signup", "Signup-Positive", "TC_01", "EmployeeText", `${testCases[i].testId}`);
-                const studentText = await readData1("signup", "Signup-Positive", "TC_01", "StudentText", `${testCases[i].testId}`);
+                const employeeText = await readData1("signup", "SignUp-withReject", "TC_01", "EmployeeText", `${testCases[i].testId}`);
+                const studentText = await readData1("signup", "SignUp-withReject", "TC_01", "StudentText", `${testCases[i].testId}`);
                 const FirstName = `PrabhaAuto${getRandomString()}`
-                await writeExcelData1("signup", "Signup-Positive", "TC_01", `${testCases[i].testId}`, "Firstname", FirstName);
+                await writeExcelData1("signup", "SignUp-withReject", "TC_01", `${testCases[i].testId}`, "Firstname", FirstName);
                 const LastName = (`Automation${getRandomString()}`).toLowerCase();
-                await writeExcelData1("signup", "Signup-Positive", "TC_01", `${testCases[i].testId}`, "Lastname", LastName);
-                const mailPrefix = await readData1("signup", "Signup-Positive", "TC_01", "MailPrefix", `${testCases[i].testId}`);
+                await writeExcelData1("signup", "SignUp-withReject", "TC_01", `${testCases[i].testId}`, "Lastname", LastName);
+                const mailPrefix = await readData1("signup", "SignUp-withReject", "TC_01", "MailPrefix", `${testCases[i].testId}`);
                 const mail = `${mailPrefix}${getRandomString() + generateRandomNumber()}@mailinator.com`;
-                await writeExcelData1("signup", "Signup-Positive", "TC_01", `${testCases[i].testId}`, "Email", mail);
-                const phoneNumber = await readData1("signup", "Signup-Positive", "TC_01", "Phone number", `${testCases[i].testId}`);
-                const password = await readData1("signup", "Signup-Positive", "TC_01", "Password", `${testCases[i].testId}`);
-                const employerName = await readData1("signup", "Signup-Positive", "TC_01", "Employer name", `${testCases[i].testId}`);
-                const referral = await readData1("signup", "Signup-Positive", "TC_01", "Referrals", `${testCases[i].testId}`);
-                const dob = await readData1("signup", "Signup-Positive", "TC_01", "DOB", `${testCases[i].testId}`);
-                const relation = await readData1("signup", "Signup-Positive", "TC_01", "Relation", `${testCases[i].testId}`);
-                const referralDropdownText = await readData1("signup", "Signup-Positive", "TC_01", "ReferralText", `${testCases[i].testId}`);
-                const dobText = await readData1("signup", "Signup-Positive", "TC_01", "dobText", `${testCases[i].testId}`);
-                const studentId = await readData1("signup", "Signup-Positive", "TC_01", "StudentId", `${testCases[i].testId}`);
-                const courseEnrolled = await readData1("signup", "Signup-Positive", "TC_01", "CourseEnrolled", `${testCases[i].testId}`);
-                const program = await readData1("signup", "Signup-Positive", "TC_01", "Program", `${testCases[i].testId}`);
+                await writeExcelData1("signup", "SignUp-withReject", "TC_01", `${testCases[i].testId}`, "Email", mail);
+                const phoneNumber = await readData1("signup", "SignUp-withReject", "TC_01", "Phone number", `${testCases[i].testId}`);
+                const password = await readData1("signup", "SignUp-withReject", "TC_01", "Password", `${testCases[i].testId}`);
+                const employerName = await readData1("signup", "SignUp-withReject", "TC_01", "Employer name", `${testCases[i].testId}`);
+                const referral = await readData1("signup", "SignUp-withReject", "TC_01", "Referrals", `${testCases[i].testId}`);
+                const dob = await readData1("signup", "SignUp-withReject", "TC_01", "DOB", `${testCases[i].testId}`);
+                const relation = await readData1("signup", "SignUp-withReject", "TC_01", "Relation", `${testCases[i].testId}`);
+                const referralDropdownText = await readData1("signup", "SignUp-withReject", "TC_01", "ReferralText", `${testCases[i].testId}`);
+                const dobText = await readData1("signup", "SignUp-withReject", "TC_01", "dobText", `${testCases[i].testId}`);
+                const studentId = await readData1("signup", "SignUp-withReject", "TC_01", "StudentId", `${testCases[i].testId}`);
+                const courseEnrolled = await readData1("signup", "SignUp-withReject", "TC_01", "CourseEnrolled", `${testCases[i].testId}`);
+                const program = await readData1("signup", "SignUp-withReject", "TC_01", "Program", `${testCases[i].testId}`);
                 await Keywords.waitForDisplay(locator.startNow, 60000, "Start Now Button")
                 await Keywords.verifyElementIsEnabled(locator.startNow, "Start Now Button")
                 await Keywords.click(locator.startNow, "Start Now Button")
@@ -148,9 +148,24 @@ describe('Sign-Up Positive', async () => {
                 await Keywords.waitForDisplay(locator.success, 45000, "Success Message!!!");
                 await Keywords.click(locator.closeButton, "Close Button");
                 await Keywords.waitForDisplay(locator.startNow, 30000, "Start Now Button");
-                await saveTestDataToJson(testCases[i].testId, testCases[i].testDescription, role, FirstName, LastName, mail, password, program);
+                await saveTestDataToJson(testCases[i].testId, testCases[i].testDescription, role, FirstName, LastName, mail, password, program)
+                await Keywords.programApprove(mail);
+                await Keywords.login(mail, password, program);
+                await Keywords.verifyElementDisplayed(locator.continueButton, "Continue Button")
+                await Keywords.click(locator.continueButton, "Continue Button");
+                if(program.toLowerCase() === "mental health" ){
+                    await Keywords.verifyElementDisplayed(locator.rejectMessageForMH, "Reject Message");
+                }else if(program.toLowerCase() === "cancer"){
+                    await Keywords.verifyElementDisplayed(locator.rejectMessageForCancer, "Reject Message");
+                }else if(program.toLowerCase() === "chronic disease"){
+                    await Keywords.verifyElementDisplayed(locator.rejectMessageForChronic, "Reject Message");
+                }else if(program.toLowerCase() === "elder care"){
+                    await Keywords.verifyElementDisplayed(locator.rejectMessageForElderCare, "Reject Message");
+                }
+                await Keywords.verifyElementDisplayed(locator.closeAndDeleteButton, "Close and Delete Button")
+                await Keywords.click(locator.closeAndDeleteButton, "Close and Delete Button")
+                await Keywords.verifyElementDisplayed(locator.userName, "Login Screen");
             } catch (err) {
-                await writeExcelData1("signup", "Signup-Positive", "TC_01", `${testCases[i].testId}`, "Approve Status", "Not Approved");
                 throw new Error(err);
             }
         })

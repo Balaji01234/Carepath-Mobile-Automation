@@ -84,6 +84,7 @@ export class keywords {
             await locator.click();
             await browser.pause(2000);
             await locator.clearValue();
+            text = text?.toString().trim();
             await locator.setValue(text);
             await this.AllurePass(`Successfully set value ${text}`)
             allureReporter.endStep('passed');
@@ -563,18 +564,23 @@ export class keywords {
     async getOTPFromMailinator(mail) {
         try {
             await driver.startActivity('com.android.chrome', 'com.google.android.apps.chrome.Main');
-            if (await this.locator.chromeDismissButton.isDisplayed({ timeout: 60000 })) {
+            if (await this.locator.chromeDismissButton.isDisplayed({ timeout: 90000 })) {
                 await this.locator.chromeDismissButton.click()
             }
-            if (await this.locator.chromeGotIt.isDisplayed({ timeout: 60000 })) {
+            if (await this.locator.chromeDismissButton.isDisplayed({ timeout: 100000 })) {
+                await this.locator.chromeDismissButton.click()
+            }
+            if (await this.locator.chromeGotIt.isDisplayed({ timeout: 90000 })) {
                 await this.locator.chromeGotIt.click()
             }
-            if (await this.locator.chromeEasierPopup.isDisplayed({ timeout: 60000 })) {
+            if (await this.locator.chromeEasierPopup.isDisplayed({ timeout: 90000 })) {
                 await this.click(this.locator.noThanks, 'No Thanks')
             }
-            await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 60000 });
+            await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 90000 });
             await this.locator.chromeHomeButton.click();
             await this.locator.chromeSearchBox.click();
+            await this.locator.chromeUrl.waitForDisplayed({ timeout: 60000 });
+            await this.locator.chromeUrl.waitForEnabled({ timeout: 60000 });
             await this.SetValue(this.locator.chromeUrl, process.env.MAILINATOR);
             await browser.pause(2000)
             await driver.keys('Enter');
@@ -604,10 +610,10 @@ export class keywords {
         } catch (error) {
             console.log(error)
         } finally {
-            await driver.execute('mobile: shell', {
-                command: 'pm clear',
-                args: ['com.android.chrome'],
-            });
+            // await driver.execute('mobile: shell', {
+            //     command: 'pm clear',
+            //     args: ['com.android.chrome'],
+            // });
             await browser.pause(3000)
             await driver.terminateApp('com.android.chrome');
         }
@@ -656,10 +662,10 @@ export class keywords {
         } catch (error) {
             console.log(error)
         } finally {
-            await driver.execute('mobile: shell', {
-                command: 'pm clear',
-                args: ['com.android.chrome'],
-            });
+            // await driver.execute('mobile: shell', {
+            //     command: 'pm clear',
+            //     args: ['com.android.chrome'],
+            // });
             await browser.pause(3000)
             await driver.terminateApp('com.android.chrome');
         }
@@ -991,7 +997,7 @@ export class keywords {
         await this.click(this.forgotLocator.Hambugar, "Hamburger menu");
         await this.verifyElementDisplayed(this.forgotLocator.myprofile, "My Profile");
         await this.click(this.forgotLocator.myprofile, "My Profile");
-        await this.click(this.forgotLocator.edit, "Edit Icon");
+        await this.click(this.locator.editInformationIcon("My Profile"), "Edit Information Icon");
         await this.click(this.forgotLocator.changePassword, "Change Password Button");
         await this.verifyElementDisplayed(this.forgotLocator.changepasswordScreen, "Change Password Screen");
         await this.SetValue(this.forgotLocator.changepasswordpage, newPassword);
@@ -1100,11 +1106,22 @@ export class keywords {
 
     async scrollWithUiScroll(Attribute, Value) {
         try {
-            await $(`android=new UiScrollable(new UiSelector().scrollable(true))` +
+            const element = await $(`android=new UiScrollable(new UiSelector().scrollable(true))` +
                 `.scrollIntoView(new UiSelector().${Attribute}("${Value}"))`);
+            await element.waitForDisplayed({ timeout: 30000 });
             this.AllurePass("Successfully scroll to the element: " + Value);
         } catch (err) {
             this.AllureFail("Scroll to the element: " + Value + " is unsuccessful: " + err);
+            throw new Error(err);
+        }
+    }
+
+    async scrollToElement1(element) {
+        try {
+            await driver.execute((el) => el.scrollIntoView({ behavior: "smooth", block: "center" }), element);
+            this.AllurePass("Successfully scrolled to element: " + await element.getText());
+        } catch (err) {
+            this.AllureFail("Scroll to element failed: " + err.message);
             throw new Error(err);
         }
     }
@@ -1116,11 +1133,14 @@ export class keywords {
      * @param {*} value 
      */
     async scrollToEnd(value) {
+        allureReporter.startStep("Scroll to the end");
         try {
             $(`android=new UiScrollable(new UiSelector().scrollable(true)).scrollToEnd(1,${value})`)
-            this.AllurePass("Successfully scroll to the end");
+            this.AllurePass1("Successfully scroll to the end");
+            allureReporter.endStep('passed');
         } catch (err) {
             this.AllureFail("Scroll to the end is unsuccessful: " + err);
+            allureReporter.endStep('failed');
             throw new Error(err);
         }
     }
@@ -1140,4 +1160,446 @@ export class keywords {
         }
     }
 
+    /**
+     * Login to the Carepath application
+     * @param {*} username 
+     * @param {*} password 
+     * @param {*} program 
+     */
+    async login(username, password, program) {
+        allureReporter.startStep(`🔍 ****Log In****" `);
+        try {
+            await this.waitForDisplay(this.locator.startNow, 60000, "Start Now Button")
+            await this.click(this.locator.startNow, "Start Now Button")
+            await this.SetValue(this.locator.userName, username);
+            await this.SetValue(this.locator.password, password);
+            await this.click(this.locator.loginButton, "Login Button");
+            try {
+                const isDisplayed = await this.locator.allowButton.waitForDisplayed();
+                if (isDisplayed) {
+                    await this.click(this.locator.allowButton, "Allow button");
+                }
+            } catch (error) {
+                // console.warn("Allow button did not appear within 90 seconds.");
+            }
+            try {
+                const isDisplayed = await this.locator.allowNotificationButton.waitForDisplayed();
+                if (isDisplayed) {
+                    await this.click(this.locator.allowNotificationButton, "Allow notification button");
+                }
+            } catch (error) {
+                // console.warn("Allow button did not appear within 90 seconds.");
+            }
+            if (await this.locator.allowButton.isDisplayed({ timeout: 25000 })) {
+                await this.click(this.locator.allowButton, "allow button");
+                if (await this.locator.backDefaultNotification.isDisplayed({ timeout: 30000 })) {
+                    await this.click(this.locator.backDefaultNotification, "Back arrow for Default notification button");
+                }
+            }
+            await this.waitForDisplay(this.locator.program(program), 60000, program);
+            await this.click(this.locator.program(program), program);
+            await this.AllurePass("Successfully Logged in");
+            allureReporter.endStep('passed');
+        } catch (err) {
+            await this.AllureFail("Login failed", err);
+            allureReporter.endStep('failed');
+            throw new Error(`error in login: ${err}`);
+        }
+    }
+
+    async getFormattedDate(inputDate) {
+        let day, month, year;
+
+        // Normalize the date format by replacing '/' or '-' with '-'
+        const formattedDate = inputDate.replace(/[-\/]/g, '-');
+
+        // Detect if format is DD-MM-YYYY or YYYY-MM-DD
+        const parts = formattedDate.split('-');
+
+        if (parts[0].length === 4) {
+            // Format: YYYY-MM-DD (e.g., 2025-03-17)
+            [year, month, day] = parts;
+        } else {
+            // Format: DD-MM-YYYY (e.g., 17-03-2025)
+            [day, month, year] = parts;
+        }
+
+        // Convert numeric month to full month name
+        const monthNames = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        const monthIndex = parseInt(month, 10) - 1;
+        const monthName = monthNames[monthIndex];
+
+        // Get the day of the week
+        const dateObj = new Date(`${year}-${month}-${day}`);
+        const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const dayName = dayNames[dateObj.getDay()];
+
+        return `${day}, ${dayName}, ${monthName} ${day}, ${year}`;
+    }
+
+    async getFormattedDate1(inputDate) {
+        let day, month, year;
+
+        // Normalize the date format by replacing '/' or '-' with '-'
+        const formattedDate = inputDate.replace(/[-\/]/g, '-');
+
+        // Detect if format is DD-MM-YYYY or YYYY-MM-DD
+        const parts = formattedDate.split('-');
+
+        if (parts[0].length === 4) {
+            // Format: YYYY-MM-DD (e.g., 2025-03-17)
+            [year, month, day] = parts;
+        } else {
+            // Format: DD-MM-YYYY (e.g., 17-03-2025)
+            [day, month, year] = parts;
+        }
+
+        // Convert numeric month to full month name
+        const monthNames = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        const monthIndex = parseInt(month, 10) - 1;
+        const monthName = monthNames[monthIndex];
+
+        // Get the day of the week
+        const dateObj = new Date(`${year}-${month}-${day}`);
+        const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const dayName = dayNames[dateObj.getDay()];
+
+        return `${day}, ${dayName}, ${monthName} ${day}, ${year}, Today`;
+    }
+
+    async completeYourProfile(option) {
+        try {
+            allureReporter.startStep("Complete your profile");
+            await this.verifyElementDisplayed(this.locator.completeYourProfilePopup, "Complete your profile");
+            // await this.verifyElementDisplayed(this.locator.completeYourProfileText, "Complete your profile text");
+            await this.verifyElementIsEnabled(this.locator.completeNowButton, "Complete now Button");
+            await this.click(this.locator.completeNowButton, "Complete now Button");
+            await this.verifyElementDisplayed(this.locator.personalInformationPage, "Personal Information Page");
+            await this.verifyElementDisplayed(this.locator.howDoYouIdentify, "How do you identify yourself?");
+            await this.click(this.locator.selectOptionInPersonalInformation(option.gender), "Select Gender");
+            await this.verifyElementDisplayed(this.locator.personalInformationPage, "Personal Information Page");
+            await this.verifyElementDisplayed(this.locator.preferredLanguage, "Preferred Language");
+            await this.click(this.locator.selectOptionInPersonalInformation(option.preferredLanguage), "Select Preferred Language");
+            await this.verifyElementDisplayed(this.locator.personalInformationPage, "Personal Information Page");
+            await this.verifyElementDisplayed(this.locator.maritalStatus, "Marital Status");
+            await this.click(this.locator.selectOptionInPersonalInformation(option.maritalStatus), "Select Marital Status");
+            await this.verifyElementDisplayed(this.locator.personalInformationPage, "Personal Information Page");
+            await this.verifyElementDisplayed(this.locator.doYouHaveChildren, "Do you have children?");
+            await this.click(this.locator.selectOptionInPersonalInformation(option.children), "Select Do you have children?");
+            if (option.program !== 'Mental Health') {
+                await this.verifyElementDisplayed(this.locator.personalInformationPage, "Personal Information Page");
+                await this.verifyElementDisplayed(this.locator.primaryReasonText, "Primary reason for seeking care");
+                await this.verifyElementDisplayed(this.locator.reasonForSeekingText, "Reason for seeking care");
+                await this.SetValue(this.locator.reasonForSeekingCare, option.reasonForCare);
+                if (await this.locator.nextButton) {
+                    await this.click(this.locator.nextButton, "Next Button");
+                }
+                await this.verifyElementDisplayed(this.locator.personalInformationPage, "Personal Information Page");
+                await this.verifyElementDisplayed(this.locator.upcomingTreatments, "Upcoming treatments");
+                await this.click(this.locator.selectOptionInPersonalInformation(option.upcomingTreatment), "Select Upcoming treatments");
+                await this.click(this.locator.datePicker, "Date Picker");
+                if ((option.upcomingTreatment.toLowerCase()).trim() === 'yes') {
+                    const date = await this.getFormattedDate1(option.treatmentDate);
+                    await this.click(this.locator.accessibilityLocator(date), "Select Date");
+                    await this.click(this.locator.OKButton, "OK Button");
+                    await this.click(this.locator.nextButton, "Next Button");
+                }
+            }
+            if (option.program === "Cancer" || option.program === "Chronic Disease") {
+                await this.verifyElementDisplayed(this.locator.submitButtonInProfile, "Submit Button")
+                await this.click(this.locator.submitButtonInProfile, "Submit Button");
+            }
+            await this.verifyElementDisplayed(this.locator.profileComplete, "Profile Complete");
+            await this.click(this.locator.close, "Close Button");
+            await this.AllurePass("Profile Completed Successfully");
+            allureReporter.endStep('passed');
+        } catch (err) {
+            allureReporter.endStep('failed');
+            await this.AllureFail("Profile Completion Failed", err);
+            throw new Error(err);
+        }
+    }
+
+    async editPersonalInformation(option) {
+        try {
+            allureReporter.startStep("Edit Profile Information");
+            await this.verifyElementDisplayed(this.locator.hamburgerMenu, "Hamburger Menu");
+            await this.click(this.locator.hamburgerMenu, "Hamburger Menu");
+            await this.verifyElementDisplayed(this.locator.myProfile, "My Profile");
+            await this.click(this.locator.myProfile, "My Profile");
+            await this.verifyElementDisplayed(this.locator.editInformationIcon("My Profile"), "Edit Information Icon");
+            await this.click(this.locator.editInformationIcon("My Profile"), "Edit Information Icon");
+            while (true) {
+                await this.scrollToEnd(2);
+                if (await this.locator.editInformationIcon("Personal Information").isDisplayed()) {
+                    break;
+                }
+            }
+            await this.verifyElementDisplayed(this.locator.editInformationIcon("Personal Information"), "Edit Information Icon");
+            await this.click(this.locator.editInformationIcon("Personal Information"), "Edit Information Icon");
+            await this.verifyElementDisplayed(this.locator.personalInformationPage, "Personal Information Page");
+            await this.verifyElementDisplayed(this.locator.howDoYouIdentify, "How do you identify yourself?");
+            await this.click(this.locator.selectOptionInPersonalInformation(option.gender), "Select Gender");
+            await this.verifyElementDisplayed(this.locator.personalInformationPage, "Personal Information Page");
+            if (await this.locator.nextButton) {
+                await this.click(this.locator.nextButton, "Next Button");
+            }
+            await this.verifyElementDisplayed(this.locator.preferredLanguage, "Preferred Language");
+            await this.click(this.locator.selectOptionInPersonalInformation(option.preferredLanguage), "Select Preferred Language");
+            if (await this.locator.nextButton) {
+                await this.click(this.locator.nextButton, "Next Button");
+            }
+            await this.verifyElementDisplayed(this.locator.personalInformationPage, "Personal Information Page");
+            await this.verifyElementDisplayed(this.locator.maritalStatus, "Marital Status");
+            await this.click(this.locator.selectOptionInPersonalInformation(option.maritalStatus), "Select Marital Status");
+            if (await this.locator.nextButton) {
+                await this.click(this.locator.nextButton, "Next Button");
+            }
+            await this.verifyElementDisplayed(this.locator.personalInformationPage, "Personal Information Page");
+            await this.verifyElementDisplayed(this.locator.doYouHaveChildren, "Do you have children?");
+            await this.click(this.locator.selectOptionInPersonalInformation(option.children), "Select Do you have children?");
+            if (await this.locator.nextButton) {
+                await this.click(this.locator.nextButton, "Next Button");
+            }
+            if (option.program !== 'Mental Health') {
+                await this.verifyElementDisplayed(this.locator.personalInformationPage, "Personal Information Page");
+                await this.verifyElementDisplayed(this.locator.primaryReasonText, "Primary reason for seeking care");
+                await this.verifyElementDisplayed(this.locator.reasonForSeekingText, "Reason for seeking care");
+                await this.SetValue(this.locator.reasonForSeekingCare, option.reasonForCare.trim());
+                if (await this.locator.nextButton) {
+                    await this.click(this.locator.nextButton, "Next Button");
+                }
+                await this.verifyElementDisplayed(this.locator.personalInformationPage, "Personal Information Page");
+                await this.verifyElementDisplayed(this.locator.upcomingTreatments, "Upcoming treatments");
+                await this.click(this.locator.selectOptionInPersonalInformation(option.upcomingTreatment), "Select Upcoming treatments");
+                if ((option.upcomingTreatment.toLowerCase()).trim() === 'yes') {
+                    await this.click(this.locator.datePicker, "Date Picker");
+                    const date = await this.getFormattedDate1(option.treatmentDate);
+                    await this.click(this.locator.accessibilityLocator(date), "Select Date");
+                    await this.click(this.locator.OKButton, "OK Button");
+                    await this.click(this.locator.nextButton, "Next Button");
+                }
+                if (await this.locator.nextButton) {
+                    await this.click(this.locator.nextButton, "Next Button");
+                }
+            }
+            if (option.program === "Cancer" || option.program === "Chronic Disease") {
+                await this.verifyElementDisplayed(this.locator.submitButtonInProfile, "Submit Button")
+                await this.click(this.locator.submitButtonInProfile, "Submit Button");
+            }
+            await this.verifyElementDisplayed(this.locator.profileComplete, "Profile Complete");
+            await this.click(this.locator.close, "Close Button");
+            await this.AllurePass("Profile Completed Successfully");
+            allureReporter.endStep('passed');
+        } catch (err) {
+            allureReporter.endStep('failed');
+            await this.AllureFail("Profile Completion Failed", err);
+            throw new Error(err);
+        }
+    }
+
+    async programApprove(mail, permission) {
+        allureReporter.startStep("Approve the program from mail");
+        try {
+            await driver.startActivity('com.android.chrome', 'com.google.android.apps.chrome.Main');
+            try {
+                const isDisplayed = await this.locator.chromeDismissButton.waitForDisplayed();
+                if (isDisplayed) {
+                    console.log("Chrome --> Use without account popup is displayed")
+                    await this.click(this.locator.chromeDismissButton, "Chrome dismiss button");
+                }
+            } catch (error) {
+                console.log("Chrome --> Use without account popup is not displayed")
+            }
+            if (await this.locator.chromeGotIt.isDisplayed({ timeout: 90000 })) {
+                await this.locator.chromeGotIt.click()
+            }
+            if (await this.locator.chromeEasierPopup.isDisplayed({ timeout: 90000 })) {
+                await this.click(this.locator.noThanks, 'No Thanks')
+            }
+            await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 90000 });
+            await this.locator.chromeHomeButton.click();
+            await this.locator.chromeSearchBox.click();
+            await this.SetValue(this.locator.chromeUrl, process.env.GMAIL_URL);
+            await browser.pause(2000)
+            await driver.keys('Enter');
+            await browser.pause(5000)
+            if (!await this.locator.googleApps.isDisplayed({ timeout: 80000 })) {
+                await this.waitForDisplay(this.locator.googleSignIn, 90000, "Google Sign In");
+                await this.click(this.locator.googleMail, "Google Mail");
+                await browser.pause(3000)
+                if (await this.locator.googleSavePasswordPopup.isDisplayed({ timeout: 80000 })) {
+                    await this.click(this.locator.sigInWithId, "Sign in with Id")
+                } else {
+                    await this.SetValue(this.locator.googleMail, process.env.GMAIL_ID)
+                    await this.click(this.locator.googleNextButton, "Next Button");
+                }
+
+                await this.SetValue(this.locator.googlePasswordInput, process.env.PASSWORD)
+                await this.click(this.locator.googleNextButton, "Next Button");
+                await this.waitForDisplay(this.locator.googleApps, 90000, "Google Apps");
+            }
+            console.log(await browser.getContexts());
+            if (await this.locator.useWebVersion.isDisplayed({ timeout: 100000 })) {
+                await this.click(this.locator.useWebVersion, "Use Web Version");
+            } else {
+                await this.waitForDisplay(this.locator.googleApps, 100000, "Google Apps");
+                await this.SetValue(this.locator.chromeUrl, "https://mail.google.com/mail/mu/mp/2/#cv");
+                await browser.pause(2000)
+                await driver.keys('Enter');
+                await browser.pause(4000)
+                if (await this.locator.useWebVersion.isDisplayed({ timeout: 100000 })) {
+                    await this.click(this.locator.useWebVersion, "Use Web Version");
+                }
+            }
+            await browser.pause(4000)
+            if (await this.locator.useWebVersion.isDisplayed({ timeout: 90000 })) {
+                await this.click(this.locator.useWebVersion, "Use Web Version");
+            }
+            await this.waitForDisplay(this.locator.searchMail, 90000, "Search Mail");
+            await this.SetValue(this.locator.searchMail, mail);
+            await browser.pause(2000)
+            await driver.keys('Enter');
+            await browser.pause(2000)
+            await this.click(this.locator.approveMsg, "Approve Message");
+            while (true) {
+                await this.scrollToEnd(2);
+                if (await this.locator.linkForApproval.isDisplayed()) {
+                    break;
+                }
+            }
+            await this.click(this.locator.linkForApproval, "link for approval");
+            await this.waitForDisplay(this.locator.onboardingToTheAppText, 60000, "Onboarding to the app text");
+            while (true) {
+                await this.scrollToEnd(2);
+                if (await this.locator.approveButton.isDisplayed()) {
+                    break;
+                }
+            }
+            if (permission.toLowerCase() === "approve") {
+                await this.click(this.locator.approveButton, "Approve Button");
+            } else {
+                await this.click(this.locator.rejectButton, "Reject Button");
+            }
+            await this.verifyElementDisplayed(this.locator.okResponse, "Ok Response");
+            allureReporter.endStep('passed');
+        } catch (err) {
+            allureReporter.endStep('failed');
+            throw new Error(err);
+        } finally {
+            // await driver.execute('mobile: shell', {
+            //     command: 'pm clear',
+            //     args: ['com.android.chrome'],
+            // });
+            await browser.pause(3000)
+            await driver.terminateApp('com.android.chrome');
+        }
+    }
+
+    async eventCreationInAdminPortal(eventName, description, timeFormat) {
+        try {
+            let eventDate = '';
+            allureReporter.startStep("Create an event in Admin Portal");
+            await driver.startActivity('com.android.chrome', 'com.google.android.apps.chrome.Main');
+            if (await this.locator.chromeDismissButton.isDisplayed({ timeout: 100000 })) {
+                await this.locator.chromeDismissButton.click()
+            }
+            if (await this.locator.chromeDismissButton.isDisplayed({ timeout: 100000 })) {
+                await this.locator.chromeDismissButton.click()
+            }
+            if (await this.locator.chromeGotIt.isDisplayed({ timeout: 90000 })) {
+                await this.locator.chromeGotIt.click()
+            }
+            if (await this.locator.chromeEasierPopup.isDisplayed({ timeout: 90000 })) {
+                await this.click(this.locator.noThanks, 'No Thanks')
+            }
+            await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 90000 });
+            await this.locator.chromeHomeButton.click();
+            await this.locator.chromeSearchBox.click();
+            while (!await this.locator.chromeUrl.isDisplayed()) {
+                await driver.back();
+            }
+            await this.SetValue(this.locator.chromeUrl, process.env.ADMIN_PORTAL_URL);
+            await browser.pause(2000)
+            await driver.keys('Enter');
+            await this.waitForDisplay(this.locator.welcomeBackScreen, 90000, "Welcome Back Screen");
+            await this.click(this.locator.adminUserName, "Admin User Name");
+            await this.SetValue(this.locator.adminUserName, process.env.ADMIN_USER_NAME);
+            await this.SetValue(this.locator.adminPassword, process.env.ADMIN_PASSWORD);
+            if (!await this.locator.submitButton.isDisplayed()) {
+                await browser.hideKeyboard();
+            }
+            await this.click(this.locator.submitButton, "Submit Button");
+            await this.waitForDisplay(this.locator.programInAdmin('Elder Care'), 90000, "Elder Care Program");
+            await this.click(this.locator.programInAdmin('Elder Care'), "Elder Care Program");
+
+            await this.waitForDisplay(this.locator.addNewButton, 90000, "Add New Button");
+            await this.click(this.locator.addNewButton, "Add New Button");
+            await this.verifyElementDisplayed(this.locator.createPopup, "Create Popup");
+            await this.verifyElementDisplayed(this.locator.createEventButton, "Create Event Button");
+            await this.click(this.locator.createEventButton, "Create Event Button");
+            await this.waitForDisplay(this.locator.communityEventPage, 90000, "Community Event Page");
+            await this.SetValue(this.locator.eventName, eventName);
+            while (true) {
+                await this.scrollToEnd(2);
+                if (await this.locator.descriptionInput.isDisplayed()) {
+                    break;
+                }
+            }
+            const currentDate = new Date().getDate();
+            const currentMonth = new Date().getMonth() + 1;
+            const currentYear = new Date().getFullYear();
+            const currentTime = new Date();
+            const formattedHours = (currentTime.getHours() % 12) || 12;
+            if (formattedHours < 12) {
+                await this.click(this.locator.setEventTime(formattedHours + 1), `event time : ${formattedHours + 1} `)
+                await this.click(this.locator.timeFormat(timeFormat), `Time Format : ${timeFormat}`)
+                await this.click(this.locator.confirmEventTime, "Confirm Event time");
+            } else {
+                await this.click(this.locator.setEventTime("1"), `event time : ${formattedHours + 1} `)
+                await this.click(this.locator.timeFormat(timeFormat), `Time Format : ${timeFormat}`)
+                await this.click(this.locator.confirmEventTime, "Confirm Event time");
+            }
+            if (currentDate > 28) {
+                await this.click(this.locator.nextMonth, "Next Month");
+                await this.click(this.locator.selectDateForEvent(1, 1), "Select Date for Event");
+                eventDate = `1-${currentMonth + 1 > 12 ? 1 : currentMonth + 1}-${currentMonth + 1 > 12 ? currentYear + 1 : currentYear}`;
+            } else {
+                if (currentDate > 20) {
+                    const date = await $$(`(//android.widget.TextView[@text="${currentDate + 1}"])`)
+                    if (date.length === 2) {
+                        await this.click(this.locator.selectDateForEvent(currentDate + 1, 2), "Select Date for Event");
+                    } else {
+                        await this.click(this.locator.selectDateForEvent(currentDate + 1, 1), "Select Date for Event");
+                    }
+                } else {
+                    await this.click(this.locator.selectDateForEvent(currentDate + 1, 1), "Select Date for Event");
+                }
+                eventDate = `${currentDate + 1}-${new Date().getMonth() + 1}-${new Date().getFullYear()}`
+            }
+            const time = await this.locator.eventTime.getText();
+            await this.SetValue(this.locator.descriptionInput, description);
+            await this.scrollToTop(2);
+            await this.click(this.locator.publishEvent, "Publish Event");
+            await this.waitForDisplay(this.locator.createdEventName(eventName), 90000, eventName);
+            await this.scrollToTop(2);
+            await this.click(this.locator.accountDropdown, "Account Dropdown");
+            await this.verifyElementDisplayed(this.locator.adminLogout, "Admin Logout");
+            await this.click(this.locator.adminLogout, "Admin Logout");
+            await this.waitForDisplay(this.locator.welcomeBackScreen, 90000, "Welcome Back Screen");
+            allureReporter.endStep('passed');
+            await this.AllurePass("Event Created Successfully");
+            return { eventDate, time };
+        } catch (err) {
+            allureReporter.endStep('failed');
+            await this.AllureFail("Event Creation Failed", err);
+            throw new Error(err);
+        }
+    }
 }
