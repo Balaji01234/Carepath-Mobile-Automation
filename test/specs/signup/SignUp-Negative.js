@@ -218,22 +218,22 @@ describe('Sign-Up Negative', async () => {
                             await Keywords.verifyElementDisplayed(locator.errorText(dobErrortext[0].trim()), dobErrortext[0].trim());
                         } else {
                             await Keywords.SetValue(locator.dob, invalidDOBbelow18);
-                            if(/^[0-9]+$/.test(invalidDOBbelow18)){
+                            if (/^[0-9]+$/.test(invalidDOBbelow18)) {
                                 await Keywords.waitForDisplay(locator.errorPopup, 60000, "Error Popup")
                             }
                             if (role === 'Employee') {
-                                if(!(/^[0-9]+$/.test(invalidDOBbelow18))){
+                                if (!(/^[0-9]+$/.test(invalidDOBbelow18))) {
                                     await Keywords.verifyElementDisplayed(locator.errorText(dobErrortext[0].trim()), dobErrortext[0].trim());
-                                }else{
+                                } else {
                                     await Keywords.verifyText(locator.yearsOldText, "content-desc", dobErrortext[1].trim(), dobErrortext[1].trim());
                                     await Keywords.click(locator.okButton, "Ok Button");
                                 }
-                                
+
                             } else {
-                                if(!(/^[0-9]+$/.test(invalidDOBbelow18))){
+                                if (!(/^[0-9]+$/.test(invalidDOBbelow18))) {
                                     await Keywords.click(locator.signUpButton, "Signup button");
                                     await Keywords.verifyElementDisplayed(locator.errorText(dobErrortext[0].trim()), dobErrortext[0].trim());
-                                }else{
+                                } else {
                                     await Keywords.verifyText(locator.yearsOldText1, "content-desc", studentDobErrorText.trim(), studentDobErrorText.trim());
                                     await Keywords.click(locator.okButton, "Ok Button");
                                 }
@@ -245,12 +245,12 @@ describe('Sign-Up Negative', async () => {
                             await Keywords.verifyElementDisplayed(locator.errorText(dobErrortext[0].trim()), dobErrortext[0].trim());
                         } else {
                             await Keywords.SetValue(locator.dob, invalidDOB);
-                            if(/^[0-9]+$/.test(invalidDOBbelow18)){
+                            if (/^[0-9]+$/.test(invalidDOBbelow18)) {
                                 await Keywords.waitForDisplay(locator.errorPopup, 60000, "Error Popup")
                             }
-                            if(!(/^[0-9]+$/.test(invalidDOBbelow18))){
+                            if (!(/^[0-9]+$/.test(invalidDOBbelow18))) {
                                 await Keywords.verifyElementDisplayed(locator.errorText(dobErrortext[0].trim()), dobErrortext[0].trim());
-                            }else{
+                            } else {
                                 await Keywords.verifyText(locator.pleaseEnterValidDateText, "content-desc", dobErrortext[2].trim(), dobErrortext[2].trim());
                                 await Keywords.click(locator.okButton, "Ok Button");
                             }
@@ -350,7 +350,7 @@ describe('Sign-Up Negative', async () => {
                 await Keywords.waitForDisplay(locator.success, 45000, "Success Message!!!");
                 await Keywords.click(locator.closeButton, "Close Button");
                 await Keywords.waitForDisplay(locator.startNow, 30000, "Start Now Button");
-                await saveTestDataToJson(testCases[i].testId, testCases[i].testDescription, role, FirstName, LastName, mail, program)
+                await saveTestDataToJson(testCases[i].testId, testCases[i].testDescription, role, FirstName, LastName, mail, password, program)
             } catch (err) {
                 throw new Error(err);
             }
