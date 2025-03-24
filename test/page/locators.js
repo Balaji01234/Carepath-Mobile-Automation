@@ -399,12 +399,731 @@ export class locators {
         return $('~upload_button')
     }
 
-    get selectFile(){
+    get selectFile() {
         return $('(//android.widget.ImageView[@resource-id="com.google.android.providers.media.module:id/icon_thumbnail"])[1]')
     }
     errorText(value) {
         return $(`~${value}`)
     }
 
+    get communityGroup() {
+        return $('~Community Groups')
+    }
+
+    get testGroup() {
+        return $('~Automation test group')
+    }
+
+    get automationTestPost() {
+        return $('~post_card_action_67d3f748c9f301242d4d8608')
+    }
+
+    get automationTestPostName() {
+        return $('(//android.view.View[@content-desc="Automation test post"])[1]')
+    }
+
+    get carePathAdmin() {
+        return $('~Carepath Admin')
+    }
+
+    get testGroupName() {
+        return $('~test')
+    }
+
+    get gotItButton() {
+        return $('//android.widget.Button[@resource-id="android:id/ok"]')
+    }
+
+    get groupTitleImage() {
+        return $('~image_view_action')
+    }
+
+    get groupTitleCloseWidgetButton() {
+        return $('//android.widget.Button')
+    }
+
+    get likesClick() {
+        return $('~Likes')
+    }
+
+    get clickSaveButton() {
+        return $('~Save')
+    }
+
+    get saveToFavorites() {
+        return $('~SAVE')
+    }
+
+    get clickCloseButton() {
+        return $('~CLOSE')
+    }
+
+    get newPostButton() {
+        return $('~New Post')
+    }
+
+    get postyourComment() {
+        return $('//android.widget.EditText[@resource-id="comment_textfield"]')
+    }
+
+    get sendRequest() {
+        return $('~SEND REQUEST')
+    }
+
+    get cancelButtonRequest() {
+        return $('~cancel_button')
+    }
+
+    get dialogCloseAction() {
+        return $('~dialog_close_action')
+    }
+
+    get requestCloseButton() {
+        return $('//android.view.View[@content-desc="CLOSE"]')
+    }
+
+    get newRequestCancelButton() {
+        return $('~cancel_button')
+    }
+
+    get addComment() {
+        return $('~Add Comment')
+    }
+
+    get createCommandRequest() {
+        return $('//android.widget.EditText[@resource-id="comment_textfield"]')
+    }
+
+    get publishComment() {
+        return $('~PUBLISH COMMENT')
+    }
+
+    get elderCareEnabled() {
+        return $('~button_Program.elderCare')
+    }
+
+    get elderCareContinue() {
+        return $('~CONTINUE')
+    }
+
+    get closeCompleteProfileButton() {
+        return $('~dialog_close_action')
+    }
+
+    get backAction() {
+        return $('~back_action')
+    }
+
+    get healthassessmentbutton() {
+        return $('~HEALTH ASSESSMENT')
+    }
+
+    get requestedHealthAssessment() {
+        return $('~Requested Health Assessment')
+    }
+
+    get healthHistory() {
+        return $('~assessment_action_Health History')
+    }
+
+    get physicalAssessmentMobility() {
+        return $('~assessment_action_Physical assessment and Mobility')
+    }
+
+    get sleepRest() {
+        return $('~assessment_action_Sleep and rest')
+    }
+
+    get NutritionDietary() {
+        return $('~assessment_action_Nutrition and Dietary Needs')
+    }
+
+    get toileting() {
+        return $('~assessment_action_Toileting')
+    }
+
+    get groomingHygiene() {
+        return $('~assessment_action_Grooming-Hygiene')
+    }
+
+    get homeCare() {
+        return $('~assessment_action_Home Care')
+    }
+
+    get canadianProblem() {
+        return $('~assessment_action_Canadian Problem Category')
+    }
+
+    get yesCancelAssessment() {
+        return $('~YES, CANCEL ASSESSMENT')
+    }
+
+    get continueButton() {
+        return $('~continue_button')
+    }
+
+    get healthPleaseSpecify() {
+        return $('//android.widget.EditText[@resource-id="text_type_primary_diagnosis_textfield"]')
+    }
+
+    get nextButton1() {
+        return $('~NEXT')
+    }
+
+    get healthPleaseSpecify2() {
+        return $('//android.widget.EditText[@resource-id="text_type_past_health_history_textfield"]')
+    }
+
+    get yesButton() {
+        return $('~Yes')
+    }
+
+    get submitButton() {
+        return $('~SUBMIT')
+    }
+
+    get backToAssessments() {
+        return $('~BACK TO ASSESSMENTS')
+    }
+
+    get independentPhysicalMobility() {
+        return $('~Independent')
+    }
+
+    get scooterMobilityDevices() {
+        return $('~Scooter')
+    }
+
+    get riskOfFalls() {
+        return $('~Risk of Falls')
+    }
+
+    get physicalMobilitySpecify() {
+        return $('//android.widget.EditText[@resource-id="text_type_ambulation_container.falls_management_plan_textfield"]')
+    }
+
+    get showDialogAction() {
+        return $('~show_dialog_action')
+    }
+
+    get dropdownIndependent() {
+        return $('~Independent')
+    }
+
+    get describePleaseSpecify() {
+        return $('//android.widget.EditText[@resource-id="text_type_ambulation_container.transfer_specify_textfield"]')
+    }
+
+    get weightBearingStatus() {
+        return $('~show_dialog_action')
+    }
+
+    get ltSide() {
+        return $('~Lt. Side')
+    }
+
+    get weightBearingPleaseSpecify() {
+        return $('//android.widget.EditText[@resource-id="text_type_ambulation_container.weight_bearing_specify_textfield"]')
+    }
+
+    get sleepPatterns() {
+        return $('//android.widget.EditText[@resource-id="text_type_describe_sleep_patterns_textfield"]')
+    }
+
+    get hoursOfSleeping() {
+        return $('//android.widget.EditText[@resource-id="text_type_hours_sleep_textfield"]')
+    }
+
+    get sleepBehaviour() {
+        return $('//android.widget.EditText[@resource-id="text_type_sleep_comments_textfield"]')
+    }
+
+    get submitSleepRest() {
+        return $('~SUBMIT')
+    }
+
+    get nutritionIndependent() {
+        return $('~Independently')
+    }
+
+    get toiletingIndependent() {
+        return $('~Independent')
+    }
+
+    get groomingIndependent() {
+        return $('~Independent')
+    }
+
+    get groomingOwn() {
+        return $('~Own')
+    }
+
+    get good() {
+        return $('~Good')
+    }
+
+    get fearWorries() {
+        return $('~Fear/Worries')
+    }
+
+    get emotionalComment() {
+        return $('//android.widget.EditText[@resource-id="problem_category_problem_category_emotional_comments_textfield"]')
+    }
+
+    get concentrationMemory() {
+        return $('~Concentration/Memory')
+    }
+
+    get physicalComments() {
+        return $('//android.widget.EditText[@resource-id="problem_category_problem_category_physical_comments_textfield"]')
+    }
+
+    get meaningPurpose() {
+        return $('~Meaning/Purpose')
+    }
+
+    get spiritualComments() {
+        return $('//android.widget.EditText[@resource-id="problem_category_problem_category_spiritual_comments_textfield"]')
+    }
+
+    get makingTreatment() {
+        return $('~Making treatment decisions')
+    }
+
+    get informationalComments() {
+        return $('//android.widget.EditText[@resource-id="problem_category_problem_category_informational_comments_textfield"]')
+    }
+
+    get workSchool() {
+        return $('~Work/School')
+    }
+
+    get practicalComments() {
+        return $('//android.widget.EditText[@resource-id="problem_category_problem_category_practical_comments_textfield"]')
+    }
+
+    get worryFamilies() {
+        return $('~Worry about family/friends')
+    }
+
+    get socialFinance() {
+        return $('//android.widget.EditText[@resource-id="problem_category_problem_category_social_financial_comments_textfield"]')
+    }
+
+    get communityEvents() {
+        return $('~Community Events')
+    }
+
+    get clickRegister() {
+        return $('~REGISTER')
+    }
+
+    get dateRegister() {
+        return $('~Jan 18, 2026')
+    }
+
+    get timeRegister() {
+        return $('~3:35 pm')
+    }
+
+    testName(value) {
+        return $(`~${value}`)
+    }
+
+    get eventText() {
+        return $('~test')
+    }
+
+    get eventTitleText() {
+        return $('~Automation test')
+    }
+
+    get registerForEvent() {
+        return $('~REGISTER FOR EVENT')
+    }
+
+    get ButtonClick() {
+        return $('~event_view_info_action')
+    }
+
+    get continueRegister() {
+        return $('~CONTINUE')
+    }
+
+    get eventName() {
+        return $('~EVENT')
+    }
+
+    get pleaseRegister() {
+        return $('~Please register to attend this event. Cant wait to see you there!')
+    }
+
+    get eventRegisteration() {
+        return $('~EVENT REGISTRATION')
+    }
+
+    get eventEmail() {
+        return $('~prabhaAutosfMG6935@mailinator.com')
+    }
+
+    get confirmRegistration() {
+        return $('~CONFIRM REGISTRATION')
+    }
+
+    get cancelButtonRegistration() {
+        return $('~cancel_button')
+    }
+
+    get registrationSuccessfull() {
+        return $('~Registration successful!')
+    }
+
+    get addCalender() {
+        return $('~ADD TO CALENDAR')
+    }
+
+    get closeCalender() {
+        return $('~close_button')
+    }
+
+    get registered() {
+        return $('~Registered')
+    }
+
+    get cancelRegistrationTab() {
+        return $('~cancel_registration_button')
+    }
+
+    get nurseRecommendation() {
+        return $('~Nurse Recommendations')
+    }
+
+    get titleNurseRecommentation() {
+        return $('~Nurse Recommendations')
+    }
+
+    get nameNurseRecommendtation() {
+        return $('~Automation test carepath')
+    }
+
+    get automationTextSentence() {
+        return $('//android.view.View[@content-desc="Automation test carepath application I have had the privilege of supervising Joshua at [facility name], where we work as clinical nurses in the cardiac intensive care unit. Joshuah as demonstrated a passion for patient care, and his incredible work ethic makes him an ideal employee for any organization."]')
+    }
+
+    get nurseBackButton() {
+        return $('~back_button')
+    }
+
+    get closeButtonNurse() {
+        return $('~hamburger_action')
+    }
+
+    get myProgram() {
+        return $('~my_programs_button')
+    }
+
+    get completeLater() {
+        return $('~profile_incomplete_button2')
+    }
+
+    get welcomeBackScreen() {
+        return $('//android.widget.TextView[@text="Welcome Back"]')
+    }
+
+    get adminUserName() {
+        return $('//android.widget.EditText[@resource-id="username"]')
+    }
+
+    get adminPassword() {
+        return $('//android.widget.EditText[@resource-id="password"]')
+    }
+
+    get submitButton() {
+        return $('//android.widget.Button[@resource-id="submit"]')
+    }
+
+    programInAdmin(programName) {
+        return $(`//android.widget.TextView[@text="${programName}"]`)
+    }
+
+    get addNewButton() {
+        return $('//android.widget.Button[@text="ADD NEW"]')
+    }
+
+    get createPopup() {
+        return $('//android.widget.TextView[@text="What would you like to create?"]')
+    }
+
+    get createGroupButton() {
+        return $('//android.widget.TextView[@text="Create a new Group"]')
+    }
+
+    get createEventButton() {
+        return $('//android.widget.TextView[@text="Create a new Event"]')
+    }
+
+    get communityEventPage() {
+        return $('//android.widget.TextView[@text="New Community Event"]')
+    }
+
+    get eventName() {
+        return $('//android.widget.EditText[@resource-id="name"]')
+    }
+
+    get eventDescription() {
+        return $('//android.view.View[@text="Description:"]')
+    }
+
+    get descriptionInput() {
+        return $('//android.widget.EditText[@resource-id="description"]')
+    }
+
+    selectDateForEvent(date, index) {
+        return $(`(//android.widget.TextView[@text="${date}"])[3]`)
+    }
+
+    get nextMonth() {
+        return $('android=new UiSelector().className("android.widget.Button").instance(3)')
+    }
+
+    get publishEvent() {
+        return $('//android.widget.Button[@text="PUBLISH EVENT"]')
+    }
+
+    createdEventName(eventName) {
+        return $(`//android.widget.TextView[@text="${eventName}"]`)
+    }
+
+    get eventTime() {
+        return $('(//android.view.View//android.widget.Button[@resource-id="dropdown-btn"])[1]')
+    }
+
+    get accountDropdown() {
+        return $('//android.widget.Image[@text="down-arrow-icon"]')
+    }
+
+    get adminLogout() {
+        return $('//android.widget.Button[@text="Log Out"]')
+    }
+
+    get autoFill() {
+        return $('//android.widget.TextView[@resource-id="com.android.chrome:id/touch_to_fill_sheet_title"]')
+    }
+
+    get signInButtonInAutofill() {
+        return $('//*[@text="Sign in"]')
+    }
+
+    setEventTime(time) {
+        return $(`(//android.view.View[@text="Event Time:"]//..//android.view.View[@content-desc="${time}"])[1]`)
+    }
+
+    timeFormat(format) {
+        return $(`//android.widget.TextView[@text="${format}"]`)
+    }
+
+    get confirmEventTime() {
+        return $('//android.widget.Button[@text="OK"]')
+    }
+
+    get timeTravel() {
+        return $(`(//android.view.View[@text="Event Time:"]//..//*[@resource-id='dropdown-btn'])[1]`)
+    }
+
+    get logoutButton() {
+        return $(`//android.widget.TextView[@text="LOG OUT"]`)
+    }
+
+    get titleText() {
+        return $('~test')
+    }
+
+    get timeVerify() {
+        return $('~4:15 PM')
+    }
+
+    get dateVerify() {
+        return $('~Mar 22, 2025')
+    }
+
+    get time1Verify() {
+        return $('~4:15 pm')
+    }
+
+    get eventDescription2() {
+        return $('~Events are created')
+    }
+
+    get eventTitle() {
+        return $('~test')
+    }
+
+    get eventTopic() {
+        return $('~EVENT')
+    }
+
+    verifyDate(value) {
+        return $(`~${value}`)
+    }
+
+    verifyTime(value) {
+        return $(`~${value}`)
+    }
+
+    get eventsTab() {
+        return $('~Events')
+    }
+
+    get testEvent() {
+        return $('//android.view.View[@text="testEvent indication-icon"]')
+    }
+
+    get editImageButton() {
+        return $('//android.widget.Image[@text="edit icon"]')
+    }
+
+    get cancelEvent() {
+        return $('//android.widget.Button[@text="CANCEL EVENT"]')
+    }
+
+    get testEventText() {
+        return $('//android.view.View[@text="testEvent"]')
+    }
+
+    get deleteButton() {
+        return $('(//android.view.View[@text="edit remove"])[1]/android.view.View/android.view.View[2]')
+    }
+
+    get createNewGroup() {
+        return $('//android.widget.TextView[@text="Create a new Group"]')
+    }
+
+    get groupHeadlineTextField() {
+        return $('//android.widget.EditText[@resource-id="name"]')
+    }
+
+    get addContent() {
+        return $('//android.widget.EditText[@resource-id="description"]')
+    }
+
+    get imageClick() {
+        return $('//android.widget.Image[@text="cover-photo-0"]')
+    }
+
+    get saveAsDraft() {
+        return $('//android.widget.Button[@text="SAVE AS DRAFT"]')
+    }
+
+    get publishGroup() {
+        return $('//android.widget.Button[@text="PUBLISH GROUP"]')
+    }
+
+    get deleteEventGroup() {
+        return $('(//android.widget.Image[@text="remove"])[1]')
+    }
+
+    get yesDelete() {
+        return $('//android.widget.Button[@text="YES, DELETE"]')
+    }
+
+    get webKitGroupButton() {
+        return $('//android.widget.Image[@text="edit icon"]')
+    }
+
+    get unPublishGroup() {
+        return $('//android.widget.Button[@text="UNPUBLISH GROUP"]')
+    }
+
+    get yesUnPublishButton() {
+        return $('//android.widget.Button[@text="YES, UNPUBLISH GROUP"]')
+    }
+
+    get createGroupTab() {
+        return $('~Groups')
+    }
+
+    get deleteGroupRemove() {
+        return $('//android.widget.Image[@text="remove"]')
+    }
+
+    get yesdeleteGroup() {
+        return $('//android.widget.Button[@text="YES, DELETE"]')
+    }
+
+    get clickGroupName() {
+        return $('(//android.view.View[@text="groupHeadlineTextField"])[1]')
+    }
+
+    get newGroupTab() {
+        return $('~New Group')
+    }
+
+    get commentNewGroupRequest() {
+        return $('~comment_textfield')
+    }
+
+    get sendRequestNewGroup() {
+        return $('~SEND REQUEST')
+    }
+
+    get closePopupGroup() {
+        return $('~CLOSE')
+    }
+
+    get requests() {
+        return $('~Requests')
+    }
+
+    get groupNameClick() {
+        return $('(//android.view.View[@text="Group"])[1]')
+    }
+
+    get createnewNameGroup() {
+        return $('//android.widget.Button[@text="CREATE NEW"]')
+    }
+
+    userNameGroup(value) {
+        return $('(//android.widget.TextView[@text="${value}"])[1]')
+    }
+
+    userEmailGroup(value) {
+        return $('//android.widget.TextView[@text="${value}"]')
+    }
+
+    description(value) {
+        return $('//android.widget.TextView[@text="${value}"]')
+    }
+
+    get groupHeadline() {
+        return $('//android.widget.EditText[@resource-id="name"]')
+    }
+
+    get addContentGroup() {
+        return $('//android.widget.EditText[@resource-id="description"]')
+    }
+
+    get imageSelectedGroup() {
+        return $('//android.widget.TextView[@text="SELECTED"]')
+    }
+
+    get publishGroupTab() {
+        return $('//android.widget.Button[@text="PUBLISH GROUP"]')
+    }
+
+    nameGroup(value) {
+        return $('//android.view.View[@text="${value}"]')
+    }
+
+    get editGroupButton() {
+        return $('//android.widget.Image[@text="edit icon"]')
+    }
+
+    get unpublish(){
+        return $('//android.widget.Button[@text="UNPUBLISH GROUP"]')
+    }
+
+    get yesUnpublish(){
+        return $('//android.widget.Button[@text="YES, UNPUBLISH GROUP"]')
+    }
 
 }

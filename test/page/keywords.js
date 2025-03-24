@@ -57,7 +57,6 @@ export class keywords {
         // allureReporter.addAttachment('Screenshot on Fail', screenshot, 'image/png');
     }
 
-
     async click(locator, text) {
         allureReporter.startStep("Click on the element: " + text)
         try {
@@ -96,12 +95,399 @@ export class keywords {
         }
     }
 
+    async eventTabDelete(eventName, description, timeFormat) {
+        try {
+            let eventDate = '';
+            allureReporter.startStep("Create an event in Admin Portal");
+            await driver.startActivity('com.android.chrome', 'com.google.android.apps.chrome.Main');
+            if (await this.locator.chromeDismissButton.isDisplayed({ timeout: 100000 })) {
+                await this.locator.chromeDismissButton.click()
+            }
+            if (await this.locator.chromeDismissButton.isDisplayed({ timeout: 100000 })) {
+                await this.locator.chromeDismissButton.click()
+            }
+            if (await this.locator.chromeGotIt.isDisplayed({ timeout: 90000 })) {
+                await this.locator.chromeGotIt.click()
+            }
+            if (await this.locator.chromeEasierPopup.isDisplayed({ timeout: 90000 })) {
+                await this.click(this.locator.noThanks, 'No Thanks')
+            }
+            await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 90000 });
+            await this.locator.chromeHomeButton.click();
+            await this.locator.chromeSearchBox.click();
+            while (!await this.locator.chromeUrl.isDisplayed()) {
+                await driver.back();
+            }
+            await this.SetValue(this.locator.chromeUrl, process.env.ADMIN_PORTAL_URL);
+            await browser.pause(2000);
+            await driver.keys('Enter');
+            await this.waitForDisplay(this.locator.welcomeBackScreen, 90000, "Welcome Back Screen");
+            await this.click(this.locator.adminUserName, "Admin User Name");
+            await this.SetValue(this.locator.adminUserName, process.env.ADMIN_USER_NAME);
+            await this.SetValue(this.locator.adminPassword, process.env.ADMIN_PASSWORD);
+            if (!await this.locator.submitButton.isDisplayed()) {
+                await browser.hideKeyboard();
+            }
+            await this.click(this.locator.submitButton, "Submit Button");
+            await this.waitForDisplay(this.locator.programInAdmin('Elder Care'), 90000, "Elder Care Program");
+            await this.click(this.locator.programInAdmin('Elder Care'), "Elder Care Program");
+            await this.click(this.locator.eventsTab, "Events Tab Button");
+            // await this.click(this.locator.testEventText, "testEventText");
+            // await this.click(this.locator.cancelEvent, "cancelEvent")
+            // await this.click(this.locator.eventsTab, "eventsTab");
+
+            while (true) {
+                $('android=new UiScrollable(new UiSelector().scrollable(true)).setAsHorizontalList().scrollForward()');
+                if (await this.locator.deleteEventGroup.isDisplayed()) {
+                    break;
+                }
+            }
+            await this.click(this.locator.deleteButton, "deleteButton");
+            await this.click(this.locator.yesDelete, "yesDelete");
+        } catch (err) {
+            throw new Error(err)
+        }
+    }
+
+    async groupRequest() {
+        try {
+            // let eventDate = '';
+            allureReporter.startStep("Create an event in Admin Portal");
+            await driver.startActivity('com.android.chrome', 'com.google.android.apps.chrome.Main');
+            if (await this.locator.chromeDismissButton.isDisplayed({ timeout: 100000 })) {
+                await this.locator.chromeDismissButton.click()
+            }
+            if (await this.locator.chromeDismissButton.isDisplayed({ timeout: 100000 })) {
+                await this.locator.chromeDismissButton.click()
+            }
+            if (await this.locator.chromeGotIt.isDisplayed({ timeout: 90000 })) {
+                await this.locator.chromeGotIt.click()
+            }
+            if (await this.locator.chromeEasierPopup.isDisplayed({ timeout: 90000 })) {
+                await this.click(this.locator.noThanks, 'No Thanks')
+            }
+            await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 90000 });
+            await this.locator.chromeHomeButton.click();
+            await this.locator.chromeSearchBox.click();
+            while (!await this.locator.chromeUrl.isDisplayed()) {
+                await driver.back();
+            }
+            await this.SetValue(this.locator.chromeUrl, process.env.ADMIN_PORTAL_URL);
+            await browser.pause(2000);
+            await driver.keys('Enter');
+            await this.waitForDisplay(this.locator.welcomeBackScreen, 90000, "Welcome Back Screen");
+            await this.click(this.locator.adminUserName, "Admin User Name");
+            await this.SetValue(this.locator.adminUserName, process.env.ADMIN_USER_NAME);
+            await this.SetValue(this.locator.adminPassword, process.env.ADMIN_PASSWORD);
+            if (!await this.locator.submitButton.isDisplayed()) {
+                await browser.hideKeyboard();
+            }
+            await this.click(this.locator.submitButton, "Submit Button");
+            await this.waitForDisplay(this.locator.programInAdmin('Elder Care'), 90000, "Elder Care Program");
+            await this.click(this.locator.programInAdmin('Elder Care'), "Elder Care Program");
+            await this.click(this.locator.requests, "requests");
+            await this.click(this.locator.groupNameClick, "groupNameClick")
+        } catch (err) {
+            throw new Error(err)
+        }
+
+    }
+    async CreationInAdminGroupsPortal(eventName) {
+        try {
+            let eventDate = '';
+            allureReporter.startStep("Create an event in Admin Portal");
+            await driver.startActivity('com.android.chrome', 'com.google.android.apps.chrome.Main');
+            if (await this.locator.chromeDismissButton.isDisplayed({ timeout: 100000 })) {
+                await this.locator.chromeDismissButton.click()
+            }
+            if (await this.locator.chromeDismissButton.isDisplayed({ timeout: 100000 })) {
+                await this.locator.chromeDismissButton.click()
+            }
+            if (await this.locator.chromeGotIt.isDisplayed({ timeout: 90000 })) {
+                await this.locator.chromeGotIt.click()
+            }
+            if (await this.locator.chromeEasierPopup.isDisplayed({ timeout: 90000 })) {
+                await this.click(this.locator.noThanks, 'No Thanks')
+            }
+            await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 90000 });
+            await this.locator.chromeHomeButton.click();
+            await this.locator.chromeSearchBox.click();
+            while (!await this.locator.chromeUrl.isDisplayed()) {
+                await driver.back();
+            }
+            await this.SetValue(this.locator.chromeUrl, process.env.ADMIN_PORTAL_URL);
+            await browser.pause(2000);
+            await driver.keys('Enter');
+            await this.waitForDisplay(this.locator.welcomeBackScreen, 90000, "Welcome Back Screen");
+            await this.click(this.locator.adminUserName, "Admin User Name");
+            await this.SetValue(this.locator.adminUserName, process.env.ADMIN_USER_NAME);
+            await this.SetValue(this.locator.adminPassword, process.env.ADMIN_PASSWORD);
+            if (!await this.locator.submitButton.isDisplayed()) {
+                await browser.hideKeyboard();
+            }
+            await this.click(this.locator.submitButton, "Submit Button");
+            await this.waitForDisplay(this.locator.programInAdmin('Elder Care'), 90000, "Elder Care Program");
+            await this.click(this.locator.programInAdmin('Elder Care'), "Elder Care Program");
+            await this.waitForDisplay(this.locator.addNewButton, 90000, "Add New Button");
+            await this.click(this.locator.addNewButton, "Add New Button");
+            await this.verifyElementDisplayed(this.locator.createNewGroup, "createNewGroup");
+            await this.click(this.locator.createNewGroup, "createNewGroup");
+            await this.verifyElementDisplayed(this.locator.groupHeadlineTextField, "groupHeadlineTextField");
+            await this.click(this.locator.groupHeadlineTextField, "groupHeadlineTextField")
+            await this.SetValue(this.locator.groupHeadlineTextField, "groupHeadlineTextField");
+            await this.click(this.locator.addContent, "addContent")
+            await this.SetValue(this.locator.addContent, "addContent");
+
+            while (true) {
+                await this.scrollToEnd(2);
+                if (await this.locator.imageClick.isDisplayed()) {
+                    break;
+                }
+            }
+            await this.click(this.locator.imageClick, "imageClick");
+            while (true) {
+                await this.scrollToTop(2);
+                if (await this.locator.publishGroup.isDisplayed()) {
+                    break;
+                }
+            }
+            await this.click(this.locator.publishGroup, "publishEvent")
+            await this.waitForDisplay(this.locator.createdEventName(eventName), 90000, eventName);
+            await this.scrollToTop(2);
+            await this.click(this.locator.accountDropdown, "Account Dropdown");
+            await this.verifyElementDisplayed(this.locator.adminLogout, "Admin Logout");
+            await this.click(this.locator.adminLogout, "Admin Logout");
+            await this.waitForDisplay(this.locator.welcomeBackScreen, 90000, "Welcome Back Screen");
+            allureReporter.endStep('passed');
+            await this.AllurePass("Group Created Successfully");
+        }
+        catch (err) {
+            allureReporter.endStep('failed');
+            await this.AllureFail("Group Creation Failed", err);
+            throw new Error(err);
+        }
+    }
+
+    async groupTabDelete(eventName) {
+        try {
+            let eventDate = '';
+            allureReporter.startStep("Create an event in Admin Portal");
+            await driver.startActivity('com.android.chrome', 'com.google.android.apps.chrome.Main');
+            if (await this.locator.chromeDismissButton.isDisplayed({ timeout: 100000 })) {
+                await this.locator.chromeDismissButton.click()
+            }
+            if (await this.locator.chromeDismissButton.isDisplayed({ timeout: 100000 })) {
+                await this.locator.chromeDismissButton.click()
+            }
+            if (await this.locator.chromeGotIt.isDisplayed({ timeout: 90000 })) {
+                await this.locator.chromeGotIt.click()
+            }
+            if (await this.locator.chromeEasierPopup.isDisplayed({ timeout: 90000 })) {
+                await this.click(this.locator.noThanks, 'No Thanks')
+            }
+            await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 90000 });
+            await this.locator.chromeHomeButton.click();
+            await this.locator.chromeSearchBox.click();
+            while (!await this.locator.chromeUrl.isDisplayed()) {
+                await driver.back();
+            }
+            await this.SetValue(this.locator.chromeUrl, process.env.ADMIN_PORTAL_URL);
+            await browser.pause(2000);
+            await driver.keys('Enter');
+            await this.waitForDisplay(this.locator.welcomeBackScreen, 90000, "Welcome Back Screen");
+            await this.click(this.locator.adminUserName, "Admin User Name");
+            await this.SetValue(this.locator.adminUserName, process.env.ADMIN_USER_NAME);
+            await this.SetValue(this.locator.adminPassword, process.env.ADMIN_PASSWORD);
+            if (!await this.locator.submitButton.isDisplayed()) {
+                await browser.hideKeyboard();
+            }
+            await this.click(this.locator.submitButton, "Submit Button");
+            await this.waitForDisplay(this.locator.programInAdmin('Elder Care'), 90000, "Elder Care Program");
+            await this.click(this.locator.programInAdmin('Elder Care'), "Elder Care Program");
+            await this.click(this.locator.createGroupTab, "createGroupTab");
+            await this.click(this.locator.clickGroupName, "clickGroupName")
+            await this.click(this.locator.webKitGroupButton, "webKitGroupButton")
+            while (true) {
+                await this.scrollToEnd(2);
+                if (await this.locator.unPublishGroup.isDisplayed()) {
+                    break;
+                }
+            }
+            await this.click(this.locator.unPublishGroup, "unPublishGroup");
+            await this.click(this.locator.yesUnPublishButton, "yesUnPublishButton");
+            await this.click(this.locator.createGroupTab, "createGroupTab");
+
+            while (true) {
+                $('android=new UiScrollable(new UiSelector().scrollable(true)).setAsHorizontalList().scrollForward()');
+                if (await this.locator.deleteGroupRemove.isDisplayed()) {
+                    break;
+                }
+            }
+            await this.click(this.locator.deleteGroupRemove, "deleteGroupRemove");
+            await this.click(this.locator.yesdeleteGroup, "yesdeleteGroup");
+
+        }
+        catch (err) {
+            throw new Error(err);
+        }
+
+    }
+
+    async eventCreationInAdminPortal(eventName, description, timeFormat) {
+        try {
+            let eventDate = '';
+            allureReporter.startStep("Create an event in Admin Portal");
+            await driver.startActivity('com.android.chrome', 'com.google.android.apps.chrome.Main');
+            if (await this.locator.chromeDismissButton.isDisplayed({ timeout: 100000 })) {
+                await this.locator.chromeDismissButton.click()
+            }
+            if (await this.locator.chromeDismissButton.isDisplayed({ timeout: 100000 })) {
+                await this.locator.chromeDismissButton.click()
+            }
+            if (await this.locator.chromeGotIt.isDisplayed({ timeout: 90000 })) {
+                await this.locator.chromeGotIt.click()
+            }
+            if (await this.locator.chromeEasierPopup.isDisplayed({ timeout: 90000 })) {
+                await this.click(this.locator.noThanks, 'No Thanks')
+            }
+            await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 90000 });
+            await this.locator.chromeHomeButton.click();
+            await this.locator.chromeSearchBox.click();
+            while (!await this.locator.chromeUrl.isDisplayed()) {
+                await driver.back();
+            }
+            await this.SetValue(this.locator.chromeUrl, process.env.ADMIN_PORTAL_URL);
+            await browser.pause(2000);
+            await driver.keys('Enter');
+            // await this
+            await this.waitForDisplay(this.locator.welcomeBackScreen, 90000, "Welcome Back Screen");
+            await this.click(this.locator.adminUserName, "Admin User Name");
+            await this.SetValue(this.locator.adminUserName, process.env.ADMIN_USER_NAME);
+            await this.SetValue(this.locator.adminPassword, process.env.ADMIN_PASSWORD);
+            if (!await this.locator.submitButton.isDisplayed()) {
+                await browser.hideKeyboard();
+            }
+            await this.click(this.locator.submitButton, "Submit Button");
+            await this.waitForDisplay(this.locator.programInAdmin('Elder Care'), 90000, "Elder Care Program");
+            await this.click(this.locator.programInAdmin('Elder Care'), "Elder Care Program");
+            await this.waitForDisplay(this.locator.addNewButton, 90000, "Add New Button");
+            await this.click(this.locator.addNewButton, "Add New Button");
+            await this.verifyElementDisplayed(this.locator.createPopup, "Create Popup");
+            await this.verifyElementDisplayed(this.locator.createEventButton, "Create Event Button");
+            await this.click(this.locator.createEventButton, "Create Event Button");
+            await this.waitForDisplay(this.locator.communityEventPage, 90000, "Community Event Page");
+            await this.SetValue(this.locator.eventName, eventName);
+            while (true) {
+                await this.scrollToEnd(2);
+                if (await this.locator.descriptionInput.isDisplayed()) {
+                    break;
+                }
+            }
+            const currentDate = new Date().getDate();
+            const currentMonth = new Date().getMonth() + 1;
+            const currentYear = new Date().getFullYear();
+            const currentTime = new Date();
+            const formattedHours = (currentTime.getHours() % 12) || 12;
+            if (formattedHours < 12) {
+                await this.click(this.locator.timeTravel, "timeTravel")
+                if ((formattedHours + 1) < 10) {
+                    await this.click(this.locator.setEventTime(`0${formattedHours + 1}`), `event time : ${formattedHours + 1} `)
+                } else {
+                    await this.click(this.locator.setEventTime(`${formattedHours + 1}`), `event time : ${formattedHours + 1} `)
+                }
+                await this.click(this.locator.timeFormat(timeFormat), `Time Format : ${timeFormat}`)
+                await this.click(this.locator.confirmEventTime, "Confirm Event time");
+            } else {
+                await this.click(this.locator.timeTravel, "timeTravel")
+                await this.click(this.locator.setEventTime("01"), `event time : ${formattedHours + 1} `)
+                await this.click(this.locator.timeFormat(timeFormat), `Time Format : ${timeFormat}`)
+                await this.click(this.locator.confirmEventTime, "Confirm Event time");
+            }
+            while (true) {
+                await this.scrollToEnd(2);
+                if (await this.locator.saveAsDraft.isDisplayed()) {
+                    break;
+                }
+            }
+            if (currentDate > 28) {
+                await this.click(this.locator.nextMonth, "Next Month");
+                await this.click(this.locator.selectDateForEvent(1, 1), "Select Date for Event");
+                eventDate = `1-${currentMonth + 1 > 12 ? 1 : currentMonth + 1}-${currentMonth + 1 > 12 ? currentYear + 1 : currentYear}`;
+            } else {
+                console.log(currentDate)
+                if (currentDate > 20) {
+                    const date = await $$(`(//android.widget.TextView[@text="${currentDate + 1}"])`)
+                    console.log(date.length);
+                    if (date.length >= 2) {
+                        await this.click(this.locator.selectDateForEvent(currentDate + 1, date.length), "Select Date for Event");
+                    } else {
+                        await this.click(this.locator.selectDateForEvent(currentDate + 1, 1), "Select Date for Event");
+                    }
+                } else {
+                    console.log("Else part")
+                    await this.click(this.locator.selectDateForEvent(currentDate + 1, 1), "Select Date for Event");
+                }
+                eventDate = `${currentDate + 1}-${new Date().getMonth() + 1}-${new Date().getFullYear()}`
+            }
+            const time = await this.locator.eventTime.getText();
+            await this.SetValue(this.locator.descriptionInput, description);
+            await this.scrollToTop(2);
+            await this.click(this.locator.publishEvent, "Publish Event");
+            await this.waitForDisplay(this.locator.createdEventName(eventName), 90000, eventName);
+            await this.scrollToTop(2);
+            await this.click(this.locator.accountDropdown, "Account Dropdown");
+            await this.verifyElementDisplayed(this.locator.adminLogout, "Admin Logout");
+            await this.click(this.locator.adminLogout, "Admin Logout");
+            await this.waitForDisplay(this.locator.welcomeBackScreen, 90000, "Welcome Back Screen");
+            allureReporter.endStep('passed');
+            await this.AllurePass("Event Created Successfully");
+            return { eventDate, time };
+        } catch (err) {
+            allureReporter.endStep('failed');
+            await this.AllureFail("Event Creation Failed", err);
+            throw new Error(err);
+        }
+    }
+
     /**
      * isDisplayed method will check presence of element in the screen
      * @param {*} locator 
      * @param {*} text 
      * @returns 
      */
+
+    async getUpdatedDate(inputDate) {
+        // Normalize separators by replacing '/' or multiple '-' with a single '-'
+        const formattedDate = inputDate.replace(/[-\/]+/g, '-');
+
+        // Split into parts
+        const parts = formattedDate.split('-');
+
+        // Ensure proper day, month, and year assignment
+        let [day, month, year] = parts.map(Number);
+
+        // Month names in short form
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+        // Convert numeric month to short month name
+        const monthName = monthNames[month - 1];
+
+        // Return formatted string
+        return `${monthName} ${day}, ${year}`;
+    }
+
+    async formatTime(timeStr) {
+        let [hour, minute] = timeStr.split(":");
+        let [min, period] = minute.split(" ");
+
+        // Add leading zero to minute if it's a single digit
+        if (min.length === 1) {
+            min = "0" + min;
+        }
+
+        return `${hour}:${min} ${period}`;
+    }
+
     async isDisplayed(locator, text) {
         allureReporter.startStep(`🔍 **VERIFY**: "${text}" is displayed or not`)
         let display = false;
@@ -308,11 +694,11 @@ export class keywords {
         let value = false;
         let locator = [locators];
         try {
-            if(locators.includes(';')){
-                 locator = locators.split(';');
+            if (locators.includes(';')) {
+                locator = locators.split(';');
             }
             const locatorCount = locator.length;
-            console.log("locator count: "+locatorCount);
+            console.log("locator count: " + locatorCount);
             await browser.pause(2000);
             for (let i = 0; i < locatorCount; i++) {
                 const display = this.locator.errorText(locator[i]).isDisplayed({ timeout: 120000 });
@@ -390,11 +776,11 @@ export class keywords {
         let enable = false;
         try {
             enable = await locator.isClickable();
-            if(enable == false){
-            console.log(`${text} is clickable!!!`)
-            await this.AllurePass(`${text} is clickable!!!`);
-            allureReporter.endStep('passed');
-            }else{
+            if (enable == false) {
+                console.log(`${text} is clickable!!!`)
+                await this.AllurePass(`${text} is clickable!!!`);
+                allureReporter.endStep('passed');
+            } else {
                 console.log(`${text} is not clickable!!!`)
                 await this.AllureFail(`${text} is not clickable!!!`);
                 allureReporter.endStep('failed');
@@ -406,7 +792,7 @@ export class keywords {
             throw new Error(err);
         }
     }
-    
+
     async verifyElementIsEnabled(locator, text) {
         allureReporter.startStep(`🔍 **VERIFY**: "${text}" is enabled or not`)
         let enable = false;
