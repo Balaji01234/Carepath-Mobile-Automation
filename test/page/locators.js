@@ -560,7 +560,7 @@ export class locators {
     }
 
     get approveMsg() {
-        return $('(//android.widget.Button[contains(@text,"Prabhakaran Zoft")])[1]')
+        return $('//android.widget.Button[contains(@text,"Carepath - New patient onboarding request")]')
     }
 
     mailId(mail) {
@@ -569,6 +569,10 @@ export class locators {
 
     get approveButton() {
         return $('//android.widget.TextView[@text="APPROVE"]')
+    }
+
+    get rejectButton() {
+        return $('~REJECT')
     }
 
     get okResponse() {
@@ -655,40 +659,176 @@ export class locators {
         return $('//android.widget.EditText[@resource-id="description"]')
     }
 
-    selectDateForEvent(date) {
-        return $(`(//android.widget.TextView[@text="${date}"])[1]`)
+    selectDateForEvent(date,index) {
+        return $(`(//android.widget.TextView[@text="${date}"])[${index}]`)
     }
 
     get nextMonth() {
         return $('android=new UiSelector().className("android.widget.Button").instance(3)')
     }
 
-    get publishEvent(){
+    get publishEvent() {
         return $('//android.widget.Button[@text="PUBLISH EVENT"]')
     }
 
-    createdEventName(eventName){
+    createdEventName(eventName) {
         return $(`//android.widget.TextView[@text="${eventName}"]`)
     }
 
-    get eventTime(){
+    get eventTime() {
         return $('(//android.view.View//android.widget.Button[@resource-id="dropdown-btn"])[1]')
     }
 
-    get accountDropdown(){
+    get accountDropdown() {
         return $('//android.widget.Image[@text="down-arrow-icon"]')
     }
 
-    get adminLogout(){
+    get adminLogout() {
         return $('//android.widget.Button[@text="Log Out"]')
     }
 
-    get autoFill(){
+    get autoFill() {
         return $('//android.widget.TextView[@resource-id="com.android.chrome:id/touch_to_fill_sheet_title"]')
     }
 
-    get signInButtonInAutofill(){
+    get signInButtonInAutofill() {
         return $('//*[@text="Sign in"]')
+    }
+
+    get homePhoneNumberField() {
+        return $('//android.widget.EditText[@resource-id="home_number_textfield"]')
+    }
+
+    get cellPhoneNumberField() {
+        return $('//android.widget.EditText[@resource-id="cell_number_textfield"]')
+    }
+
+    get emergencyContactAndInformation() {
+        return $('~Emergency contact and information')
+    }
+
+    get firstNameInEmergencyContact() {
+        return $('//android.widget.EditText[@resource-id="first_name_textfield"]')
+    }
+
+    get lastNameInEmergencyContact() {
+        return $('//android.widget.EditText[@resource-id="last_name_textfield"]')
+    }
+
+    get relationInEmergencyContact() {
+        return $('//android.widget.EditText[@resource-id="relation_textfield"]')
+    }
+
+    get relationCellNumber() {
+        return $('//android.widget.EditText[@resource-id="cell_number_textfield"]')
+    }
+
+    get address() {
+        return $('//android.widget.EditText[@resource-id="address_password_textfield"]')
+    }
+
+    get unit() {
+        return $('//android.widget.EditText[@resource-id="unit_textfield"]')
+    }
+
+    get city() {
+        return $('//android.widget.EditText[@resource-id="city_textfield"]')
+    }
+
+    get province() {
+        return $('//android.widget.ImageView[@resource-id="province_textfield"]')
+    }
+
+    selectProvince(province) {
+        return $(`~${province}`)
+    }
+
+    get postalCodeInput() {
+        return $('//android.widget.EditText[@resource-id="postal_code_textfield"]')
+    }
+
+    get saveAllChangesButton() {
+        return $('~save_all_changes_button')
+    }
+
+    get profileUpdatePopup() {
+        return $('~Profile update!')
+    }
+
+    get profileUpdatePopupText() {
+        return $('//android.view.View[@resource-id="would_you_like_to_save_information_and_leave_text"]')
+    }
+
+    get saveAndGoButton() {
+        return $('~SAVE AND GO HOME')
+    }
+
+    get profileUpdatedPopup2() {
+        return $('~Profile updated!')
+    }
+
+    get profileUpdatedPopupText2() {
+        return $('//android.view.View[@resource-id="you_have_successfully_updated_information_text"]')
+    }
+
+    get closeIcon() {
+        return $('~dialog_close_action')
+    }
+
+    get circleOfCare() {
+        return $('~Circle of Care')
+    }
+
+    get addNewIcon() {
+        return $('~ADD NEW')
+    }
+
+    get gotToHomePageButton() {
+        return $('~GO TO HOMEPAGE')
+    }
+
+    get changePassword() {
+        return $('~CHANGE PASSWORD')
+    }
+
+    setEventTime(time) {
+        return $(`(//android.view.View[@text="Event Time:"]//..//android.view.View[@content-desc="${time}"])[1]`)
+    }
+
+    timeFormat(format) {
+        return $(`//android.widget.TextView[@text="${format}"]`)
+    }
+
+    get confirmEventTime() {
+        return $('//android.widget.Button[@text="OK"]')
+    }
+
+    get submitButtonInProfile() {
+        return $('~submit_button')
+    }
+
+    get rejectMessageForMH(){
+        return $(`~We are sorry to inform you we won't be able to enroll you in mental health program. Your employment is not eligible for Carepath Digital Health program.\n\nIf you have any question, please call at\n1-866-883-5956. https://carepath.ca`)
+    }
+
+    get rejectMessageForCancer(){
+        return $(`~We are sorry to inform you we won't be able to enroll you in cancer program. Your employment is not eligible for Carepath Digital Health program.\n\nIf you have any question, please call at\n1-866-883-5956. https://carepath.ca`)
+    }
+
+    get rejectMessageForChronic(){
+        return $(`~We are sorry to inform you we won't be able to enroll you in chronic disease program. Your employment is not eligible for Carepath Digital Health program.\n\nIf you have any question, please call at\n1-866-883-5956. https://carepath.ca`)
+    }
+
+    get rejectMessageForElderCare(){
+        return $(`~We are sorry to inform you we won't be able to enroll you in elder care program. Your employment is not eligible for Carepath Digital Health program.\n\nIf you have any question, please call at\n1-866-883-5956. https://carepath.ca`)
+    }
+
+    get closeAndDeleteButton(){
+        return $(`~CLOSE AND DELETE`)
+    }
+
+    get welcomeToOnboarding(){
+        return $('~Welcome to Carepath Onboarding!')
     }
 
 }

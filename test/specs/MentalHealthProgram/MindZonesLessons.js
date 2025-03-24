@@ -1627,7 +1627,7 @@ for (let i = 0; i < testCases.length; i++) {
             await Keywords.verifyElementDisplayed(locator.mindzoneCourse, "Mind Zone Course Title")
         });
 
-        it.only('Lesson_8', async () => {
+        it('Lesson_8', async () => {
             const description = await readData1("MindZoneLessons", "Lessons", "Mindzone", "Lesson Eight", `${testCases[i].testId}`);
             allureReporter.addDescription(description);
             await browser.pause(2000);
