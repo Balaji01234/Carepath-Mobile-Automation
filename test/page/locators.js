@@ -607,10 +607,6 @@ export class locators {
         return $('~Contact Information')
     }
 
-    get welcomeBackScreen() {
-        return $('//android.widget.TextView[@text="Welcome Back"]')
-    }
-
     get adminUserName() {
         return $('//android.widget.EditText[@resource-id="username"]')
     }
@@ -655,24 +651,12 @@ export class locators {
         return $('//android.view.View[@text="Description:"]')
     }
 
-    get descriptionInput() {
-        return $('//android.widget.EditText[@resource-id="description"]')
-    }
-
-    selectDateForEvent(date,index) {
+    selectDateForEvent(date, index) {
         return $(`(//android.widget.TextView[@text="${date}"])[${index}]`)
     }
 
     get nextMonth() {
         return $('android=new UiSelector().className("android.widget.Button").instance(3)')
-    }
-
-    get publishEvent() {
-        return $('//android.widget.Button[@text="PUBLISH EVENT"]')
-    }
-
-    createdEventName(eventName) {
-        return $(`//android.widget.TextView[@text="${eventName}"]`)
     }
 
     get eventTime() {
@@ -807,27 +791,27 @@ export class locators {
         return $('~submit_button')
     }
 
-    get rejectMessageForMH(){
+    get rejectMessageForMH() {
         return $(`~We are sorry to inform you we won't be able to enroll you in mental health program. Your employment is not eligible for Carepath Digital Health program.\n\nIf you have any question, please call at\n1-866-883-5956. https://carepath.ca`)
     }
 
-    get rejectMessageForCancer(){
+    get rejectMessageForCancer() {
         return $(`~We are sorry to inform you we won't be able to enroll you in cancer program. Your employment is not eligible for Carepath Digital Health program.\n\nIf you have any question, please call at\n1-866-883-5956. https://carepath.ca`)
     }
 
-    get rejectMessageForChronic(){
+    get rejectMessageForChronic() {
         return $(`~We are sorry to inform you we won't be able to enroll you in chronic disease program. Your employment is not eligible for Carepath Digital Health program.\n\nIf you have any question, please call at\n1-866-883-5956. https://carepath.ca`)
     }
 
-    get rejectMessageForElderCare(){
+    get rejectMessageForElderCare() {
         return $(`~We are sorry to inform you we won't be able to enroll you in elder care program. Your employment is not eligible for Carepath Digital Health program.\n\nIf you have any question, please call at\n1-866-883-5956. https://carepath.ca`)
     }
 
-    get closeAndDeleteButton(){
+    get closeAndDeleteButton() {
         return $(`~CLOSE AND DELETE`)
     }
 
-    get welcomeToOnboarding(){
+    get welcomeToOnboarding() {
         return $('~Welcome to Carepath Onboarding!')
     }
     get communityGroup() {
@@ -1302,10 +1286,6 @@ export class locators {
         return $('//android.widget.EditText[@resource-id="description"]')
     }
 
-    selectDateForEvent(date, index) {
-        return $(`(//android.widget.TextView[@text="${date}"])[3]`)
-    }
-
     get nextMonth() {
         return $('android=new UiSelector().className("android.widget.Button").instance(3)')
     }
@@ -1316,18 +1296,6 @@ export class locators {
 
     createdEventName(eventName) {
         return $(`//android.widget.TextView[@text="${eventName}"]`)
-    }
-
-    get eventTime() {
-        return $('(//android.view.View//android.widget.Button[@resource-id="dropdown-btn"])[1]')
-    }
-
-    get accountDropdown() {
-        return $('//android.widget.Image[@text="down-arrow-icon"]')
-    }
-
-    get adminLogout() {
-        return $('//android.widget.Button[@text="Log Out"]')
     }
 
     get autoFill() {
@@ -1542,11 +1510,11 @@ export class locators {
         return $('//android.widget.Image[@text="edit icon"]')
     }
 
-    get unpublish(){
+    get unpublish() {
         return $('//android.widget.Button[@text="UNPUBLISH GROUP"]')
     }
 
-    get yesUnpublish(){
+    get yesUnpublish() {
         return $('//android.widget.Button[@text="YES, UNPUBLISH GROUP"]')
     }
 
