@@ -192,6 +192,7 @@ export class keywords {
             }
             await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 90000 });
             await this.locator.chromeHomeButton.click();
+            await this.chromeCleanup();
             await this.locator.chromeSearchBox.click();
             await this.locator.chromeUrl.waitForDisplayed({ timeout: 60000 });
             await this.locator.chromeUrl.waitForEnabled({ timeout: 60000 });
@@ -224,6 +225,7 @@ export class keywords {
         } catch (error) {
             console.log(error)
         } finally {
+            await this.chromeCleanup();
             // await driver.execute('mobile: shell', {
             //     command: 'pm clear',
             //     args: ['com.android.chrome'],
@@ -245,6 +247,7 @@ export class keywords {
             if (await this.locator.chromeEasierPopup.isDisplayed()) {
                 await this.click(this.locator.noThanks, 'No Thanks')
             }
+            await this.chromeCleanup();
             await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 60000 });
             await this.locator.chromeHomeButton.click();
             await this.locator.chromeSearchBox.click();
@@ -276,6 +279,7 @@ export class keywords {
         } catch (error) {
             console.log(error)
         } finally {
+            await this.chromeCleanup();
             // await driver.execute('mobile: shell', {
             //     command: 'pm clear',
             //     args: ['com.android.chrome'],
@@ -1037,6 +1041,7 @@ export class keywords {
             if (await this.locator.chromeEasierPopup.isDisplayed({ timeout: 90000 })) {
                 await this.click(this.locator.noThanks, 'No Thanks')
             }
+            await this.chromeCleanup();
             await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 90000 });
             await this.locator.chromeHomeButton.click();
             await this.locator.chromeSearchBox.click();
@@ -1067,10 +1072,15 @@ export class keywords {
                 await this.SetValue(this.locator.chromeUrl, "https://mail.google.com/mail/mu/mp/2/#cv");
                 await browser.pause(2000)
                 await driver.keys('Enter');
-                await browser.pause(4000)
-                if (await this.locator.useWebVersion.isDisplayed({ timeout: 100000 })) {
-                    await this.click(this.locator.useWebVersion, "Use Web Version");
+            }
+            try {
+                const isDisplayed = await this.locator.useWebVersion.waitForDisplayed();
+                if (isDisplayed) {
+                    console.log("Chrome --> Use web version is displayed")
+                    await this.click(this.locator.useWebVersion, "Use web version");
                 }
+            } catch (err) {
+                console.log("Chrome --> Use web version is not displayed")
             }
             await browser.pause(4000)
             if (await this.locator.useWebVersion.isDisplayed({ timeout: 90000 })) {
@@ -1107,12 +1117,43 @@ export class keywords {
             allureReporter.endStep('failed');
             throw new Error(err);
         } finally {
+            await this.chromeCleanup();
             // await driver.execute('mobile: shell', {
             //     command: 'pm clear',
             //     args: ['com.android.chrome'],
             // });
             await browser.pause(3000)
             await driver.terminateApp('com.android.chrome');
+        }
+    }
+
+    async chromeCleanup() {
+        await this.waitForDisplay(this.locator.chrome3dots, 90000, "Chrome options");
+        await this.click(this.locator.chrome3dots, "Chrome options")
+        await this.verifyElementDisplayed(this.locator.deleteBrowsingData, "Delete browsing data");
+        await this.click(this.locator.deleteBrowsingData, "Delete browsing data");
+        await this.click(this.locator.deleteDataDropdown, "Delete data dropdown");
+        await this.click(this.locator.allTimeOption, "All time option");
+        await this.verifyElementDisplayed(this.locator.deleteData, "Delete data button");
+        await this.click(this.locator.deleteData, "Delete data button");
+        await this.verifyElementDisplayed(this.locator.newTab, "New Tab icon");
+        await this.click(this.locator.newTab, "New Tab icon");
+        await this.waitForDisplay(this.locator.chrome3dots, 90000, "Chrome options");
+        await this.click(this.locator.chrome3dots, "Chrome options");
+        await this.click(this.locator.historyOption, "History Option");
+        if (await this.locator.emptyStateIcon.isDisplayed({ timeout: 90000 })) {
+            await this.click(this.locator.closeIconInChrome, "Close icon in chrome");
+            await this.verifyElementDisplayed(this.locator.chromeSearchBox, "Chrome search box");
+        } else {
+            while (true) {
+                if (await this.locator.emptyStateIcon.isDisplayed()) {
+                    await this.click(this.locator.closeIconInChrome, "Close icon in chrome");
+                    await this.verifyElementDisplayed(this.locator.chromeSearchBox, "Chrome search box");
+                    break;
+                }
+                await this.click(this.locator.removeHistory, "Remove History");
+
+            }
         }
     }
 }

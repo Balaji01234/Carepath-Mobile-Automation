@@ -831,4 +831,31 @@ export class locators {
         return $('~Welcome to Carepath Onboarding!')
     }
 
+    get deleteDataDropdown(){
+        return $('//android.widget.Spinner[@resource-id="com.android.chrome:id/quick_delete_spinner"]')
+    }
+
+    get allTimeOption(){
+        return $(`//*[@text='All time']`)
+    }
+
+    get historyOption(){
+        return $(`//*[@text='History']`)
+    }
+
+    get emptyStateIcon(){
+        return $(`//android.widget.ImageView[@resource-id="com.android.chrome:id/empty_state_icon"]`)
+    }
+
+    get removeHistory(){
+        return $(`~mailinator - Google Search Remove`)
+    }
+
+    get closeIconInChrome(){
+        return $('~Close')
+    }
+
+    get newTab(){
+        return $('~New tab')
+    }
 }
