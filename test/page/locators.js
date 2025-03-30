@@ -1518,4 +1518,31 @@ export class locators {
         return $('//android.widget.Button[@text="YES, UNPUBLISH GROUP"]')
     }
 
+    get deleteDataDropdown(){
+        return $('//android.widget.Spinner[@resource-id="com.android.chrome:id/quick_delete_spinner"]')
+    }
+
+    get allTimeOption(){
+        return $(`//*[@text='All time']`)
+    }
+
+    get historyOption(){
+        return $(`//*[@text='History']`)
+    }
+
+    get emptyStateIcon(){
+        return $(`//android.widget.ImageView[@resource-id="com.android.chrome:id/empty_state_icon"]`)
+    }
+
+    get removeHistory(){
+        return $(`//android.widget.ImageButton[contains(@content-desc,"Remove")]`)
+    }
+
+    get closeIconInChrome(){
+        return $('~Close')
+    }
+
+    get newTab(){
+        return $('~New tab')
+    }
 }

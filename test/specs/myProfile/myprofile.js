@@ -234,7 +234,4 @@ describe('My Profile Positive', async () => {
             }
         });
     }
-    it.skip("admin", async () => {
-        await Keywords.eventCreationInAdminPortal("test","test","AM")
-    })
 });

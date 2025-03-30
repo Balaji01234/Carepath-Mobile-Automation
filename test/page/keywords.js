@@ -16,6 +16,7 @@ export class keywords {
         this.onboardLocator = new onboardLocators();
         this.forgotLocator = new ForgotPasswordLocators();
         this.timeout = process.env.DISPLAY_TIMEOUT
+        this.mailinator = process.env.MAILINATOR
     }
     /**
        * Log success message and attach a screenshot.
@@ -562,28 +563,18 @@ export class keywords {
      */
     async getOTPFromMailinator(mail) {
         try {
-            await driver.startActivity('com.android.chrome', 'com.google.android.apps.chrome.Main');
-            if (await this.locator.chromeDismissButton.isDisplayed({ timeout: 90000 })) {
+            await driver.execute('mobile: shell', {
+                command: `am start -a android.intent.action.VIEW -d "${this.mailinator}" com.android.chrome`
+            });
+            if (await this.locator.chromeDismissButton.isDisplayed()) {
                 await this.locator.chromeDismissButton.click()
             }
-            if (await this.locator.chromeDismissButton.isDisplayed({ timeout: 100000 })) {
-                await this.locator.chromeDismissButton.click()
-            }
-            if (await this.locator.chromeGotIt.isDisplayed({ timeout: 90000 })) {
+            if (await this.locator.chromeGotIt.isDisplayed()) {
                 await this.locator.chromeGotIt.click()
             }
-            if (await this.locator.chromeEasierPopup.isDisplayed({ timeout: 90000 })) {
+            if (await this.locator.chromeEasierPopup.isDisplayed()) {
                 await this.click(this.locator.noThanks, 'No Thanks')
             }
-            await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 90000 });
-            await this.locator.chromeHomeButton.click();
-            await this.locator.chromeSearchBox.click();
-            await this.locator.chromeUrl.waitForDisplayed({ timeout: 60000 });
-            await this.locator.chromeUrl.waitForEnabled({ timeout: 60000 });
-            await this.SetValue(this.locator.chromeUrl, process.env.MAILINATOR);
-            await browser.pause(2000)
-            await driver.keys('Enter');
-            await browser.pause(2000)
             if (await this.locator.mailinatorInbox.isDisplayed({ timeout: 80000 })) {
                 await this.locator.mailinatorInbox.clearValue();
                 await this.SetValue(this.locator.mailinatorInbox, mail);
@@ -609,18 +600,16 @@ export class keywords {
         } catch (error) {
             console.log(error)
         } finally {
-            // await driver.execute('mobile: shell', {
-            //     command: 'pm clear',
-            //     args: ['com.android.chrome'],
-            // });
-            await browser.pause(3000)
-            await driver.terminateApp('com.android.chrome');
+            await this.chromeCleanup();
+            await driver.terminateApp('com.android.chrome')
         }
     }
 
     async getForForgotOTPFromMailinator(mail) {
         try {
-            await driver.startActivity('com.android.chrome', 'com.google.android.apps.chrome.Main');
+            await driver.execute('mobile: shell', {
+                command: `am start -a android.intent.action.VIEW -d "${this.mailinator}" com.android.chrome`
+            });
             if (await this.locator.chromeDismissButton.isDisplayed()) {
                 await this.locator.chromeDismissButton.click()
             }
@@ -630,13 +619,6 @@ export class keywords {
             if (await this.locator.chromeEasierPopup.isDisplayed()) {
                 await this.click(this.locator.noThanks, 'No Thanks')
             }
-            await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 60000 });
-            await this.locator.chromeHomeButton.click();
-            await this.locator.chromeSearchBox.click();
-            await this.SetValue(this.locator.chromeUrl, process.env.MAILINATOR);
-            await browser.pause(2000)
-            await driver.keys('Enter');
-            await browser.pause(4000)
             if (await this.locator.mailinatorInbox.isDisplayed({ timeout: 80000 })) {
                 await this.locator.mailinatorInbox.clearValue();
                 await this.SetValue(this.locator.mailinatorInbox, mail);
@@ -661,12 +643,8 @@ export class keywords {
         } catch (error) {
             console.log(error)
         } finally {
-            // await driver.execute('mobile: shell', {
-            //     command: 'pm clear',
-            //     args: ['com.android.chrome'],
-            // });
-            await browser.pause(3000)
-            await driver.terminateApp('com.android.chrome');
+            await this.chromeCleanup();
+            await driver.terminateApp('com.android.chrome')
         }
     }
 
@@ -1406,60 +1384,30 @@ export class keywords {
     async programApprove(mail, permission) {
         allureReporter.startStep("Approve the program from mail");
         try {
-            await driver.startActivity('com.android.chrome', 'com.google.android.apps.chrome.Main');
-            try {
-                const isDisplayed = await this.locator.chromeDismissButton.waitForDisplayed();
-                if (isDisplayed) {
-                    console.log("Chrome --> Use without account popup is displayed")
-                    await this.click(this.locator.chromeDismissButton, "Chrome dismiss button");
-                }
-            } catch (error) {
-                console.log("Chrome --> Use without account popup is not displayed")
+            await driver.execute('mobile: shell', {
+                command: `am start -a android.intent.action.VIEW -d "${process.env.GMAIL_URL}" com.android.chrome`
+            });
+            if (await this.locator.chromeDismissButton.isDisplayed()) {
+                await this.locator.chromeDismissButton.click()
             }
-            if (await this.locator.chromeGotIt.isDisplayed({ timeout: 90000 })) {
+            if (await this.locator.chromeGotIt.isDisplayed()) {
                 await this.locator.chromeGotIt.click()
             }
-            if (await this.locator.chromeEasierPopup.isDisplayed({ timeout: 90000 })) {
+            if (await this.locator.chromeEasierPopup.isDisplayed()) {
                 await this.click(this.locator.noThanks, 'No Thanks')
             }
-            await this.locator.chromeHomeButton.waitForDisplayed({ timeout: 90000 });
-            await this.locator.chromeHomeButton.click();
-            await this.locator.chromeSearchBox.click();
-            await this.SetValue(this.locator.chromeUrl, process.env.GMAIL_URL);
-            await browser.pause(2000)
-            await driver.keys('Enter');
-            await browser.pause(5000)
-            if (!await this.locator.googleApps.isDisplayed({ timeout: 80000 })) {
-                await this.waitForDisplay(this.locator.googleSignIn, 90000, "Google Sign In");
-                await this.click(this.locator.googleMail, "Google Mail");
-                await browser.pause(3000)
-                if (await this.locator.googleSavePasswordPopup.isDisplayed({ timeout: 80000 })) {
-                    await this.click(this.locator.sigInWithId, "Sign in with Id")
-                } else {
-                    await this.SetValue(this.locator.googleMail, process.env.GMAIL_ID)
-                    await this.click(this.locator.googleNextButton, "Next Button");
+            await this.SetValue(this.locator.googleMail, process.env.GMAIL_ID)
+            await this.click(this.locator.googleNextButton, "Next Button");
+            await this.SetValue(this.locator.googlePasswordInput, process.env.PASSWORD)
+            await this.click(this.locator.googleNextButton, "Next Button");
+            try {
+                const isDisplayed = await this.locator.useWebVersion.waitForDisplayed();
+                if (isDisplayed) {
+                    console.log("Chrome --> Use web version is displayed")
+                    await this.click(this.locator.useWebVersion, "Use web version");
                 }
-
-                await this.SetValue(this.locator.googlePasswordInput, process.env.PASSWORD)
-                await this.click(this.locator.googleNextButton, "Next Button");
-                await this.waitForDisplay(this.locator.googleApps, 90000, "Google Apps");
-            }
-            console.log(await browser.getContexts());
-            if (await this.locator.useWebVersion.isDisplayed({ timeout: 100000 })) {
-                await this.click(this.locator.useWebVersion, "Use Web Version");
-            } else {
-                await this.waitForDisplay(this.locator.googleApps, 100000, "Google Apps");
-                await this.SetValue(this.locator.chromeUrl, "https://mail.google.com/mail/mu/mp/2/#cv");
-                await browser.pause(2000)
-                await driver.keys('Enter');
-                await browser.pause(4000)
-                if (await this.locator.useWebVersion.isDisplayed({ timeout: 100000 })) {
-                    await this.click(this.locator.useWebVersion, "Use Web Version");
-                }
-            }
-            await browser.pause(4000)
-            if (await this.locator.useWebVersion.isDisplayed({ timeout: 90000 })) {
-                await this.click(this.locator.useWebVersion, "Use Web Version");
+            } catch (err) {
+                console.log("Chrome --> Use web version is not displayed")
             }
             await this.waitForDisplay(this.locator.searchMail, 90000, "Search Mail");
             await this.SetValue(this.locator.searchMail, mail);
@@ -1492,14 +1440,38 @@ export class keywords {
             allureReporter.endStep('failed');
             throw new Error(err);
         } finally {
-            // await driver.execute('mobile: shell', {
-            //     command: 'pm clear',
-            //     args: ['com.android.chrome'],
-            // });
-            await browser.pause(3000)
-            await driver.terminateApp('com.android.chrome');
+            await this.chromeCleanup();
+            await driver.terminateApp('com.android.chrome')
         }
     }
 
+    async chromeCleanup() {
+        await this.waitForDisplay(this.locator.chrome3dots, 90000, "Chrome options");
+        await this.click(this.locator.chrome3dots, "Chrome options")
+        await this.verifyElementDisplayed(this.locator.deleteBrowsingData, "Delete browsing data");
+        await this.click(this.locator.deleteBrowsingData, "Delete browsing data");
+        await this.click(this.locator.deleteDataDropdown, "Delete data dropdown");
+        await this.click(this.locator.allTimeOption, "All time option");
+        await this.verifyElementDisplayed(this.locator.deleteData, "Delete data button");
+        await this.click(this.locator.deleteData, "Delete data button");
+        await this.verifyElementDisplayed(this.locator.newTab, "New Tab icon");
+        await this.click(this.locator.newTab, "New Tab icon");
+        await this.waitForDisplay(this.locator.chrome3dots, 90000, "Chrome options");
+        await this.click(this.locator.chrome3dots, "Chrome options");
+        await this.click(this.locator.historyOption, "History Option");
+        if (await this.locator.emptyStateIcon.isDisplayed({ timeout: 90000 })) {
+            await this.click(this.locator.closeIconInChrome, "Close icon in chrome");
+            await this.verifyElementDisplayed(this.locator.chromeSearchBox, "Chrome search box");
+        } else {
+            while (true) {
+                if (await this.locator.emptyStateIcon.isDisplayed()) {
+                    await this.click(this.locator.closeIconInChrome, "Close icon in chrome");
+                    await this.verifyElementDisplayed(this.locator.chromeSearchBox, "Chrome search box");
+                    break;
+                }
+                await this.click(this.locator.removeHistory, "Remove History");
 
+            }
+        }
+    }
 }
