@@ -148,7 +148,7 @@ describe('Sign-Up with Approval - Positive', async () => {
                 await Keywords.click(locator.closeButton, "Close Button");
                 await Keywords.waitForDisplay(locator.startNow, 30000, "Start Now Button");
                 await saveTestDataToJson(testCases[i].testId, testCases[i].testDescription, role, FirstName, LastName, mail, password, program)
-                await Keywords.programApprove(mail);
+                await Keywords.programApprove(mail,"approve");
                 await Keywords.login(mail, password, program);
                 await Keywords.verifyElementDisplayed(locator.continueButton, "Continue Button");
                 await Keywords.click(locator.continueButton, "Continue Button");
