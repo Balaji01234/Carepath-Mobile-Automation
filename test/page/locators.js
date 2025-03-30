@@ -848,7 +848,7 @@ export class locators {
     }
 
     get removeHistory(){
-        return $(`~mailinator - Google Search Remove`)
+        return $(`//android.widget.ImageButton[contains(@content-desc,"Remove")]`)
     }
 
     get closeIconInChrome(){
