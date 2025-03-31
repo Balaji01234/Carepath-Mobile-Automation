@@ -1,7 +1,7 @@
 import { locators } from '../../page/locators.js';
 import { keywords } from '../../page/keywords.js';
 import allureReporter from '@wdio/allure-reporter'
-import { readData1, getFilteredTests,getUniqueEmailByProgramRoleAndScenario } from '../../../utils/common.js';
+import { readData1, getFilteredTests,getUniqueEmailByProgramRoleAndScenario,writeExcelData1 } from '../../../utils/common.js';
 import { expect } from 'chai';
 import { onboardLocators } from '../../page/onboard.locators.js';
 
