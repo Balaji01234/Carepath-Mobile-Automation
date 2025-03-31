@@ -1,7 +1,7 @@
 import { locators } from '../../page/locators.js';
 import { keywords } from '../../page/keywords.js';
 import allureReporter from '@wdio/allure-reporter'
-import { readData1, getFilteredTests,getUniqueEmailByProgramRoleAndScenario } from '../../../utils/common.js';
+import { readData1, getFilteredTests, getUniqueEmailByProgramRoleAndScenario, writeExcelData1 } from '../../../utils/common.js';
 import { expect } from 'chai';
 import { onboardLocators } from '../../page/onboard.locators.js';
 
@@ -487,7 +487,7 @@ describe('Onboarding - Cancer Program', async () => {
                     await Keywords.click(Locatoronboard.goToProgramSelection, "Go to program selection button");
                     await Keywords.waitForDisplay(Locatoronboard.homePage, 45000, "Home Page")
                     await Keywords.AllureInfo("Onboard Flow Completed!!!");
-                }else{
+                } else {
                     throw new Error("Please Check Program is Approved or not, since username was: " + userName);
                 }
             } catch (err) {

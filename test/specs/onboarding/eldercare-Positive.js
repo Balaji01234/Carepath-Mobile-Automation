@@ -1,7 +1,7 @@
 import { locators } from '../../page/locators.js';
 import { onboardLocators } from '../../page/onboard.locators.js'
 import { keywords } from '../../page/keywords.js';
-import { readData1, getFilteredTests } from '../../../utils/common.js';
+import { readData1, getFilteredTests, writeExcelData1, getUniqueEmailByProgramRoleAndScenario } from '../../../utils/common.js';
 import allureReporter from '@wdio/allure-reporter'
 
 describe('Carepath Automation', () => {

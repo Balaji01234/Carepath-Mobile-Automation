@@ -2,7 +2,7 @@
 import { locators } from '../../page/locators.js';
 import { onboardLocators } from '../../page/onboard.locators.js'
 import { keywords } from '../../page/keywords.js';
-import { readData1, getFilteredTests, getUniqueEmailByProgramRoleAndScenario } from '../../../utils/common.js';
+import { readData1, getFilteredTests, getUniqueEmailByProgramRoleAndScenario, writeExcelData1 } from '../../../utils/common.js';
 import allureReporter from '@wdio/allure-reporter'
 import { expect } from 'chai';
 
@@ -243,12 +243,12 @@ describe('Onboarding - Chronic Program', () => {
                     }
                     await Keywords.waitForDisplay(locator.homePage, 45000, "Home Page")
                     await Keywords.AllureInfo("Onboard Flow Completed!!!");
-                }else{
+                } else {
                     throw new Error("Please Check Program is Approved or not, since username was: " + userName);
                 }
-                } catch (err) {
-                    throw new Error(err);
-                }
-            });
+            } catch (err) {
+                throw new Error(err);
+            }
+        });
     }
 });
