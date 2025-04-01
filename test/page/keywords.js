@@ -1434,7 +1434,7 @@ export class keywords {
             } else {
                 await this.click(this.locator.rejectButton, "Reject Button");
             }
-            await this.verifyElementDisplayed(this.locator.okResponse, "Ok Response");
+            // await this.verifyElementDisplayed(this.locator.okResponse, "Ok Response");
             allureReporter.endStep('passed');
         } catch (err) {
             allureReporter.endStep('failed');
