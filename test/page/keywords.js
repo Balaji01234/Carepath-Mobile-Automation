@@ -1167,11 +1167,16 @@ export class keywords {
             } catch (error) {
                 // console.warn("Allow button did not appear within 90 seconds.");
             }
-            if (await this.locator.allowButton.isDisplayed({ timeout: 25000 })) {
-                await this.click(this.locator.allowButton, "allow button");
-                if (await this.locator.backDefaultNotification.isDisplayed({ timeout: 30000 })) {
-                    await this.click(this.locator.backDefaultNotification, "Back arrow for Default notification button");
+            try {
+                const isDisplayed = await this.locator.allowButton.waitForDisplayed();
+                if (isDisplayed) {
+                    await this.click(this.locator.allowButton, "Allow button");
+                    if (await this.locator.backDefaultNotification.isDisplayed({ timeout: 30000 })) {
+                        await this.click(this.locator.backDefaultNotification, "Back arrow for Default notification button");
+                    }
                 }
+            } catch (error) {
+                // console.warn("Allow button did not appear within 90 seconds.");
             }
             await this.waitForDisplay(this.locator.program(program), 60000, program);
             await this.click(this.locator.program(program), program);
@@ -1472,6 +1477,19 @@ export class keywords {
                 await this.click(this.locator.removeHistory, "Remove History");
 
             }
+        }
+    }
+
+    async scrollToText(text) {
+        allureReporter.startStep("Scroll to the text");
+        try {
+            $(`android=new UiScrollable(new UiSelector().scrollable(true)).scrollToEnd(${text})`)
+            this.AllurePass1("Successfully scroll to the Text -> " + text);
+            allureReporter.endStep('passed');
+        } catch (err) {
+            this.AllureFail("Scroll to the text is unsuccessful -> " + text + " " + err);
+            allureReporter.endStep('failed');
+            throw new Error(err);
         }
     }
 }
