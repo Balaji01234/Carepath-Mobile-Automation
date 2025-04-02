@@ -695,6 +695,18 @@ export class locators {
         return $('//android.widget.EditText[@resource-id="first_name_textfield"]')
     }
 
+    get coverPhoto() {
+        return $('//android.widget.TextView[@text="Cover Photo:"]')
+    }
+
+	 get wouldYouLike() {
+        return $('~Would you like to save it to you favourites file for quick access in future?')
+    }
+
+	 get addCommentGroup() {
+        return $('~Add Comment')
+    }
+
     get lastNameInEmergencyContact() {
         return $('//android.widget.EditText[@resource-id="last_name_textfield"]')
     }
