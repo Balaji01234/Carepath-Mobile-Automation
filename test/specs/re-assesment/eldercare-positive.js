@@ -13,11 +13,9 @@ describe('Re-Assessment - Eldercare Program', async () => {
 
     const testCases = getFilteredTests("re-assesment", "Eldercare - Canadian", "Canadian");
 
-
-
     //Canadian Problem
     for (let i = 0; i < testCases.length; i++) {
-        it.only(`${testCases[i].testId} - ${testCases[i].testDescription}`, async () => {
+        it(`${testCases[i].testId} - ${testCases[i].testDescription}`, async () => {
             try {
                 const userName = await readData1("re-assesment", "Eldercare - Canadian", "Canadian", "Email", `${testCases[i].testId}`);
                 const password = await readData1("re-assesment", "Eldercare - Canadian", "Canadian", "Password", `${testCases[i].testId}`);
