@@ -1,0 +1,12 @@
+Error: element ("~Fears/Worries") still not existing after 90000ms
+    at <anonymous> (D:\WebDriverIO\node_modules\@wdio\runner\node_modules\webdriverio\build\index.js:4962:15)
+    at Element.wrapCommandFn (D:\WebDriverIO\node_modules\@wdio\utils\build\index.js:893:23)
+    at Element.elementErrorHandlerCallbackFn (D:\WebDriverIO\node_modules\@wdio\runner\node_modules\webdriverio\build\index.js:7587:24)
+    at Element.wrapCommandFn (D:\WebDriverIO\node_modules\@wdio\utils\build\index.js:893:23)
+    at Element.wrapCommandFn (D:\WebDriverIO\node_modules\@wdio\utils\build\index.js:893:23)
+    at Element.elementErrorHandlerCallbackFn (D:\WebDriverIO\node_modules\@wdio\runner\node_modules\webdriverio\build\index.js:7587:24)
+    at Element.wrapCommandFn (D:\WebDriverIO\node_modules\@wdio\utils\build\index.js:893:23)
+    at async keywords.verifyElementDisplayed (file:///D:/WebDriverIO/test/page/keywords.js:654:13)
+    at async Context.<anonymous> (file:///D:/WebDriverIO/test/specs/re-assesment/eldercare-positive.js?invalidateCache=0.8721591379867628:58:17)
+    at Context.executeAsync (D:\WebDriverIO\node_modules\@wdio\utils\build\index.js:1013:20)
+    at Context.testFrameworkFnWrapper (D:\WebDriverIO\node_modules\@wdio\utils\build\index.js:1084:14)
