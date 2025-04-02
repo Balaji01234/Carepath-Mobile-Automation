@@ -101,8 +101,8 @@ describe('Re-Assessment - Mental Health Program', async () => {
                 await Keywords.AllureInfo("--> Health Assessment Review completed <--");
                 await Keywords.verifyElementDisplayed(locator.thankYouText, "Thank you!");
                 await Keywords.verifyText(locator.thankYouForCompleting, 'content-desc', thankYouText);
-                await Keywords.verifyElementIsEnabled(locator.goHomeButtonInCancer, "Go to home button");
-                await Keywords.click(locator.goHomeButtonInCancer, "Go to home button");
+                await Keywords.verifyElementIsEnabled(locator.goToHomeButton, "Go to home button");
+                await Keywords.click(locator.goToHomeButton, "Go to home button");
                 await Keywords.verifyElementDisplayed(locator.accessibilityLocator("MENTAL HEALTH PROGRAM"), "MENTAL HEALTH PROGRAM");
             }
             catch (err) {

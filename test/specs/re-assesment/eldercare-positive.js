@@ -5,7 +5,7 @@ import { readData1, getFilteredTests } from '../../../utils/common.js';
 import { onboardLocators } from '../../page/onboard.locators.js';
 
 
-describe('Re-Assessment - Chronic Program', async () => {
+describe('Re-Assessment - Eldercare Program', async () => {
     const locator = new locators();
     const Locatoronboard = new onboardLocators();
     const Keywords = new keywords(locator);
