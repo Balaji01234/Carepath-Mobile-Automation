@@ -27,8 +27,9 @@ describe('Re-Assessment - Mental Health Program', async () => {
                 await Keywords.verifyElementIsEnabled(Locatoronboard.continueButton, "Continue Button");
                 await Keywords.click(Locatoronboard.continueButton, "Continue Button");
                 await Keywords.verifyElementDisplayed(locator.accessibilityLocator("MENTAL HEALTH PROGRAM"), "MENTAL HEALTH PROGRAM");
+                await driver.pause(4000)
                 while (true) {
-                    await Keywords.scrollToEnd(2);
+                    await Keywords.scrollToEnd(3);
                     if (await locator.phq9Assessment.isDisplayed()) {
                         break;
                     }
@@ -64,8 +65,9 @@ describe('Re-Assessment - Mental Health Program', async () => {
                 await Keywords.verifyElementIsEnabled(locator.goToHomeButton, "Go to home button");
                 await Keywords.click(locator.goToHomeButton, "Go to home button");
                 await Keywords.verifyElementDisplayed(locator.accessibilityLocator("MENTAL HEALTH PROGRAM"), "MENTAL HEALTH PROGRAM");
+                await driver.pause(4000)
                 while (true) {
-                    await Keywords.scrollToEnd(2);
+                    await Keywords.scrollToEnd(3);
                     if (await locator.gad7Assessment.isDisplayed()) {
                         break;
                     }

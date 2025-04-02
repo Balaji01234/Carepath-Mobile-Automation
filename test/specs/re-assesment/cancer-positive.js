@@ -30,8 +30,9 @@ describe('Re-Assessment - Cancer Program', async () => {
                 await Keywords.verifyElementIsEnabled(Locatoronboard.continueButton, "Continue Button");
                 await Keywords.click(Locatoronboard.continueButton, "Continue Button");
                 await Keywords.verifyElementDisplayed(locator.accessibilityLocator("CANCER PROGRAM"), "CANCER PROGRAM");
+                await driver.pause(4000)
                 while (true) {
-                    await Keywords.scrollToEnd(2);
+                    await Keywords.scrollToEnd(3);
                     if (await locator.ESASAssesment.isDisplayed()) {
                         break;
                     }
@@ -100,8 +101,9 @@ describe('Re-Assessment - Cancer Program', async () => {
                 await Keywords.verifyElementIsEnabled(Locatoronboard.continueButton, "Continue Button");
                 await Keywords.click(Locatoronboard.continueButton, "Continue Button");
                 await Keywords.verifyElementDisplayed(locator.accessibilityLocator("CANCER PROGRAM"), "CANCER PROGRAM");
+                await driver.pause(4000)
                 while (true) {
-                    await Keywords.scrollToEnd(2);
+                    await Keywords.scrollToEnd(3);
                     if (await locator.canadianProblemCategory.isDisplayed({ timeout: 45000 })) {
                         break;
                     }
@@ -195,8 +197,9 @@ describe('Re-Assessment - Cancer Program', async () => {
                 await Keywords.verifyElementIsEnabled(Locatoronboard.continueButton, "Continue Button");
                 await Keywords.click(Locatoronboard.continueButton, "Continue Button");
                 await Keywords.verifyElementDisplayed(locator.accessibilityLocator("CANCER PROGRAM"), "CANCER PROGRAM");
+                await driver.pause(4000)
                 while (true) {
-                    await Keywords.scrollToEnd(2);
+                    await Keywords.scrollToEnd(3);
                     if (await locator.physicalAssessment.isDisplayed({ timeout: 45000 })) {
                         break;
                     }
@@ -245,6 +248,7 @@ describe('Re-Assessment - Cancer Program', async () => {
                 await Keywords.verifyElementIsEnabled(Locatoronboard.continueButton, "Continue Button");
                 await Keywords.click(Locatoronboard.continueButton, "Continue Button");
                 await Keywords.verifyElementDisplayed(locator.accessibilityLocator("CANCER PROGRAM"), "CANCER PROGRAM");
+                await driver.pause(4000)
                 while (true) {
                     await Keywords.scrollToEnd(3);
                     if (await locator.currentMedications.isDisplayed({ timeout: 45000 })) {
