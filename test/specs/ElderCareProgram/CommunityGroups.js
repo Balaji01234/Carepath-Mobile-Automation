@@ -59,6 +59,9 @@ describe('Carepath Automation', () => {
                 console.log("Carepath Admin");
                 await Keywords.click(locator.likesClick, "likesClick");
                 console.log("Succesfully clicked like button");
+                if (!await locator.wouldYouLike.isDisplayed()) {
+                    await Keywords.click(locator.clickSaveButton, "clickSaveButton");
+                }
                 await Keywords.click(locator.clickSaveButton, "clickSaveButton");
                 await browser.pause(2000);
                 await Keywords.click(locator.saveToFavorites, "saveToFavorites");
@@ -75,12 +78,14 @@ describe('Carepath Automation', () => {
                 await Keywords.SetValue(locator.createCommandRequest, addCommentText);
                 await Keywords.click(locator.publishComment, "publishComment")
                 await Keywords.click(locator.backAction, "backAction")
-                await Keywords.click(locator.backAction, "backAction")
+                await Keywords.waitForDisplay(locator.addCommentGroup, 90000, "addCommentGroup");
                 await Keywords.click(locator.newPostButton, "newPostButton")
                 await Keywords.click(locator.postyourComment, "postyourComment")
                 await Keywords.SetValue(locator.postyourComment, YourComment2)
                 await Keywords.click(locator.sendRequest, "sendRequest")
                 await Keywords.click(locator.requestCloseButton, "requestCloseButton")
+                await Keywords.verifyElementDisplayed(locator.adminLogout, "Admin Logout");
+                await Keywords.click(locator.adminLogout, "Admin Logout");
                 await Keywords.groupTabDelete("testdelete", "")
             } catch (err) {
                 throw new Error(err)

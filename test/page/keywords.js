@@ -238,12 +238,10 @@ export class keywords {
             await this.SetValue(this.locator.groupHeadlineTextField, "groupHeadlineTextField");
             await this.click(this.locator.addContent, "addContent")
             await this.SetValue(this.locator.addContent, "addContent");
+            await this.scrollToText('Cover Photo:');
+            if (!await this.locator.coverPhoto.isDisplayed()) {
+                await browser.hideKeyboard();
 
-            while (true) {
-                await this.scrollToEnd(2);
-                if (await this.locator.imageClick.isDisplayed()) {
-                    break;
-                }
             }
             await this.click(this.locator.imageClick, "imageClick");
             while (true) {
@@ -324,6 +322,7 @@ export class keywords {
                     break;
                 }
             }
+            $('android=new UiScrollable(new UiSelector().scrollable(true)).setAsHorizontalList().scrollForward()');
             await this.click(this.locator.deleteGroupRemove, "deleteGroupRemove");
             await this.click(this.locator.yesdeleteGroup, "yesdeleteGroup");
 
@@ -1168,7 +1167,7 @@ export class keywords {
                 // console.warn("Allow button did not appear within 90 seconds.");
             }
             try {
-                const isDisplayed = await this.locator.allowButton.waitForDisplayed();
+                const isDisplayed = await this.locator.allowButton.waitForDisplayed({timeout:35000});
                 if (isDisplayed) {
                     await this.click(this.locator.allowButton, "Allow button");
                     if (await this.locator.backDefaultNotification.isDisplayed({ timeout: 30000 })) {
@@ -1483,7 +1482,7 @@ export class keywords {
     async scrollToText(text) {
         allureReporter.startStep("Scroll to the text");
         try {
-            $(`android=new UiScrollable(new UiSelector().scrollable(true)).scrollToEnd(${text})`)
+            $(`android=new UiScrollable(new UiSelector().scrollable(true)).scrollTextIntoView("${text}")`)
             this.AllurePass1("Successfully scroll to the Text -> " + text);
             allureReporter.endStep('passed');
         } catch (err) {
