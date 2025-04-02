@@ -73,7 +73,7 @@ describe('Re-Assessment - Chronic Program', async () => {
 
     //Canadian Problem
     for (let i = 0; i < testCases2.length; i++) {
-        it.only(`${testCases2[i].testId} - ${testCases2[i].testDescription}`, async () => {
+        it(`${testCases2[i].testId} - ${testCases2[i].testDescription}`, async () => {
             try {
                 const userName = await readData1("re-assesment", "Chronic - Canadian", "Canadian", "Email", `${testCases2[i].testId}`);
                 const password = await readData1("re-assesment", "Chronic - Canadian", "Canadian", "Password", `${testCases2[i].testId}`);
@@ -174,7 +174,7 @@ describe('Re-Assessment - Chronic Program', async () => {
     }
 
     for (let i = 0; i < testCases3.length; i++) {
-        it.only(`${testCases3[i].testId} - ${testCases3[i].testDescription}`, async () => {
+        it(`${testCases3[i].testId} - ${testCases3[i].testDescription}`, async () => {
             try {
                 const userName = await readData1("re-assesment", "Chronic - Medications", "Medications", "Email", `${testCases3[i].testId}`);
                 const password = await readData1("re-assesment", "Chronic - Medications", "Medications", "Password", `${testCases3[i].testId}`);
