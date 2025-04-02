@@ -1518,31 +1518,220 @@ export class locators {
         return $('//android.widget.Button[@text="YES, UNPUBLISH GROUP"]')
     }
 
-    get deleteDataDropdown(){
+    get deleteDataDropdown() {
         return $('//android.widget.Spinner[@resource-id="com.android.chrome:id/quick_delete_spinner"]')
     }
 
-    get allTimeOption(){
+    get allTimeOption() {
         return $(`//*[@text='All time']`)
     }
 
-    get historyOption(){
+    get historyOption() {
         return $(`//*[@text='History']`)
     }
 
-    get emptyStateIcon(){
+    get emptyStateIcon() {
         return $(`//android.widget.ImageView[@resource-id="com.android.chrome:id/empty_state_icon"]`)
     }
 
-    get removeHistory(){
+    get removeHistory() {
         return $(`//android.widget.ImageButton[contains(@content-desc,"Remove")]`)
     }
 
-    get closeIconInChrome(){
+    get closeIconInChrome() {
         return $('~Close')
     }
 
-    get newTab(){
+    get newTab() {
         return $('~New tab')
     }
+
+    get phq9Assessment() {
+        return $('~Your clinician has requested a PHQ-9 assessment')
+    }
+
+    get gad7Assessment() {
+        return $('~Your clinician has requested a GAD-7 assessment')
+    }
+
+    get thankYouText() {
+        return $('~Thank you!')
+    }
+
+    get thankYouForCompleting() {
+        return $("//*[@resource-id='thank you for completing the assessment! you can now proceed with mental health program._text']")
+    }
+
+    get goToHomeButton() {
+        return $('~goto_home_button')
+    }
+
+    get ESASAssesment() {
+        return $('(//android.view.View[@content-desc="Your clinician has requested a ESAS-R assessment"])[1]')
+    }
+
+    get ESASscreen() {
+        return $('~ESAS-r')
+    }
+
+    get ESASOverviewText() {
+        return $("//*[@resource-id='esasr_overview_subtitle_text']")
+    }
+
+    get thankYouForCompletingCancerAssessment() {
+        return $("//*[@resource-id='thank you for completing the assessment! you can now proceed with cancer program._text']")
+    }
+
+    get goHomeButtonInCancer() {
+        return $('~go_home_button')
+    }
+
+    get submitESAS() {
+        return $('~SUBMIT ESAS-R')
+    }
+
+    get canadianProblemCategory() {
+        return $('(//android.view.View[@content-desc="Your clinician has requested a Canadian Problem Category assessment"])[1]')
+    }
+
+    get emotionalScreen() {
+        return $('~Emotional')
+    }
+
+    get physicalScreen() {
+        return $('~Physical')
+    }
+
+    get spiritualScreen() {
+        return $('~Spiritual')
+    }
+
+    get informationalScreen() {
+        return $('~Informational')
+    }
+
+    get practicalScreen() {
+        return $('~Practical')
+    }
+
+    get socialScreen() {
+        return $('~Social/Financial')
+    }
+
+    get selectOptionText() {
+        return $("//*[@resource-id='pls_select_what_applies_to_you_text']")
+    }
+
+    commentsFiled(filedName) {
+        return $(`~${filedName} Comments`)
+    }
+
+    get emotionalCommentsField() {
+        return $('//android.widget.EditText[@resource-id="problem_category_problem-category-assessment-2_textfield"]')
+    }
+
+    get physicalCommentsField() {
+        return $('//android.widget.EditText[@resource-id="problem_category_problem-category-assessment-4_textfield"]')
+    }
+
+    get spiritualCommentsField() {
+        return $('//android.widget.EditText[@resource-id="problem_category_problem-category-assessment-6_textfield"]')
+    }
+
+    get informationalCommentsField() {
+        return $('//android.widget.EditText[@resource-id="problem_category_problem-category-assessment-8_textfield"]')
+    }
+
+    get practicalCommentsField() {
+        return $('//android.widget.EditText[@resource-id="problem_category_problem-category-assessment-10_textfield"]')
+    }
+
+    get socialCommentsField() {
+        return $('//android.widget.EditText[@resource-id="problem_category_problem-category-assessment-12_textfield"]')
+    }
+
+    get submitButtonInAssessment() {
+        return $('~SUBMIT')
+    }
+
+    get nextButtonInAssessment() {
+        return $('~NEXT')
+    }
+
+    get physicalAssessment() {
+        return $('(//android.view.View[@content-desc="Your clinician has requested a Physical Assessment assessment"])[1]')
+    }
+
+    get physicalAssessmentScreen() {
+        return $('~Physical Assessment')
+    }
+
+    get heightInFtText() {
+        return $("//*[@resource-id='height (feet)_text']")
+    }
+
+    get heightInInText() {
+        return $("//*[@resource-id='height (inches)_text']")
+    }
+
+    get weightInInText() {
+        return $("//*[@resource-id='weight (lbs)_text']")
+    }
+
+    get heightFtTextField() {
+        return $('//android.widget.EditText[@resource-id="physical_asssessment_physical-assessment-1_textfield"]')
+    }
+
+    get heightInTextField() {
+        return $('//android.widget.EditText[@resource-id="physical_asssessment_physical-assessment-2_textfield"]')
+    }
+
+    get weightTextField() {
+        return $('//android.widget.EditText[@resource-id="physical_asssessment_physical-assessment-3_textfield"]')
+    }
+
+    get yourHeight(){
+        return $('~Your Height')
+    }
+
+    get yourWeight(){
+        return $('~Your Weight')
+    }
+
+    get currentMedications() {
+        return $('(//android.view.View[@content-desc="Your clinician has requested a Current Medications assessment"])[1]')
+    }
+
+    get currentMedicationsText(){
+        return $("//*[@resource-id='current_medications_text']")
+    }
+
+    get provideMedicationsText(){
+        return $("//*[@resource-id='please provide your current medications_text']")
+    }
+
+    get medicationNameText(){
+        return $('~Medication Name')
+    }
+
+    get medicationTextField(){
+        return $('//android.widget.EditText[@resource-id="text_type_medication_name_textfield"]')
+    }
+
+    get saveButtonInAssessment(){
+        return $('~SAVE')
+    }
+
+    get addNewEntry(){
+        return $('~ADD NEW ENTRY')
+    }
+
+    get thankYouForCompletingChronicAssessment() {
+        return $("//*[@resource-id='thank you for completing the assessment! you can now proceed with chronic disease program._text']")
+    }
+
+    get thankYouForCompletingEldercareAssessment() {
+        return $("//*[@resource-id='thank you for completing the assessment! you can now proceed with elder care program._text']")
+    }
+
 }
