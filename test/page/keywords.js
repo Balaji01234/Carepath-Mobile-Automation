@@ -830,10 +830,10 @@ export class keywords {
     }
 
     async verifyText(locator, attributeName, expectedText, logText) {
-        allureReporter.startStep(`🔍 **TEXT VERIFY**: "${logText}" `)
+        allureReporter.startStep(`🔍 **TEXT VERIFY**: "${expectedText}" `)
         let actualText;
         try {
-            await this.waitForDisplay(locator, 60000, logText);
+            await this.waitForDisplay(locator, 60000, expectedText);
             actualText = await locator.getAttribute(attributeName);
             if (expectedText.trim() === actualText.trim()) {
                 console.log(`Matched -> Expected text: ${expectedText} || Actual text: ${actualText}`);

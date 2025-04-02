@@ -1264,7 +1264,7 @@ export class onboardLocators {
         return $(`~ESAS-r`)
     }
     get cancerStartAssessment() {
-        return $(`//android.widget.Button[@content-desc="start_assessment_button"]/android.widget.Button/android.view.View`)
+        return $(`~START ASSESSMENT`)
     }
     get pain() {
         return $(`~Pain`)
