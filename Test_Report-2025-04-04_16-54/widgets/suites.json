@@ -1,0 +1,1 @@
+{"total":2,"items":[{"uid":"17bc17f81bf8ea1f5f861bf0e31157d7","name":"Sign-Up with Approval - Positive","statistic":{"failed":0,"broken":2,"skipped":0,"passed":9,"unknown":0,"total":11}},{"uid":"092ada96b0a82678c3498fb394c4424d","name":"Sign-Up - with Reject - Positive","statistic":{"failed":0,"broken":2,"skipped":0,"passed":9,"unknown":0,"total":11}}]}
