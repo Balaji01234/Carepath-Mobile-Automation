@@ -274,7 +274,7 @@ export class locators {
     }
 
     get chrome3dots() {
-        return $('~Customize and control Google Chrome')
+        return $("//*[@resource-id='com.android.chrome:id/menu_button']")
     }
 
     get deleteBrowsingData() {
