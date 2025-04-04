@@ -563,7 +563,7 @@ export class keywords {
     async getOTPFromMailinator(mail) {
         try {
             await driver.execute('mobile: shell', {
-                command: `am start -a android.intent.action.VIEW -d "${this.mailinator}" com.android.chrome`
+                command: `am start -a android.intent.action.VIEW -d "${this.mailinator}" com.android.chrome --guest`
             });
             if (await this.locator.chromeDismissButton.isDisplayed()) {
                 await this.locator.chromeDismissButton.click()
@@ -1151,9 +1151,13 @@ export class keywords {
             await this.SetValue(this.locator.password, password);
             await this.click(this.locator.loginButton, "Login Button");
             try {
-                const isDisplayed = await this.locator.allowButton.waitForDisplayed();
+                const isDisplayed = await this.locator.allowButton.waitForDisplayed({ timeout: 35000 });
                 if (isDisplayed) {
                     await this.click(this.locator.allowButton, "Allow button");
+                    await driver.pause(2000);
+                    if (await $(`//android.widget.TextView[@resource-id="com.android.settings:id/entity_header_title"]`).isDisplayed({ timeout: 60000 })) {
+                        await driver.back();
+                    }
                 }
             } catch (error) {
                 // console.warn("Allow button did not appear within 90 seconds.");
@@ -1167,11 +1171,12 @@ export class keywords {
                 // console.warn("Allow button did not appear within 90 seconds.");
             }
             try {
-                const isDisplayed = await this.locator.allowButton.waitForDisplayed({timeout:35000});
+                const isDisplayed = await this.locator.allowButton.waitForDisplayed({ timeout: 35000 });
                 if (isDisplayed) {
                     await this.click(this.locator.allowButton, "Allow button");
-                    if (await this.locator.backDefaultNotification.isDisplayed({ timeout: 30000 })) {
-                        await this.click(this.locator.backDefaultNotification, "Back arrow for Default notification button");
+                    await driver.pause(2000);
+                    if (await $(`//android.widget.TextView[@resource-id="com.android.settings:id/entity_header_title"]`).isDisplayed({ timeout: 60000 })) {
+                        await driver.back();
                     }
                 }
             } catch (error) {
@@ -1389,8 +1394,9 @@ export class keywords {
         allureReporter.startStep("Approve the program from mail");
         try {
             await driver.execute('mobile: shell', {
-                command: `am start -a android.intent.action.VIEW -d "${process.env.GMAIL_URL}" com.android.chrome`
+                command: `am start -a android.intent.action.VIEW -d "${process.env.GMAIL_URL}" com.android.chrome --guest`
             });
+
             if (await this.locator.chromeDismissButton.isDisplayed()) {
                 await this.locator.chromeDismissButton.click()
             }
@@ -1400,7 +1406,22 @@ export class keywords {
             if (await this.locator.chromeEasierPopup.isDisplayed()) {
                 await this.click(this.locator.noThanks, 'No Thanks')
             }
-            await this.SetValue(this.locator.googleMail, process.env.GMAIL_ID)
+            try {
+                const isDisplayed = await $(`//android.widget.Button[@resource-id="com.android.chrome:id/account_picker_dismiss_button"]`).waitForDisplayed({ timeout: 35000 });
+                if (isDisplayed) {
+                    await this.click($(`//android.widget.Button[@resource-id="com.android.chrome:id/account_picker_dismiss_button"]`), "Skip button");
+                }
+            } catch (err) {
+            }
+            await this.click(this.locator.googleMail, "mail id")
+            try {
+                const isDisplayed = await $(`//android.widget.TextView[@resource-id="com.android.chrome:id/touch_to_fill_sheet_title"]`).waitForDisplayed({ timeout: 35000 });
+                if (isDisplayed) {
+                    await driver.back();
+                }
+            } catch (err) {
+            }
+            await this.locator.googleMail.setValue(process.env.GMAIL_ID);
             await this.click(this.locator.googleNextButton, "Next Button");
             await this.SetValue(this.locator.googlePasswordInput, process.env.PASSWORD)
             await this.click(this.locator.googleNextButton, "Next Button");
